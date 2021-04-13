@@ -1,0 +1,123 @@
+eMMC Driver Source Code Hierarchy:
+----------------------------------
+    |
+    `--- api : contains the eMMC driver APIs source
+    |    |
+    |    `--- emmc_api.c : contains API implementations
+    |    |
+    |    `--- emmc_api.h : contains API interfaces
+    |
+    |
+    `--- app : contains the test application
+    |    |
+    |    `--- basic.c : contains unit level test source
+    |    |
+    |    `--- basic_blk.c : contains linux block driver source
+    |    |
+    |    `--- basic_part.c : contains driver source for creating partition
+    |    |
+    |    `--- scripts : test scripts for unit testing
+    |         |
+    |         `--- functions : contains functional test scripts
+    |         |
+    |         `--- performance : contains performance test scripts
+    |         |
+    |         `--- stress : contains stress test scripts
+    |         |
+    |         `--- system : contains system test scripts
+    |    |
+    |    `--- testapp : Test application folder
+    |         |
+    |         `--- app.c : Test application source file
+    |         |
+    |         `--- app.h : Test application header file
+    |         |
+    |         `--- Makefile: contains build procedure for test application
+    |    |
+    |    `--- testDrv.c : Test driver for testing purpose
+    |
+    |
+    `--- bld : this is the build directory
+    |    |
+    |    `--- Makefile : contains linux build procedure for the eMMC driver
+    |
+    |
+    `--- bm : contains buffer management source
+    |    |
+    |    `--- bm.c : contains buffer management implementation
+    |    |
+    |    `--- bm.h : contains sub-API interfaces of buffer management module
+    |
+    |
+    `--- cmd : contains command API source
+    |    |
+    |    `--- cmd_api.c : contains command API implementation
+    |    |
+    |    `--- cmd_api.h : contains sub-API interfaces of command API module
+    |
+    |
+    `--- common : contains common source (used by multiple modules)
+    |    |
+    |    `--- com.h : contains macros and enums used commonly by different modules
+    |    |
+    |    `--- config.h : contains vendor specific config of HC and device
+    |    |
+    |    `--- types.h : contains common data type typedefs
+    |
+    |
+    `--- debug : contains common debug framework source
+    |    |
+    |    `--- debug.c : contains interfaces and macros of debug support
+    |    |
+    |    `--- debug.h : contains interfaces' implementation of debug support
+    |
+    |
+    `--- dev : contains device related source
+    |    |
+    |    `--- datarem_prot.c contains APIs for data removal features
+    |    |
+    |    `--- dev_com.h : contains sub-API interfaces of device layer
+    |    |
+    |    `--- pm.c contains APIs for partition management feature
+    |    |
+    |    `--- seq.c : contains device command sequence implementation
+    |
+    |
+    `--- host : contains host controller related source
+    |    |
+    |    `--- hc_api.c : contains host configuration sub-APIs' implementation
+    |    |
+    |    `--- hc_api.h : contains host configuration macros and sub-APIs' prototypes
+    |    |
+    |    `--- ra.h : contains host controller register access macros
+    |
+    |
+    `--- intr : contains interrupt handling framework source
+    |    |
+    |    `--- intr.c : contains interrupt handling sub-APIs' implementation
+    |    |
+    |    `--- intr.h : contains interrupt handling sub-APIs' interfaces
+    |
+    |
+    `--- os : contains OS abstraction framework source
+    |    |
+    |    `--- os.h : contains OS abstraction sub-APIs' implementation
+    |    |
+    |    `--- linux : contains Linux specific source for ORION platform
+    |         |
+    |         `--- os.c : contains Linux implementation of sub-APIs as in os.h
+    |         |
+    |         `--- os_resource.c : contains platform specific resource acquisition implementation
+    |         |
+    |         `--- os_specific_func.h : contains Linux specific header file inclusions and data strcutures
+    |    |
+    |	 `--- linux-glen : contains Linux specific source for Glenfiddich platform
+    |         |
+    |         `--- os.c : contains Linux implementation of sub-APIs as in os.h
+    |         |
+    |         `--- os_resource.c : contains platform specific resource acquisition implementation
+    |         |
+    |         `--- os_specific_func.h : contains Linux specific header file inclusions and data strcutures
+    |
+    |
+    `--- readme : this file :)

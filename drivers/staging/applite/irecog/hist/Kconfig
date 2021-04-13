@@ -1,0 +1,3 @@
+config APPLITE_IRECOG_HIST
+        tristate "hist driver"
+       default n

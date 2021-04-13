@@ -55,6 +55,9 @@
 /* Does it support only continuous or also non-continuous clock mode */
 #define V4L2_MBUS_CSI2_CONTINUOUS_CLOCK		(1 << 8)
 #define V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK	(1 << 9)
+/* Optional: CSI2 clock rate */
+#define V4L2_MBUS_CSI2_SET_MBPS(x)		((((x) & 0xffff) << 16))
+#define V4L2_MBUS_CSI2_GET_MBPS(x)		(((x) >> 16) & 0xffff)
 
 #define V4L2_MBUS_CSI2_LANES		(V4L2_MBUS_CSI2_1_LANE | V4L2_MBUS_CSI2_2_LANE | \
 					 V4L2_MBUS_CSI2_3_LANE | V4L2_MBUS_CSI2_4_LANE)

@@ -306,7 +306,7 @@ static void l2x0_unlock(u32 cache_id)
 	}
 }
 
-void __init l2x0_init(void __iomem *base, u32 aux_val, u32 aux_mask)
+void l2x0_init(void __iomem *base, u32 aux_val, u32 aux_mask)
 {
 	u32 aux;
 	u32 cache_id;

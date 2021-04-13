@@ -1,0 +1,8 @@
+config APPLITE_MIRAGELITE
+	tristate "MirageLite memory map driver"
+	depends on ARCH_TZ3000 && APPLITEMA
+	default n
+	help
+	  This enables the MirageLite(gpu) memory map driver
+
+

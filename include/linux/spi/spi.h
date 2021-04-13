@@ -257,6 +257,7 @@ static inline void spi_unregister_driver(struct spi_driver *sdrv)
  * @unprepare_transfer_hardware: there are currently no more messages on the
  *	queue so the subsystem notifies the driver that it may relax the
  *	hardware by issuing this call
+ * @max_xfer_len: maximum data length in one transfer
  *
  * Each SPI master controller can communicate with one or more @spi_device
  * children.  These make a small bus, sharing MOSI, MISO and SCK signals
@@ -362,6 +363,7 @@ struct spi_master {
 	int (*transfer_one_message)(struct spi_master *master,
 				    struct spi_message *mesg);
 	int (*unprepare_transfer_hardware)(struct spi_master *master);
+	unsigned			max_xfer_len;
 };
 
 static inline void *spi_master_get_devdata(struct spi_master *master)

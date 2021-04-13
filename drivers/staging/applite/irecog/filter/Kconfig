@@ -1,0 +1,5 @@
+config APPLITE_IRECOG_FILTER
+        tristate "filter driver"
+       default n
+
+

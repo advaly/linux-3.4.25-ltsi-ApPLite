@@ -1,0 +1,5 @@
+config APPLITE_IRECOG_HOG
+        tristate "hog driver"
+       default n
+
+

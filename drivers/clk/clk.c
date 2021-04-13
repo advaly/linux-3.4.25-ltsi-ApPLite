@@ -33,6 +33,53 @@ static struct dentry *rootdir;
 static struct dentry *orphandir;
 static int inited = 0;
 
+static int read_file_is_enabled(void *data, u64 *val)
+{
+	struct clk *clk = data;
+	unsigned long flags;
+	int ret;
+
+	spin_lock_irqsave(&enable_lock, flags);
+	ret = clk->ops->is_enabled(clk->hw);
+	spin_unlock_irqrestore(&enable_lock, flags);
+	*val = ret;
+	return 0;
+}
+
+static void update_total_enabled_time(struct clk *clk)
+{
+	u64 cur_time = get_jiffies_64();
+	u64 this_time = cur_time - clk->last_time;
+	if (clk->ops->is_enabled(clk->hw))
+		clk->total_enabled_time += this_time;
+	else
+		clk->total_disabled_time += this_time;
+	clk->last_time = cur_time;
+}
+
+static int read_file_total_disabled_time(void *data, u64 *val)
+{
+	struct clk *clk = data;
+	update_total_enabled_time(clk);
+	*val = jiffies_64_to_clock_t(clk->total_disabled_time);
+	return 0;
+}
+
+static int read_file_total_enabled_time(void *data, u64 *val)
+{
+	struct clk *clk = data;
+	update_total_enabled_time(clk);
+	*val = jiffies_64_to_clock_t(clk->total_enabled_time);
+	return 0;
+}
+
+DEFINE_SIMPLE_ATTRIBUTE(fops_is_enabled, read_file_is_enabled,
+			NULL, "%llu\n");
+DEFINE_SIMPLE_ATTRIBUTE(fops_total_disabled_time, read_file_total_disabled_time,
+			NULL, "%llu\n");
+DEFINE_SIMPLE_ATTRIBUTE(fops_total_enabled_time, read_file_total_enabled_time,
+			NULL, "%llu\n");
+
 /* caller must hold prepare_lock */
 static int clk_debug_create_one(struct clk *clk, struct dentry *pdentry)
 {
@@ -74,6 +121,29 @@ static int clk_debug_create_one(struct clk *clk, struct dentry *pdentry)
 			(u32 *)&clk->notifier_count);
 	if (!d)
 		goto err_out;
+
+	if (clk->ops->is_enabled) {
+		d = debugfs_create_file("clk_is_enabled", S_IRUGO, clk->dentry,
+					clk, &fops_is_enabled);
+		if (!d)
+			goto err_out;
+
+		d = debugfs_create_u32("clk_total_disable_count",
+				       S_IRUGO, clk->dentry,
+				       &clk->total_disable_count);
+		if (!d)
+			goto err_out;
+		d = debugfs_create_file("clk_total_enabled_time",
+					S_IRUGO, clk->dentry,
+					clk, &fops_total_enabled_time);
+		if (!d)
+			goto err_out;
+		d = debugfs_create_file("clk_total_disabled_time",
+				       S_IRUGO, clk->dentry,
+					clk, &fops_total_disabled_time);
+		if (!d)
+			goto err_out;
+	}
 
 	ret = 0;
 	goto out;
@@ -218,8 +288,18 @@ static void clk_disable_unused_subtree(struct clk *clk)
 	if (clk->flags & CLK_IGNORE_UNUSED)
 		goto unlock_out;
 
-	if (__clk_is_enabled(clk) && clk->ops->disable)
-		clk->ops->disable(clk->hw);
+	if (__clk_is_enabled(clk)) {
+		if (clk->ops->disable)
+			clk->ops->disable(clk->hw);
+#ifdef CONFIG_COMMON_CLK_DEBUG
+		if (clk->ops->is_enabled) {
+			u64 cur_time = get_jiffies_64();
+			clk->total_enabled_time += cur_time - clk->last_time;
+			clk->last_time = cur_time;
+			clk->total_disable_count++;
+		}
+#endif
+	}
 
 unlock_out:
 	spin_unlock_irqrestore(&enable_lock, flags);
@@ -476,6 +556,14 @@ static void __clk_disable(struct clk *clk)
 
 	if (clk->ops->disable)
 		clk->ops->disable(clk->hw);
+#ifdef CONFIG_COMMON_CLK_DEBUG
+	if (clk->ops->is_enabled) {
+		u64 cur_time = get_jiffies_64();
+		clk->total_enabled_time += cur_time - clk->last_time;
+		clk->last_time = cur_time;
+		clk->total_disable_count++;
+	}
+#endif
 
 	__clk_disable(clk->parent);
 }
@@ -525,6 +613,13 @@ static int __clk_enable(struct clk *clk)
 				return ret;
 			}
 		}
+#ifdef CONFIG_COMMON_CLK_DEBUG
+		if (clk->ops->is_enabled) {
+			u64 cur_time = get_jiffies_64();
+			clk->total_disabled_time += cur_time - clk->last_time;
+			clk->last_time = cur_time;
+		}
+#endif
 	}
 
 	clk->enable_count++;
@@ -1303,6 +1398,10 @@ void __clk_init(struct device *dev, struct clk *clk)
 	if (clk->ops->init)
 		clk->ops->init(clk->hw);
 
+#ifdef CONFIG_COMMON_CLK_DEBUG
+	if (clk->ops->is_enabled)
+		clk->last_time = get_jiffies_64();
+#endif
 	clk_debug_register(clk);
 
 out:

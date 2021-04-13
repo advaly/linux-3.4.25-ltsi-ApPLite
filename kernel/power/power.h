@@ -11,6 +11,7 @@ struct swsusp_info {
 	unsigned long		image_pages;
 	unsigned long		pages;
 	unsigned long		size;
+	char			archdata[1024];
 } __attribute__((aligned(PAGE_SIZE)));
 
 #ifdef CONFIG_HIBERNATION
@@ -36,6 +37,8 @@ static inline char *check_image_kernel(struct swsusp_info *info)
 			"architecture specific data" : NULL;
 }
 #endif /* CONFIG_ARCH_HIBERNATION_HEADER */
+
+extern void __weak swsusp_arch_add_info(char *archdata, size_t size);
 
 /*
  * Keep some memory free so that I/O operations can succeed without paging
@@ -156,6 +159,7 @@ extern void swsusp_free(void);
 extern int swsusp_read(unsigned int *flags_p);
 extern int swsusp_write(unsigned int flags);
 extern void swsusp_close(fmode_t);
+extern void swsusp_fixup_ssboot(void);
 
 /* kernel/power/block_io.c */
 extern struct block_device *hib_resume_bdev;

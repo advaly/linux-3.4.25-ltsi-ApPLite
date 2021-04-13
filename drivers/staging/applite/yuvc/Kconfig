@@ -1,0 +1,14 @@
+#
+# Toshiba Module Configuration
+#
+
+config APPLITE_YUVC
+        tristate "TZ2000 YUVC (yuvc) driver"
+	depends on m && ARCH_TZ2000
+
+config APPLITE_YUVC_DEBUG
+        bool "yuvc debugging"
+        depends on APPLITE_YUVC != n
+        help
+          This is an option for use by developers; most people should
+          say N here.  This enables YUVC Driver debugging.

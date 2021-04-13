@@ -747,6 +747,11 @@ config TOUCHSCREEN_USB_EASYTOUCH
 	  Say Y here if you have a EasyTouch USB Touch controller device support.
 	  If unsure, say N.
 
+config TOUCHSCREEN_USB_SHARP
+        default y
+        bool "SHARP device support" if EXPERT
+        depends on TOUCHSCREEN_USB_COMPOSITE
+
 config TOUCHSCREEN_TOUCHIT213
 	tristate "Sahara TouchIT-213 touchscreen"
 	select SERIO
@@ -844,5 +849,50 @@ config TOUCHSCREEN_TPS6507X
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called tps6507x_ts.
+
+config TOUCHSCREEN_NHD
+	tristate "NHD based touchscreens"
+	depends on I2C
+	help
+	  Say Y here if you have a NHD based touchscreen
+	  controller.
+
+	  If unsure, say N.
+
+config TOUCHSCREEN_FUSION
+	tristate "FUSION based touchscreens"
+	depends on I2C
+	help
+	  Say Y here if you have a FUSION based touchscreen
+	  controller.
+
+	  If unsure, say N.
+
+config TOUCHSCREEN_IT7260
+	tristate "IT7260 based touchscreens"
+	help
+	  Say Y here if you have a touchscreen interface using the
+	  IT7260 controller, and your board-specific initialization
+	  code includes that in its table of I2C devices.
+
+	  If unsure, say N.
+
+if TOUCHSCREEN_IT7260
+
+choice
+	prompt "IT7260 based touchscreens"
+	default TOUCHSCREEN_IT7260_STS
+
+config TOUCHSCREEN_IT7260_STS
+	bool "IT7260 I2C Interface(single touch)"
+	depends on I2C
+
+config TOUCHSCREEN_IT7260_MTS
+	bool "IT7260 I2C Interface(multi touch)"
+	depends on I2C
+
+endchoice
+
+endif
 
 endif

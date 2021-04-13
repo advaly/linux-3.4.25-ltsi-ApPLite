@@ -34,6 +34,10 @@
 
 #include <linux/spi/spi.h>
 #include <linux/spi/flash.h>
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+#include <asm/cacheflush.h>
+#include <linux/io.h>
+#endif
 
 /* Flash opcodes. */
 #define	OPCODE_WREN		0x06	/* Write enable */
@@ -83,6 +87,20 @@
 
 #define JEDEC_MFR(_jedec_id)	((_jedec_id) >> 16)
 
+static bool no_chiperase;
+module_param(no_chiperase, bool, 0644);
+MODULE_PARM_DESC(no_chiperase, "do not use chip erase (default 0)");
+
+static bool no_4kerase = 1;
+module_param(no_4kerase, bool, 0444);
+MODULE_PARM_DESC(no_4kerase, "do not use 4k sector erase (default 1)");
+
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+static bool diracc = 1;
+module_param(diracc, bool, 0444);
+MODULE_PARM_DESC(diracc, "enable direct access (default 1)");
+#endif
+
 /****************************************************************************/
 
 struct m25p {
@@ -93,6 +111,13 @@ struct m25p {
 	u16			addr_width;
 	u8			erase_opcode;
 	u8			*command;
+	ulong			srval;
+	bool			wp;
+	/* micron n25q512a needs polling for flag status twice */
+	unsigned int		need_poll_flag:1;
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	unsigned long		virt;
+#endif
 };
 
 static inline struct m25p *mtd_to_m25p(struct mtd_info *mtd)
@@ -105,6 +130,68 @@ static inline struct m25p *mtd_to_m25p(struct mtd_info *mtd)
 /*
  * Internal helper functions
  */
+
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+/*
+ * Invalidate a region of data cache used for reading from spi flash
+ */
+static void invalidate_cache_for_spi(unsigned long start, size_t size)
+{
+	outer_inv_range(__pa(start), __pa(start) + size);
+	outer_sync();
+	dmac_flush_range((void *)start, (void *)start + size);
+}
+#endif
+
+#define OPCODE_RDCR 0x35
+#define OPCODE_HPM  0xa3
+#define SR_QE       0x40
+#define SR2_QE      0x02
+#define CR_QUAD     0x02
+
+/*
+ * Read the configuration/status2 register.
+ */
+static int read_cr(struct m25p *flash)
+{
+	ssize_t retval;
+	u8 code = OPCODE_RDCR;
+	u8 val;
+
+	retval = spi_write_then_read(flash->spi, &code, 1, &val, 1);
+
+	if (retval < 0) {
+		dev_err(&flash->spi->dev, "error %d reading CR\n", (int)retval);
+		return retval;
+	}
+
+	return val;
+}
+
+/*
+ * Write status and configuration/status2 registers.
+ */
+static int write_sr_2data(struct m25p *flash, u8 val1, u8 val2)
+{
+	flash->command[0] = OPCODE_WRSR;
+	flash->command[1] = val1;
+	flash->command[2] = val2;
+
+	return spi_write(flash->spi, flash->command, 3);
+}
+
+/*
+ * Enable high performance mode.
+ */
+static int high_performance_mode(struct m25p *flash)
+{
+	flash->command[0] = OPCODE_HPM;
+	flash->command[1] = 0xff;
+	flash->command[2] = 0xff;
+	flash->command[3] = 0xff;
+
+	return spi_write(flash->spi, flash->command, 4);
+}
 
 /*
  * Read the status register, returning its value in the location
@@ -140,6 +227,56 @@ static int write_sr(struct m25p *flash, u8 val)
 	return spi_write(flash->spi, flash->command, 2);
 }
 
+#define OPCODE_RD_FSR 0x70	/* FLAG STATUS */
+#define FSR_READY	0x80
+
+static int read_fsr(struct m25p *flash)
+{
+	ssize_t retval;
+	u8 code = OPCODE_RD_FSR;
+	u8 val;
+
+	retval = spi_write_then_read(flash->spi, &code, 1, &val, 1);
+
+	if (retval < 0) {
+		dev_err(&flash->spi->dev, "error %d reading FSR\n",
+			(int) retval);
+		return retval;
+	}
+
+	return val;
+}
+
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+#define OPCODE_RD_VCR 0x85	/* VOLATILE CONFIGURATION */
+#define OPCODE_WR_VCR 0x81
+
+static int read_vcr(struct m25p *flash)
+{
+	ssize_t retval;
+	u8 code = OPCODE_RD_VCR;
+	u8 val;
+
+	retval = spi_write_then_read(flash->spi, &code, 1, &val, 1);
+
+	if (retval < 0) {
+		dev_err(&flash->spi->dev, "error %d reading VCR\n",
+			(int) retval);
+		return retval;
+	}
+
+	return val;
+}
+
+static int write_vcr(struct m25p *flash, u8 val)
+{
+	flash->command[0] = OPCODE_WR_VCR;
+	flash->command[1] = val;
+
+	return spi_write(flash->spi, flash->command, 2);
+}
+#endif
+
 /*
  * Set write enable latch with Write Enable command.
  * Returns negative if error occurred.
@@ -166,10 +303,18 @@ static inline int write_disable(struct m25p *flash)
  */
 static inline int set_4byte(struct m25p *flash, u32 jedec_id, int enable)
 {
+	int ret;
+
 	switch (JEDEC_MFR(jedec_id)) {
 	case CFI_MFR_MACRONIX:
 		flash->command[0] = enable ? OPCODE_EN4B : OPCODE_EX4B;
 		return spi_write(flash->spi, flash->command, 1);
+	case CFI_MFR_ST:
+		write_enable(flash);
+		flash->command[0] = enable ? OPCODE_EN4B : OPCODE_EX4B;
+		ret = spi_write(flash->spi, flash->command, 1);
+		write_disable(flash);
+		return ret;
 	default:
 		/* Spansion style */
 		flash->command[0] = OPCODE_BRWR;
@@ -190,6 +335,31 @@ static int wait_till_ready(struct m25p *flash)
 	deadline = jiffies + MAX_READY_WAIT_JIFFIES;
 
 	do {
+		if (flash->need_poll_flag) {
+			int fsr, fsr2;
+			/*
+			 * from n25q512a datasheet:
+			 * The end of operations such as power-up,
+			 * WRITE STATUS REGISTER, and WRITE NON-
+			 * VOLATILE CONFIGURATION REGISTER can be
+			 * detected by means of a READ FLAG STATUS
+			 * REGISTER command being issued twice to poll
+			 * the flag status register for both die, S#
+			 * toggled between command execution, and bit
+			 * 7 of the flag status register outputs 1
+			 * both times.
+			 */
+			fsr = read_fsr(flash);
+			if (fsr < 0)
+				break;
+			fsr2 = read_fsr(flash);
+			if (fsr2 < 0)
+				break;
+			if (!((fsr & fsr2) & FSR_READY)) {
+				cond_resched();
+				continue;
+			}
+		}
 		if ((sr = read_sr(flash)) < 0)
 			break;
 		else if (!(sr & SR_WIP))
@@ -298,7 +468,7 @@ static int m25p80_erase(struct mtd_info *mtd, struct erase_info *instr)
 	mutex_lock(&flash->lock);
 
 	/* whole-chip erase? */
-	if (len == flash->mtd.size) {
+	if (!no_chiperase && len == flash->mtd.size) {
 		if (erase_chip(flash)) {
 			instr->state = MTD_ERASE_FAILED;
 			mutex_unlock(&flash->lock);
@@ -324,6 +494,10 @@ static int m25p80_erase(struct mtd_info *mtd, struct erase_info *instr)
 		}
 	}
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	if (flash->virt)
+		invalidate_cache_for_spi(flash->virt + instr->addr, instr->len);
+#endif
 	mutex_unlock(&flash->lock);
 
 	instr->state = MTD_ERASE_DONE;
@@ -346,6 +520,19 @@ static int m25p80_read(struct mtd_info *mtd, loff_t from, size_t len,
 	pr_debug("%s: %s from 0x%08x, len %zd\n", dev_name(&flash->spi->dev),
 			__func__, (u32)from, len);
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	if (flash->virt) {
+		mutex_lock(&flash->lock);
+		if (wait_till_ready(flash)) {
+			mutex_unlock(&flash->lock);
+			return 1;
+		}
+		memcpy(buf, (void *)flash->virt + from, len);
+		mutex_unlock(&flash->lock);
+		*retlen = len;
+		return 0;
+	}
+#endif
 	spi_message_init(&m);
 	memset(t, 0, (sizeof t));
 
@@ -379,9 +566,33 @@ static int m25p80_read(struct mtd_info *mtd, loff_t from, size_t len,
 	flash->command[0] = OPCODE_READ;
 	m25p_addr2cmd(flash, from, flash->command);
 
-	spi_sync(flash->spi, &m);
+	if (!flash->spi->master->max_xfer_len ||
+	    len <= flash->spi->master->max_xfer_len) {
+		spi_sync(flash->spi, &m);
 
-	*retlen = m.actual_length - m25p_cmdsz(flash) - FAST_READ_DUMMY_BYTE;
+		*retlen = m.actual_length - m25p_cmdsz(flash) -
+			FAST_READ_DUMMY_BYTE;
+	} else {
+		u32 max_len = flash->spi->master->max_xfer_len;
+		u32 i;
+
+		*retlen = 0;
+		for (i = 0; i < len; i += max_len) {
+			if (max_len > len - i)
+				max_len = len - i;
+			if (i != 0) {
+				m25p_addr2cmd(flash, from + i, flash->command);
+				wait_till_ready(flash);
+				t[1].rx_buf = buf + i;
+			}
+			t[1].len = max_len;
+
+			spi_sync(flash->spi, &m);
+
+			*retlen += m.actual_length - m25p_cmdsz(flash) -
+				FAST_READ_DUMMY_BYTE;
+		}
+	}
 
 	mutex_unlock(&flash->lock);
 
@@ -403,6 +614,12 @@ static int m25p80_write(struct mtd_info *mtd, loff_t to, size_t len,
 
 	pr_debug("%s: %s to 0x%08x, len %zd\n", dev_name(&flash->spi->dev),
 			__func__, (u32)to, len);
+	if (flash->spi->master->max_xfer_len &&
+	    min_t(size_t, len, flash->page_size) >
+	    flash->spi->master->max_xfer_len) {
+		dev_err(&flash->spi->dev, "write len exceeds max_xfer_len\n");
+		return -EINVAL;
+	}
 
 	spi_message_init(&m);
 	memset(t, 0, (sizeof t));
@@ -470,6 +687,10 @@ static int m25p80_write(struct mtd_info *mtd, loff_t to, size_t len,
 		}
 	}
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	if (flash->virt)
+		invalidate_cache_for_spi(flash->virt + to, len);
+#endif
 	mutex_unlock(&flash->lock);
 
 	return 0;
@@ -486,6 +707,12 @@ static int sst_write(struct mtd_info *mtd, loff_t to, size_t len,
 
 	pr_debug("%s: %s to 0x%08x, len %zd\n", dev_name(&flash->spi->dev),
 			__func__, (u32)to, len);
+	if (flash->spi->master->max_xfer_len &&
+	    min_t(size_t, len, flash->page_size) >
+	    flash->spi->master->max_xfer_len) {
+		dev_err(&flash->spi->dev, "write len exceeds max_xfer_len\n");
+		return -EINVAL;
+	}
 
 	spi_message_init(&m);
 	memset(t, 0, (sizeof t));
@@ -564,6 +791,10 @@ static int sst_write(struct mtd_info *mtd, loff_t to, size_t len,
 	}
 
 time_out:
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	if (flash->virt)
+		invalidate_cache_for_spi(flash->virt + to, len);
+#endif
 	mutex_unlock(&flash->lock);
 	return ret;
 }
@@ -595,6 +826,276 @@ struct flash_info {
 #define	SECT_4K		0x01		/* OPCODE_BE_4K works uniformly */
 #define	M25P_NO_ERASE	0x02		/* No erase command needed */
 };
+
+/*
+ * Chip specific functions for lock/unlock
+ */
+
+static int lock_func_type1(struct mtd_info *mtd, loff_t ofs, uint64_t len)
+{
+	struct m25p *flash = mtd_to_m25p(mtd);
+	int sr, sr2;
+	mutex_lock(&flash->lock);
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	sr |= (SR_BP0 | SR_BP1 | SR_BP2);
+	write_enable(flash);
+	write_sr_2data(flash, sr, sr2);
+	if (wait_till_ready(flash)) {
+		mutex_unlock(&flash->lock);
+		return -EBUSY;
+	}
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	if ((sr & (SR_BP0 | SR_BP1 | SR_BP2)) != (SR_BP0 | SR_BP1 | SR_BP2)) {
+		mutex_unlock(&flash->lock);
+		return -EIO;
+	}
+	flash->wp = 1;
+	flash->srval = sr | (sr2 << 8);
+	mutex_unlock(&flash->lock);
+	return 0;
+}
+
+static int unlock_func_type1(struct mtd_info *mtd, loff_t ofs, uint64_t len)
+{
+	struct m25p *flash = mtd_to_m25p(mtd);
+	int sr, sr2;
+	mutex_lock(&flash->lock);
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	sr &= ~(SR_BP0 | SR_BP1 | SR_BP2);
+	write_enable(flash);
+	write_sr_2data(flash, sr, sr2);
+	if (wait_till_ready(flash)) {
+		mutex_unlock(&flash->lock);
+		return -EBUSY;
+	}
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	if ((sr & (SR_BP0 | SR_BP1 | SR_BP2)) != 0) {
+		mutex_unlock(&flash->lock);
+		return -EIO;
+	}
+	flash->wp = 0;
+	flash->srval = sr | (sr2 << 8);
+	mutex_unlock(&flash->lock);
+	return 0;
+}
+
+static int lock_func_type2(struct mtd_info *mtd, loff_t ofs, uint64_t len)
+{
+	struct m25p *flash = mtd_to_m25p(mtd);
+	int sr;
+	mutex_lock(&flash->lock);
+	sr = read_sr(flash);
+	sr |= (SR_BP0 | SR_BP1 | SR_BP2);
+	write_enable(flash);
+	write_sr(flash, sr);
+	if (wait_till_ready(flash)) {
+		mutex_unlock(&flash->lock);
+		return -EBUSY;
+	}
+	sr = read_sr(flash);
+	if ((sr & (SR_BP0 | SR_BP1 | SR_BP2)) != (SR_BP0 | SR_BP1 | SR_BP2)) {
+		mutex_unlock(&flash->lock);
+		return -EIO;
+	}
+	flash->wp = 1;
+	flash->srval = sr;
+	mutex_unlock(&flash->lock);
+	return 0;
+}
+
+static int unlock_func_type2(struct mtd_info *mtd, loff_t ofs, uint64_t len)
+{
+	struct m25p *flash = mtd_to_m25p(mtd);
+	int sr;
+	mutex_lock(&flash->lock);
+	sr = read_sr(flash);
+	sr &= ~(SR_BP0 | SR_BP1 | SR_BP2);
+	write_enable(flash);
+	write_sr(flash, sr);
+	if (wait_till_ready(flash)) {
+		mutex_unlock(&flash->lock);
+		return -EBUSY;
+	}
+	sr = read_sr(flash);
+	if ((sr & (SR_BP0 | SR_BP1 | SR_BP2)) != 0) {
+		mutex_unlock(&flash->lock);
+		return -EIO;
+	}
+	flash->wp = 0;
+	flash->srval = sr;
+	mutex_unlock(&flash->lock);
+	return 0;
+}
+
+/*
+ * Chip specific functions for enabling dual/quad mode.
+ */
+struct flash_fixup_info {
+	const char *name;
+	int (*option_func)(struct m25p *flash,
+			   const struct flash_fixup_info *finfo);
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	u32 max_speed_hz;
+	u32 deassert_time;
+	u8 dir_read_opcode;
+	u32 dir_max_speed_hz;
+	u32 dir_deassert_time;
+#endif
+};
+
+static int opt_func_s25flxxp(struct m25p *flash,
+			     const struct flash_fixup_info *finfo)
+{
+	int sr, cr;
+	sr = read_sr(flash);
+	cr = read_cr(flash);
+	write_enable(flash);
+	write_sr_2data(flash, sr, cr | CR_QUAD);
+	if (wait_till_ready(flash))
+		return -EBUSY;
+
+	return 0;
+}
+
+static int opt_func_w25q32v(struct m25p *flash,
+			    const struct flash_fixup_info *finfo)
+{
+	int sr, sr2;
+
+	write_enable(flash);
+	high_performance_mode(flash);
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	write_enable(flash);
+	write_sr_2data(flash, sr, sr2 | SR2_QE);
+	if (wait_till_ready(flash))
+		return -EBUSY;
+
+	return 0;
+}
+
+static int opt_func_w25q80bv(struct m25p *flash,
+			     const struct flash_fixup_info *finfo)
+{
+	int sr, sr2;
+
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	write_enable(flash);
+	write_sr_2data(flash, sr, sr2 | SR2_QE);
+	if (wait_till_ready(flash))
+		return -EBUSY;
+
+	if (flash->srval != ULONG_MAX) {
+		sr = (flash->srval & 0xff);
+		sr2 = (flash->srval & 0xff00) >> 8;
+		write_enable(flash);
+		write_sr_2data(flash, sr, sr2);
+		if (wait_till_ready(flash))
+			return -EBUSY;
+	}
+
+	flash->mtd._lock = lock_func_type1;
+	flash->mtd._unlock = unlock_func_type1;
+
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	flash->srval = sr | (sr2 << 8);
+	if ((sr & (SR_BP0 | SR_BP1 | SR_BP2)) == (SR_BP0 | SR_BP1 | SR_BP2))
+		flash->wp = 1;
+	else
+		flash->wp = 0;
+
+	return 0;
+}
+
+static int opt_func_w25q128bv(struct m25p *flash,
+			      const struct flash_fixup_info *finfo)
+{
+	int sr, sr2;
+
+	sr = read_sr(flash);
+	sr2 = read_cr(flash);
+	write_enable(flash);
+	write_sr_2data(flash, sr, sr2 | SR2_QE);
+	if (wait_till_ready(flash))
+		return -EBUSY;
+
+	return 0;
+}
+
+static int opt_func_mx25lxx35d(struct m25p *flash,
+			       const struct flash_fixup_info *finfo)
+{
+	int sr;
+
+	sr = read_sr(flash);
+	write_enable(flash);
+	write_sr(flash, sr | SR_QE);
+	if (wait_till_ready(flash))
+		return -EBUSY;
+
+	return 0;
+}
+
+static int opt_func_en25q080a(struct m25p *flash,
+			      const struct flash_fixup_info *finfo)
+{
+	int sr;
+
+	if (flash->srval != ULONG_MAX) {
+		sr = (flash->srval & 0xff);
+		write_enable(flash);
+		write_sr(flash, sr);
+		if (wait_till_ready(flash))
+			return -EBUSY;
+	}
+
+	flash->mtd._lock = lock_func_type2;
+	flash->mtd._unlock = unlock_func_type2;
+
+	sr = read_sr(flash);
+	flash->srval = sr;
+	if ((sr & (SR_BP0 | SR_BP1 | SR_BP2)) == (SR_BP0 | SR_BP1 | SR_BP2))
+		flash->wp = 1;
+	else
+		flash->wp = 0;
+
+	return 0;
+}
+
+static int opt_func_n25q512a(struct m25p *flash,
+			     const struct flash_fixup_info *finfo)
+{
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	struct flash_platform_data *pdata = flash->spi->dev.platform_data;
+	if (pdata && pdata->tc90431_spi_data) {
+		int vcr;
+		int cycles = 8;
+		switch (finfo->dir_read_opcode) {
+		case OPCODE_FAST_READ_DUAL_IO:
+			pdata->tc90431_spi_data->dir_read_dummy_count = 2;
+			break;
+		case OPCODE_FAST_READ_QUAD_IO:
+			pdata->tc90431_spi_data->dir_read_dummy_count = 4;
+			break;
+		default:
+			pdata->tc90431_spi_data->dir_read_dummy_count = 1;
+		}
+		vcr = read_vcr(flash);
+		if (vcr < 0)
+			return vcr;
+		write_enable(flash);
+		write_vcr(flash, (vcr & 0x0f) | (cycles << 4));
+	}
+#endif
+	flash->need_poll_flag = true;
+	return 0;
+}
 
 #define INFO(_jedec_id, _ext_id, _sector_size, _n_sectors, _flags)	\
 	((kernel_ulong_t)&(struct flash_info) {				\
@@ -631,6 +1132,7 @@ static const struct spi_device_id m25p_ids[] = {
 	{ "at26f004",   INFO(0x1f0400, 0, 64 * 1024,  8, SECT_4K) },
 	{ "at26df081a", INFO(0x1f4501, 0, 64 * 1024, 16, SECT_4K) },
 	{ "at26df161a", INFO(0x1f4601, 0, 64 * 1024, 32, SECT_4K) },
+	{ "at25df161",  INFO(0x1f4602, 0, 64 * 1024, 32, 0) },
 	{ "at26df321",  INFO(0x1f4700, 0, 64 * 1024, 64, SECT_4K) },
 
 	/* EON -- en25xxx */
@@ -638,6 +1140,8 @@ static const struct spi_device_id m25p_ids[] = {
 	{ "en25p32", INFO(0x1c2016, 0, 64 * 1024,  64, 0) },
 	{ "en25q32b", INFO(0x1c3016, 0, 64 * 1024,  64, 0) },
 	{ "en25p64", INFO(0x1c2017, 0, 64 * 1024, 128, 0) },
+	{ "en25q080a",	INFO(0x1c3014, 0, 64 * 1024, 16, 0) },
+	{ "en25q128",	INFO(0x1c3018, 0, 64 * 1024, 256, 0) },
 
 	/* Intel/Numonyx -- xxxs33b */
 	{ "160s33b",  INFO(0x898911, 0, 64 * 1024,  32, 0) },
@@ -650,10 +1154,15 @@ static const struct spi_device_id m25p_ids[] = {
 	{ "mx25l1606e",  INFO(0xc22015, 0, 64 * 1024,  32, SECT_4K) },
 	{ "mx25l3205d",  INFO(0xc22016, 0, 64 * 1024,  64, 0) },
 	{ "mx25l6405d",  INFO(0xc22017, 0, 64 * 1024, 128, 0) },
+	{ "mx25u6435f",  INFO(0xc22537, 0, 64 * 1024, 128, SECT_4K) },
 	{ "mx25l12805d", INFO(0xc22018, 0, 64 * 1024, 256, 0) },
 	{ "mx25l12855e", INFO(0xc22618, 0, 64 * 1024, 256, 0) },
+	{ "mx25u12835f", INFO(0xc22538, 0, 64 * 1024, 256, 0) },
 	{ "mx25l25635e", INFO(0xc22019, 0, 64 * 1024, 512, 0) },
 	{ "mx25l25655e", INFO(0xc22619, 0, 64 * 1024, 512, 0) },
+	{ "mx25l1635d",  INFO(0xc22415, 0, 64 * 1024,  32, 0) },
+	{ "mx25l3235d",  INFO(0xc25e16, 0, 64 * 1024,  64, 0) },
+	{ "mx66l51235f", INFO(0xc2201a, 0, 64 * 1024, 1024, SECT_4K) },
 
 	/* Spansion -- single (large) sector size only, at least
 	 * for the chips listed here (without boot sectors).
@@ -718,6 +1227,9 @@ static const struct spi_device_id m25p_ids[] = {
 	{ "m25px32-s1", INFO(0x206316,  0, 64 * 1024, 64, SECT_4K) },
 	{ "m25px64",    INFO(0x207117,  0, 64 * 1024, 128, 0) },
 
+	{ "n25q128",    INFO(0x20ba18,  0, 64 * 1024, 256, 0) },
+	{ "n25q512a",   INFO(0x20ba20,  0, 64 * 1024, 1024, SECT_4K) },
+
 	/* Winbond -- w25x "blocks" are 64K, "sectors" are 4KiB */
 	{ "w25x10", INFO(0xef3011, 0, 64 * 1024,  2,  SECT_4K) },
 	{ "w25x20", INFO(0xef3012, 0, 64 * 1024,  4,  SECT_4K) },
@@ -728,6 +1240,8 @@ static const struct spi_device_id m25p_ids[] = {
 	{ "w25q32", INFO(0xef4016, 0, 64 * 1024,  64, SECT_4K) },
 	{ "w25x64", INFO(0xef3017, 0, 64 * 1024, 128, SECT_4K) },
 	{ "w25q64", INFO(0xef4017, 0, 64 * 1024, 128, SECT_4K) },
+	{ "w25q80bv",	INFO(0xef4014, 0, 64 * 1024, 16, 0) },
+	{ "w25q128bv",	INFO(0xef4018, 0, 64 * 1024, 256, 0) },
 
 	/* Catalyst / On Semiconductor -- non-JEDEC */
 	{ "cat25c11", CAT25_INFO(  16, 8, 16, 1) },
@@ -737,6 +1251,64 @@ static const struct spi_device_id m25p_ids[] = {
 	{ "cat25128", CAT25_INFO(2048, 8, 64, 2) },
 	{ },
 };
+
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+#define FINFO(_name, _option_func, _max_speed_hz, _deassert_time, \
+	_dir_read_opcode, _dir_max_speed_hz, _dir_deassert_time) \
+	.name = _name, \
+	.option_func = _option_func, \
+	.max_speed_hz = _max_speed_hz, \
+	.deassert_time = _deassert_time, \
+	.dir_read_opcode = _dir_read_opcode, \
+	.dir_max_speed_hz = _dir_max_speed_hz, \
+	.dir_deassert_time = _dir_deassert_time,
+#else
+#define FINFO(_name, _option_func, _max_speed_hz, _deassert_time, \
+	_dir_read_opcode, _dir_max_speed_hz, _dir_deassert_time) \
+	.name = _name, \
+	.option_func = _option_func,
+#endif
+
+static const struct flash_fixup_info m25p_fixup_ids[] = {
+	{ FINFO("s25sl032p", opt_func_s25flxxp,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 50) },
+	{ FINFO("s25fl129p1", opt_func_s25flxxp,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 10) },
+	{ FINFO("s25fl512s", opt_func_s25flxxp,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 10) },
+	{ FINFO("w25q32", opt_func_w25q32v,
+		80000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 50) },
+	{ FINFO("w25q128bv", opt_func_w25q128bv,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 50) },
+	{ FINFO("w25q80bv", opt_func_w25q80bv,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 50) },
+	{ FINFO("mx25l1635d", opt_func_mx25lxx35d,
+		86000000, 50, OPCODE_FAST_READ_QUAD_IO, 75000000, 50) },
+	{ FINFO("mx25l3235d", opt_func_mx25lxx35d,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 75000000, 50) },
+	{ FINFO("mx25l6405d", opt_func_mx25lxx35d,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 70000000, 50) },
+	{ FINFO("mx25l12805d", opt_func_mx25lxx35d, /* mx25l12835f */
+		133000000, 30, OPCODE_FAST_READ_QUAD_IO, 84000000, 7) },
+	{ FINFO("en25q080a", opt_func_en25q080a,
+		100000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 15) },
+	{ FINFO("en25q128", opt_func_en25q080a,
+		104000000, 50, OPCODE_FAST_READ_QUAD_IO, 80000000, 15) },
+	{ FINFO("mx25u12835f", opt_func_mx25lxx35d,
+		104000000, 30, OPCODE_FAST_READ_QUAD_IO, 84000000, 5) },
+	{ FINFO("mx25u6435f", opt_func_mx25lxx35d,
+		104000000, 30, OPCODE_FAST_READ_QUAD_IO, 84000000, 5) },
+	{ FINFO("mx66l51235f", opt_func_mx25lxx35d,
+		133000000, 30, OPCODE_FAST_READ_QUAD_IO, 84000000, 7) },
+#if 1 /* REVISIT: limit to 33MHz and increase dir_deassert_time */
+	{ FINFO("n25q512a", opt_func_n25q512a,
+		108000000, 50, OPCODE_FAST_READ_QUAD_IO, 33333334, 580) },
+#else
+	{ FINFO("n25q512a", opt_func_n25q512a,
+		108000000, 50, OPCODE_FAST_READ_QUAD_IO, 95000000, 20) },
+#endif
+};
+
 MODULE_DEVICE_TABLE(spi, m25p_ids);
 
 static const struct spi_device_id *__devinit jedec_probe(struct spi_device *spi)
@@ -792,6 +1364,9 @@ static int __devinit m25p_probe(struct spi_device *spi)
 	struct flash_info		*info;
 	unsigned			i;
 	struct mtd_part_parser_data	ppdata;
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	struct tc90431_spi_controller_data *tc90431_spi_data = NULL;
+#endif
 
 #ifdef CONFIG_MTD_OF_PARTS
 	if (!of_device_is_available(spi->dev.of_node))
@@ -846,6 +1421,8 @@ static int __devinit m25p_probe(struct spi_device *spi)
 	flash = kzalloc(sizeof *flash, GFP_KERNEL);
 	if (!flash)
 		return -ENOMEM;
+	flash->srval = ULONG_MAX;
+	flash->wp = false;
 	flash->command = kmalloc(MAX_CMD_SIZE + FAST_READ_DUMMY_BYTE, GFP_KERNEL);
 	if (!flash->command) {
 		kfree(flash);
@@ -886,8 +1463,70 @@ static int __devinit m25p_probe(struct spi_device *spi)
 	else
 		flash->mtd._write = m25p80_write;
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	if (data)
+		tc90431_spi_data = data->tc90431_spi_data;
+	if (diracc && tc90431_spi_data && tc90431_spi_data->dir_read_phys) {
+		unsigned long phys = tc90431_spi_data->dir_read_phys;
+		if (tc90431_spi_data->dir_read_size < flash->mtd.size) {
+			dev_err(&spi->dev,
+				"mtd size exceeds direct map size\n");
+			return -ENXIO;
+		}
+		tc90431_spi_data->dir_read_size = flash->mtd.size;
+		flash->virt =
+			(unsigned long)ioremap_cached(phys, flash->mtd.size);
+		if (!flash->virt) {
+			dev_err(&spi->dev, "cannot create direct map\n");
+			return -ENXIO;
+		}
+		invalidate_cache_for_spi(flash->virt, flash->mtd.size);
+		tc90431_spi_data->dir_max_speed_hz = 0;
+		tc90431_spi_data->dir_deassert_time = 0;
+		tc90431_spi_data->dir_read_opcode = 0;
+		tc90431_spi_data->dir_read_dummy_count = 0;
+	}
+#endif
+	for (i = 0; i < ARRAY_SIZE(m25p_fixup_ids); i++) {
+		int ret;
+		const struct flash_fixup_info *fixup_info;
+		fixup_info = &m25p_fixup_ids[i];
+		if (strcmp(id->name, fixup_info->name) == 0) {
+			ret = fixup_info->option_func(flash, fixup_info);
+			if (ret < 0) {
+				dev_err(&spi->dev,
+					"%s: failed option operation\n",
+					__func__);
+				return ret;
+			}
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+			if (!tc90431_spi_data)
+				break;
+			if (fixup_info->max_speed_hz)
+				spi->max_speed_hz = fixup_info->max_speed_hz;
+			if (fixup_info->deassert_time)
+				tc90431_spi_data->deassert_time =
+					fixup_info->deassert_time;
+			if (!flash->virt)
+				break;
+			if (fixup_info->dir_max_speed_hz)
+				tc90431_spi_data->dir_max_speed_hz =
+					fixup_info->dir_max_speed_hz;
+			if (fixup_info->dir_deassert_time)
+				tc90431_spi_data->dir_deassert_time =
+					fixup_info->dir_deassert_time;
+			if (fixup_info->dir_read_opcode)
+				tc90431_spi_data->dir_read_opcode =
+					fixup_info->dir_read_opcode;
+			break;
+#endif
+		}
+	}
+	flash->erase_opcode = OPCODE_SE;
+	flash->mtd.erasesize = info->sector_size;
+
 	/* prefer "small sector" erase if possible */
-	if (info->flags & SECT_4K) {
+	if (!no_4kerase && (info->flags & SECT_4K)) {
 		flash->erase_opcode = OPCODE_BE_4K;
 		flash->mtd.erasesize = 4096;
 	} else {
@@ -917,6 +1556,39 @@ static int __devinit m25p_probe(struct spi_device *spi)
 	dev_info(&spi->dev, "%s (%lld Kbytes)\n", id->name,
 			(long long)flash->mtd.size >> 10);
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+#ifdef CONFIG_M25PXX_USE_FAST_READ
+	if (flash->virt) {
+		if (!tc90431_spi_data->dir_read_opcode) {
+			tc90431_spi_data->dir_read_opcode =
+				OPCODE_FAST_READ_SINGLE;
+			tc90431_spi_data->dir_read_dummy_count = 1;
+		}
+	}
+#endif
+	if (tc90431_spi_data) {
+		int ret;
+		if (!tc90431_spi_data->dir_read_dummy_count) {
+			if (tc90431_spi_data->dir_read_opcode ==
+			    OPCODE_FAST_READ_QUAD_IO)
+				tc90431_spi_data->dir_read_dummy_count = 3;
+			else
+				tc90431_spi_data->dir_read_dummy_count = 1;
+		}
+		/* if not specified, use program-access timings */
+		if (!tc90431_spi_data->dir_deassert_time)
+			tc90431_spi_data->dir_deassert_time =
+				tc90431_spi_data->deassert_time;
+		if (!tc90431_spi_data->dir_max_speed_hz)
+			tc90431_spi_data->dir_max_speed_hz = spi->max_speed_hz;
+		/* update settings */
+		ret = spi_setup(spi);
+		if (ret) {
+			dev_err(&spi->dev, "setup failed.\n");
+			return ret;
+		}
+	}
+#endif
 	pr_debug("mtd .name = %s, .size = 0x%llx (%lldMiB) "
 			".erasesize = 0x%.8x (%uKiB) .numeraseregions = %d\n",
 		flash->mtd.name,
@@ -949,6 +1621,10 @@ static int __devexit m25p_remove(struct spi_device *spi)
 	struct m25p	*flash = dev_get_drvdata(&spi->dev);
 	int		status;
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	if (flash->virt)
+		iounmap((void __iomem *)flash->virt);
+#endif
 	/* Clean up MTD stuff. */
 	status = mtd_device_unregister(&flash->mtd);
 	if (status == 0) {

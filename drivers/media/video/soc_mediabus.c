@@ -338,6 +338,10 @@ int soc_mbus_samples_per_pixel(const struct soc_mbus_pixelfmt *mf,
 		*numerator = 0;
 		*denominator = 1;
 		return 0;
+	case SOC_MBUS_PACKING_3X8:
+		*numerator = 3;
+		*denominator = 1;
+		return 0;
 	}
 	return -EINVAL;
 }
@@ -354,6 +358,8 @@ s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt *mf)
 		return width * 2;
 	case SOC_MBUS_PACKING_1_5X8:
 		return width * 3 / 2;
+	case SOC_MBUS_PACKING_3X8:
+		return width * 3;
 	case SOC_MBUS_PACKING_VARIABLE:
 		return 0;
 	}

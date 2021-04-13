@@ -1,0 +1,19 @@
+menuconfig APPLITE_IRECOG
+	bool "irecog drivers"
+	default N
+	depends on ARCH_TZ3000
+	---help---
+	  Enable support for irecog drivers needed on the ApP Lite platform
+
+if APPLITE_IRECOG
+
+source "drivers/staging/applite/irecog/affine/Kconfig"
+source "drivers/staging/applite/irecog/filter/Kconfig"
+source "drivers/staging/applite/irecog/hog/Kconfig"
+source "drivers/staging/applite/irecog/pyramid/Kconfig"
+source "drivers/staging/applite/irecog/gdmac_pyramid/Kconfig"
+source "drivers/staging/applite/irecog/gdmac_hand_detect_isolate/Kconfig"
+source "drivers/staging/applite/irecog/kmem_allocator/Kconfig"
+source "drivers/staging/applite/irecog/hist/Kconfig"
+
+endif # if APPLITE_IRECOG

@@ -229,6 +229,14 @@ struct mtd_info {
 	 */
 	struct backing_dev_info *backing_dev_info;
 
+#if defined(CONFIG_MTD_NAND) || defined(CONFIG_MTD_NAND_MODULE)
+	/* Errstat management functions */
+	int (*errstat_get) (struct mtd_info *mtd, int state,
+			    struct nand_errstat_cmd **esc, size_t *count);
+	int (*errstat_set) (struct mtd_info *mtd, int state,
+			    struct nand_errstat_cmd *esc, size_t count);
+#endif
+
 	struct notifier_block reboot_notifier;  /* default mode before reboot */
 
 	/* ECC status information */

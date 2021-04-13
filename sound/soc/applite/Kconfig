@@ -1,0 +1,48 @@
+config SND_APPLITE_SOC
+	tristate "SoC Audio for TZxxx"
+	depends on APPLITE && (ARCH_TZ2000 || ARCH_TZ3000)
+	select SND_SOC_TLV320ADC3xxx if I2C
+	select SND_SOC_TLV320AIC3110 if I2C
+	help
+	  Say Y or M if you want to add support for codecs attached to
+          the ApP Lite I2S interface.
+
+choice
+	prompt "Default Audio Clock"
+	default AUDIO_CLOCK_245760000HZ
+	depends on SND_APPLITE_SOC
+
+config AUDIO_CLOCK_245760000HZ
+        bool "Audio Clock is 24.5760MHz"
+
+config AUDIO_CLOCK_184320000HZ
+        bool "Audio Clock is 18.4320MHz"
+
+config AUDIO_CLOCK_122880000HZ
+        bool "Audio Clock is 12.2880MHz"
+
+config AUDIO_CLOCK_112896000HZ
+        bool "Audio CLock is 11.2896MHz"
+
+endchoice
+
+choice
+	prompt "Default Audio Format"
+	default AUDIO_FORMAT_I2S
+	depends on SND_APPLITE_SOC
+
+config AUDIO_FORMAT_I2S
+	bool "Audio Format is I2S"
+
+config AUDIO_FORMAT_LR
+	bool "Audio Format is Left-, Right-Justified"
+
+endchoice
+
+config AUDIO_PERIOD_BYTES
+	int "Audio number of maximum period bytes(1 to 8-Kbyte)"
+	depends on SND_APPLITE_SOC
+	range 1 8 if SND_APPLITE_SOC
+	default 8
+	---help---
+	  number of period bytes(Kbyte).

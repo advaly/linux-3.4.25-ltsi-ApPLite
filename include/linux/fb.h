@@ -154,6 +154,8 @@
 #define FB_ACCEL_PROSAVAGE_DDR  0x8d	/* S3 ProSavage DDR             */
 #define FB_ACCEL_PROSAVAGE_DDRK 0x8e	/* S3 ProSavage DDR-K           */
 
+#define FB_ACCEL_APPLITE_TZ2000 0x90    /* ApP-Lite TZ2000              */
+
 #define FB_ACCEL_PUV3_UNIGFX	0xa0	/* PKUnity-v3 Unigfx		*/
 
 #define FB_CAP_FOURCC		1	/* Device supports FOURCC-based formats */

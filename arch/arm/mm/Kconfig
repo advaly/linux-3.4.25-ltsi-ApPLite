@@ -417,7 +417,9 @@ config CPU_V6K
 
 # ARMv7
 config CPU_V7
-	bool "Support ARM V7 processor" if ARCH_INTEGRATOR || MACH_REALVIEW_EB || MACH_REALVIEW_PBX
+	bool "Support ARM V7 processor" if ARCH_INTEGRATOR || \
+		MACH_REALVIEW_EB || MACH_REALVIEW_PBX || \
+		ARCH_TZ3000 || ARCH_TZ2000
 	select CPU_32v6K
 	select CPU_32v7
 	select CPU_ABRT_EV7
@@ -465,6 +467,10 @@ config CPU_32v6K
 
 config CPU_32v7
 	bool
+
+# Cortex-A9
+config CORTEX_A9
+        bool
 
 # The abort model
 config CPU_ABRT_NOMMU
@@ -626,6 +632,11 @@ config CPU_USE_DOMAINS
 #
 config IO_36
 	bool
+
+config ARCH_HIBERNATION_POSSIBLE
+	bool
+	depends on MMU
+	default y if CPU_ARM920T || CPU_ARM926T || CPU_SA1100 || CPU_XSCALE || CPU_XSC3 || CPU_V6 || CPU_V6K || CPU_V7
 
 comment "Processor Features"
 

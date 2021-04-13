@@ -1,0 +1,5 @@
+config APPLITE_IRECOG_PYRAMID
+        tristate "pyramid driver"
+       default n
+
+

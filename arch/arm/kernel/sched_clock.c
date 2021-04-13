@@ -44,8 +44,9 @@ static inline u64 cyc_to_ns(u64 cyc, u32 mult, u32 shift)
 	return (cyc * mult) >> shift;
 }
 
-static unsigned long long cyc_to_sched_clock(u32 cyc, u32 mask)
+static unsigned long long cyc_to_sched_clock(u32 mask)
 {
+	u32 cyc;
 	u64 epoch_ns;
 	u32 epoch_cyc;
 
@@ -63,6 +64,7 @@ static unsigned long long cyc_to_sched_clock(u32 cyc, u32 mask)
 		smp_rmb();
 	} while (epoch_cyc != cd.epoch_cyc_copy);
 
+	cyc = read_sched_clock();
 	return epoch_ns + cyc_to_ns((cyc - epoch_cyc) & mask, cd.mult, cd.shift);
 }
 
@@ -150,8 +152,7 @@ void __init setup_sched_clock(u32 (*read)(void), int bits, unsigned long rate)
 
 unsigned long long notrace sched_clock(void)
 {
-	u32 cyc = read_sched_clock();
-	return cyc_to_sched_clock(cyc, sched_clock_mask);
+	return cyc_to_sched_clock(sched_clock_mask);
 }
 
 void __init sched_clock_postinit(void)

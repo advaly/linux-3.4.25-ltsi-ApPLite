@@ -1087,4 +1087,11 @@ config RTC_DRV_LOONGSON1
 	  This driver can also be built as a module. If so, the module
 	  will be called rtc-ls1x.
 
+config RTC_DRV_APPLITE
+	tristate "TZ2000 RTC"
+	depends on ARCH_TZ2000
+	help
+	  Driver for the internal RTC (Realtime Clock) module found on
+	  Toshiba TZ2000 SoC.
+
 endif # RTC_CLASS

@@ -88,6 +88,7 @@ struct dw_i2c_dev {
 	u32			master_cfg;
 	unsigned int		tx_fifo_depth;
 	unsigned int		rx_fifo_depth;
+	u32			(*modify_slave_addr) (u32 id, u32 addr);
 };
 
 extern u32 dw_readl(struct dw_i2c_dev *dev, int offset);

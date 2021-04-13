@@ -1546,12 +1546,13 @@ static void enable_swap_info(struct swap_info_struct *p, int prio,
 	spin_unlock(&swap_lock);
 }
 
-SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
+/* swapoff specialfile or first swapdev */
+static int swapoff_sub(const char __user *specialfile)
 {
 	struct swap_info_struct *p = NULL;
 	unsigned char *swap_map;
-	struct file *swap_file, *victim;
-	struct address_space *mapping;
+	struct file *swap_file, *victim = NULL;
+	struct address_space *mapping = NULL;
 	struct inode *inode;
 	char *pathname;
 	int oom_score_adj;
@@ -1563,23 +1564,29 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
 
 	BUG_ON(!current->mm);
 
-	pathname = getname(specialfile);
-	err = PTR_ERR(pathname);
-	if (IS_ERR(pathname))
-		goto out;
+	if (specialfile) {
+		pathname = getname(specialfile);
+		err = PTR_ERR(pathname);
+		if (IS_ERR(pathname))
+			goto out;
 
-	victim = filp_open(pathname, O_RDWR|O_LARGEFILE, 0);
-	putname(pathname);
-	err = PTR_ERR(victim);
-	if (IS_ERR(victim))
-		goto out;
+		victim = filp_open(pathname, O_RDWR|O_LARGEFILE, 0);
+		putname(pathname);
+		err = PTR_ERR(victim);
+		if (IS_ERR(victim))
+			goto out;
 
-	mapping = victim->f_mapping;
+		mapping = victim->f_mapping;
+	}
 	prev = -1;
 	spin_lock(&swap_lock);
 	for (type = swap_list.head; type >= 0; type = swap_info[type]->next) {
 		p = swap_info[type];
 		if (p->flags & SWP_WRITEOK) {
+			if (!specialfile) {
+				mapping = p->swap_file->f_mapping;
+				break;
+			}
 			if (p->swap_file->f_mapping == mapping)
 				break;
 		}
@@ -1675,10 +1682,30 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
 	wake_up_interruptible(&proc_poll_wait);
 
 out_dput:
-	filp_close(victim, NULL);
+	if (victim)
+		filp_close(victim, NULL);
 out:
 	return err;
 }
+
+SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
+{
+	if (!specialfile)
+		return -EFAULT;
+	return swapoff_sub(specialfile);
+}
+#ifdef CONFIG_HIBERNATION /* snapshot boot */
+int swapoff_all(void)
+{
+	int ret;
+	while (swap_list.head >= 0) {
+		ret = swapoff_sub(NULL);
+		if (ret)
+			break;
+	}
+	return ret;
+}
+#endif /* CONFIG_HIBERNATION */
 
 #ifdef CONFIG_PROC_FS
 static unsigned swaps_poll(struct file *file, poll_table *wait)

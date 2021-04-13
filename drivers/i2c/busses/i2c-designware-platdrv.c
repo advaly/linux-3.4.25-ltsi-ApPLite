@@ -36,6 +36,8 @@
 #include <linux/interrupt.h>
 #include <linux/of_i2c.h>
 #include <linux/platform_device.h>
+#include <linux/pm.h>
+#include <linux/pm_runtime.h>
 #include <linux/io.h>
 #include <linux/slab.h>
 #include "i2c-designware-core.h"
@@ -95,7 +97,7 @@ static int __devinit dw_i2c_probe(struct platform_device *pdev)
 		r = -ENODEV;
 		goto err_free_mem;
 	}
-	clk_enable(dev->clk);
+	clk_prepare_enable(dev->clk);
 
 	dev->functionality =
 		I2C_FUNC_I2C |
@@ -119,6 +121,10 @@ static int __devinit dw_i2c_probe(struct platform_device *pdev)
 		dev->tx_fifo_depth = ((param1 >> 16) & 0xff) + 1;
 		dev->rx_fifo_depth = ((param1 >> 8)  & 0xff) + 1;
 	}
+
+	if (pdev->dev.platform_data)
+		dev->modify_slave_addr = pdev->dev.platform_data;
+
 	r = i2c_dw_init(dev);
 	if (r)
 		goto err_iounmap;
@@ -148,6 +154,11 @@ static int __devinit dw_i2c_probe(struct platform_device *pdev)
 	}
 	of_i2c_register_devices(adap);
 
+	pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
+	pm_runtime_use_autosuspend(&pdev->dev);
+	pm_runtime_set_active(&pdev->dev);
+	pm_runtime_enable(&pdev->dev);
+
 	return 0;
 
 err_free_irq:
@@ -155,7 +166,7 @@ err_free_irq:
 err_iounmap:
 	iounmap(dev->base);
 err_unuse_clocks:
-	clk_disable(dev->clk);
+	clk_disable_unprepare(dev->clk);
 	clk_put(dev->clk);
 	dev->clk = NULL;
 err_free_mem:
@@ -174,16 +185,21 @@ static int __devexit dw_i2c_remove(struct platform_device *pdev)
 	struct resource *mem;
 
 	platform_set_drvdata(pdev, NULL);
+	pm_runtime_get_sync(&pdev->dev);
+
 	i2c_del_adapter(&dev->adapter);
 	put_device(&pdev->dev);
 
-	clk_disable(dev->clk);
+	clk_disable_unprepare(dev->clk);
 	clk_put(dev->clk);
 	dev->clk = NULL;
 
 	i2c_dw_disable(dev);
 	free_irq(dev->irq, dev);
 	kfree(dev);
+
+	pm_runtime_put(&pdev->dev);
+	pm_runtime_disable(&pdev->dev);
 
 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	release_mem_region(mem->start, resource_size(mem));
@@ -198,6 +214,37 @@ static const struct of_device_id dw_i2c_of_match[] = {
 MODULE_DEVICE_TABLE(of, dw_i2c_of_match);
 #endif
 
+#ifdef CONFIG_PM
+static int dw_i2c_suspend(struct device *dev)
+{
+	struct platform_device *pdev = to_platform_device(dev);
+	struct dw_i2c_dev *i_dev = platform_get_drvdata(pdev);
+
+	clk_disable_unprepare(i_dev->clk);
+
+	return 0;
+}
+
+static int dw_i2c_resume(struct device *dev)
+{
+	struct platform_device *pdev = to_platform_device(dev);
+	struct dw_i2c_dev *i_dev = platform_get_drvdata(pdev);
+
+	clk_prepare_enable(i_dev->clk);
+	i2c_dw_init(i_dev);
+
+	return 0;
+}
+#endif
+
+#ifdef CONFIG_PM_RUNTIME
+static const struct dev_pm_ops dw_i2c_dev_pm_ops = {
+	SET_RUNTIME_PM_OPS(dw_i2c_suspend, dw_i2c_resume, NULL)
+};
+#else
+static SIMPLE_DEV_PM_OPS(dw_i2c_dev_pm_ops, dw_i2c_suspend, dw_i2c_resume);
+#endif
+
 /* work with hotplug and coldplug */
 MODULE_ALIAS("platform:i2c_designware");
 
@@ -207,6 +254,7 @@ static struct platform_driver dw_i2c_driver = {
 		.name	= "i2c_designware",
 		.owner	= THIS_MODULE,
 		.of_match_table = of_match_ptr(dw_i2c_of_match),
+		.pm	= &dw_i2c_dev_pm_ops,
 	},
 };
 

@@ -1,0 +1,14 @@
+config APPLITE_EMMC
+	tristate "TZ2000 eMMC device support"
+	depends on ARCH_TZ2000 && BLOCK
+	---help---
+	  This is the ApP Lite TZ2000 eMMC device.
+
+if APPLITE_EMMC
+
+config APPLITE_EMMC_TEST
+	bool "[test] Add test drivers (module only)"
+	default n
+	depends on APPLITE_EMMC=m
+
+endif # APPLITE_EMMC

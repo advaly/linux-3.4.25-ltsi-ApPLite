@@ -77,7 +77,7 @@ config GENERIC_CLOCKEVENTS
 config GENERIC_CLOCKEVENTS_BROADCAST
 	bool
 	depends on GENERIC_CLOCKEVENTS
-	default y if SMP
+	default y if SMP && !LOCAL_TIMERS_NO_C3STOP
 
 config KTIME_SCALAR
 	bool
@@ -1022,6 +1022,55 @@ config ARCH_ZYNQ
 	select USE_OF
 	help
 	  Support for Xilinx Zynq ARM Cortex A9 Platform
+
+config ARCH_TZ2000
+	bool "TOSHIBA TZ2000 platform"
+	select APPLITE
+	select HAVE_CLK
+	select CLKDEV_LOOKUP
+	select COMMON_CLK
+	select GENERIC_CLOCKEVENTS
+	select NEED_MACH_MEMORY_H
+	select ARCH_REQUIRE_GPIOLIB
+	select ARM_GIC
+	select CPU_V7
+	select CORTEX_A9
+	select HAVE_ARM_GTMR
+	select USB_ARCH_HAS_OHCI
+	select USB_ARCH_HAS_EHCI
+	select ARCH_HAS_CPUFREQ
+	help
+	  This enables support for TOSHIBA TZ2000 platform.
+	  This option includes supports for following boards:
+	    RBTZ2000
+	    TZ2000 EVA
+
+config ARCH_TZ3000
+	bool "TOSHIBA TZ3000 platform"
+	select APPLITE
+	select HAVE_CLK
+	select CLKDEV_LOOKUP
+	select COMMON_CLK
+	select GENERIC_CLOCKEVENTS
+	select MIGHT_HAVE_PCI
+	select ARCH_SUPPORTS_MSI
+	select NEED_MACH_MEMORY_H
+	select HAVE_SMP
+	select MIGHT_HAVE_CACHE_L2X0
+	select ARCH_REQUIRE_GPIOLIB
+	select ARM_GIC
+	select CPU_V7
+	select CORTEX_A9
+	select HAVE_ARM_GTMR
+	select USB_ARCH_HAS_XHCI
+	select USB_XHCI_PLATFORM if USB_XHCI_HCD
+	select ARCH_HAS_CPUFREQ
+	help
+	  This enables support for TOSHIBA TZ3000 platform.
+	  This option includes supports for following boards:
+	    RBTZ3000-ANDES
+	    TZ3000 EVA
+
 endchoice
 
 #
@@ -1127,6 +1176,10 @@ source "arch/arm/mach-shmobile/Kconfig"
 
 source "arch/arm/mach-tegra/Kconfig"
 
+source "arch/arm/mach-tz2000/Kconfig"
+
+source "arch/arm/mach-tz3000/Kconfig"
+
 source "arch/arm/mach-u300/Kconfig"
 
 source "arch/arm/mach-ux500/Kconfig"
@@ -1142,6 +1195,9 @@ source "arch/arm/mach-w90x900/Kconfig"
 
 # Definitions to make life easier
 config ARCH_ACORN
+	bool
+
+config APPLITE
 	bool
 
 config PLAT_IOP
@@ -1257,6 +1313,18 @@ config ARM_ERRATA_460075
 	  workaround disables the write-allocate mode for the L2 cache via the
 	  ACTLR register. Note that setting specific bits in the ACTLR register
 	  may not be available in non-secure mode.
+
+config ARM_ERRATA_740657
+	bool "ARM errata: Global Timer can send 2 interrupts for the same event"
+	depends on CPU_V7 && SMP
+	help
+	  This option enables the workaround for the 740657 Cortex-A9
+	  MP (all r2 and r3 revisions) erratum.
+	  The Global Timer can be programmed to generate an interrupt
+	  request to the processor when it reaches a given programmed
+	  value. Due to the erratum, when the Global Timer is
+	  programmed to not use the auto-increment feature, it may
+	  generate two interrupt requests instead of a single one.
 
 config ARM_ERRATA_742230
 	bool "ARM errata: DMB operation may be faulty"
@@ -1488,6 +1556,8 @@ config PCI_HOST_ITE8152
 	default y
 	select DMABOUNCE
 
+source "drivers/pci/pcie/Kconfig"
+
 source "drivers/pci/Kconfig"
 
 source "drivers/pcmcia/Kconfig"
@@ -1582,6 +1652,11 @@ config HAVE_ARM_TWD
 	help
 	  This options enables support for the ARM timer and watchdog unit
 
+config HAVE_ARM_GTMR
+        bool
+        help
+          This options enables support for the ARM global timer unit
+
 choice
 	prompt "Memory split"
 	default VMSPLIT_3G
@@ -1628,6 +1703,18 @@ config LOCAL_TIMERS
 	  legacy IPI broadcast method.  Local timers allows the system
 	  accounting to be spread across the timer interval, preventing a
 	  "thundering herd" at every timer tick.
+
+config LOCAL_TIMERS_NO_C3STOP
+	bool "Use local timer interrupts without low power modes, eg. C3."
+	depends on LOCAL_TIMERS
+	default n
+	help
+	  Since v2.6.36, clock event broadcast support is always enabled.
+	  But if the broadcast device does not support the one shot mode,
+	  NOHz mode cannot be used.
+	  Say Y if your system does not support low power modes, eg. C3.
+	  This option disables the broadcast tick function which is
+	  needed when the TWD local timer stops in low power modes.
 
 config ARCH_NR_GPIO
 	int

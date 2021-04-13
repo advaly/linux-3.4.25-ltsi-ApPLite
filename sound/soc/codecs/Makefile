@@ -97,6 +97,9 @@ snd-soc-wm9705-objs := wm9705.o
 snd-soc-wm9712-objs := wm9712.o
 snd-soc-wm9713-objs := wm9713.o
 snd-soc-wm-hubs-objs := wm_hubs.o
+snd-soc-tlv320adc3xxx-objs := tlv320adc3xxx.o
+snd-soc-pcm1771-objs := pcm1771.o
+snd-soc-tlv320aic31xx-objs := tlv320aic31xx.o
 
 # Amp
 snd-soc-max9877-objs := max9877.o
@@ -201,6 +204,9 @@ obj-$(CONFIG_SND_SOC_WM9705)	+= snd-soc-wm9705.o
 obj-$(CONFIG_SND_SOC_WM9712)	+= snd-soc-wm9712.o
 obj-$(CONFIG_SND_SOC_WM9713)	+= snd-soc-wm9713.o
 obj-$(CONFIG_SND_SOC_WM_HUBS)	+= snd-soc-wm-hubs.o
+obj-$(CONFIG_SND_SOC_TLV320ADC3xxx)	+= snd-soc-tlv320adc3xxx.o
+obj-$(CONFIG_SND_SOC_PCM1771)	+= snd-soc-pcm1771.o
+obj-$(CONFIG_SND_SOC_TLV320AIC3110)	+= snd-soc-tlv320aic31xx.o
 
 # Amp
 obj-$(CONFIG_SND_SOC_MAX9877)	+= snd-soc-max9877.o

@@ -317,6 +317,8 @@ static void xhci_cleanup_msix(struct xhci_hcd *xhci)
 
 	xhci_free_irq(xhci);
 
+	if (xhci->quirks & XHCI_BROKEN_MSI) /* for xhci-plat */
+		return;
 	if (xhci->msix_entries) {
 		pci_disable_msix(pdev);
 		kfree(xhci->msix_entries);
@@ -880,6 +882,10 @@ int xhci_suspend(struct xhci_hcd *xhci)
 	struct usb_hcd		*hcd = xhci_to_hcd(xhci);
 	u32			command;
 
+	if (hcd->state != HC_STATE_SUSPENDED ||
+			xhci->shared_hcd->state != HC_STATE_SUSPENDED)
+		return -EINVAL;
+
 	spin_lock_irq(&xhci->lock);
 	clear_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
 	clear_bit(HCD_FLAG_HW_ACCESSIBLE, &xhci->shared_hcd->flags);
@@ -1141,9 +1147,6 @@ static int xhci_check_args(struct usb_hcd *hcd, struct usb_device *udev,
 	}
 
 	xhci = hcd_to_xhci(hcd);
-	if (xhci->xhc_state & XHCI_STATE_HALTED)
-		return -ENODEV;
-
 	if (check_virt_dev) {
 		if (!udev->slot_id || !xhci->devs[udev->slot_id]) {
 			printk(KERN_DEBUG "xHCI %s called with unaddressed "
@@ -1158,6 +1161,9 @@ static int xhci_check_args(struct usb_hcd *hcd, struct usb_device *udev,
 			return -EINVAL;
 		}
 	}
+
+	if (xhci->xhc_state & XHCI_STATE_HALTED)
+		return -ENODEV;
 
 	return 1;
 }

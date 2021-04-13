@@ -238,6 +238,22 @@ static int part_erase(struct mtd_info *mtd, struct erase_info *instr)
 	return ret;
 }
 
+#if defined(CONFIG_MTD_NAND) || defined(CONFIG_MTD_NAND_MODULE)
+static int part_errstat_get(struct mtd_info *mtd, int state,
+			    struct nand_errstat_cmd **esc, size_t *count)
+{
+	struct mtd_part *part = PART(mtd);
+	return part->master->errstat_get(part->master, state, esc, count);
+}
+
+static int part_errstat_set(struct mtd_info *mtd, int state,
+			    struct nand_errstat_cmd *esc, size_t count)
+{
+	struct mtd_part *part = PART(mtd);
+	return part->master->errstat_set(part->master, state, esc, count);
+}
+#endif
+
 void mtd_erase_callback(struct erase_info *instr)
 {
 	if (instr->mtd->_erase == part_erase) {
@@ -425,6 +441,12 @@ static struct mtd_part *allocate_partition(struct mtd_info *master,
 	if (master->_block_markbad)
 		slave->mtd._block_markbad = part_block_markbad;
 	slave->mtd._erase = part_erase;
+#if defined(CONFIG_MTD_NAND) || defined(CONFIG_MTD_NAND_MODULE)
+	if (master->errstat_get)
+		slave->mtd.errstat_get = part_errstat_get;
+	if (master->errstat_set)
+		slave->mtd.errstat_set = part_errstat_set;
+#endif
 	slave->master = master;
 	slave->offset = part->offset;
 

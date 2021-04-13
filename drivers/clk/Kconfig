@@ -44,4 +44,8 @@ config COMMON_CLK_DEBUG
 	  clk_flags, clk_prepare_count, clk_enable_count &
 	  clk_notifier_count.
 
+config COMMON_CLK_TZ3000
+	def_bool y
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+
 endmenu

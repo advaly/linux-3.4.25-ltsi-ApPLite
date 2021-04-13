@@ -1,0 +1,5 @@
+config APPLITE_IRECOG_AFFINE
+        tristate "affine driver"
+       default n
+
+

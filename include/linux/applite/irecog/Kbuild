@@ -1,0 +1,17 @@
+header-y += affine_param.h
+header-y += pyramid_ioctl.h
+header-y += drv_cache_ctrl_defs.h
+header-y += gdmac_pyramid_ioctl.h
+header-y += pyramid_image.h
+header-y += hog_ioctl.h
+header-y += affine_ioctl.h
+header-y += filter_ioctl.h
+header-y += gdmac_port_def.h
+header-y += gdmac_hand_detect_isolate_ioctl.h
+header-y += kmem_allocator_ioctl.h
+header-y += filter_param.h
+header-y += hog_param.h
+header-y += drv_cmn.h
+header-y += basic_type.h
+header-y += hist_ioctl.h
+header-y += hist_param.h

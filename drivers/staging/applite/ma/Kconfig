@@ -1,0 +1,5 @@
+config APPLITEMA
+        tristate "Memory Allocator (applitema) driver"
+	select DMA_SHARED_BUFFER
+	depends on CMA
+

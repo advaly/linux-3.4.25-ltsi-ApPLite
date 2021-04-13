@@ -597,6 +597,27 @@ static void power_down(void)
 	while(1);
 }
 
+static bool ssboot_autoswapoff;
+
+static ssize_t ssboot_autoswapoff_show(struct kobject *kobj,
+				       struct kobj_attribute *attr,
+				       char *buf)
+{
+	return sprintf(buf, "%c\n", ssboot_autoswapoff ? 'Y' : 'N');
+}
+
+static ssize_t ssboot_autoswapoff_store(struct kobject *kobj,
+					struct kobj_attribute *attr,
+					const char *buf, size_t n)
+{
+	int ret = strtobool(buf, &ssboot_autoswapoff);
+	if (ret)
+		return ret;
+	return n;
+}
+
+power_attr(ssboot_autoswapoff);
+
 /**
  * hibernate - Carry out system hibernation, including saving the image.
  */
@@ -652,6 +673,8 @@ int hibernate(void)
 		pm_restore_gfp_mask();
 	} else {
 		pr_debug("PM: Image restored successfully.\n");
+		if (ssboot_autoswapoff)
+			swsusp_fixup_ssboot();
 	}
 
  Thaw:
@@ -1002,6 +1025,7 @@ static struct attribute * g[] = {
 	&resume_attr.attr,
 	&image_size_attr.attr,
 	&reserved_size_attr.attr,
+	&ssboot_autoswapoff_attr.attr,
 	NULL,
 };
 

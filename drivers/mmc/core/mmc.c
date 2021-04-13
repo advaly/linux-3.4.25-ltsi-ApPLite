@@ -142,6 +142,12 @@ static int mmc_decode_csd(struct mmc_card *card)
 	}
 
 	csd->mmca_vsn	 = UNSTUFF_BITS(resp, 122, 4);
+	if (card->host->caps2 & MMC_CAP2_FIXED_CSD_VER4) {
+		pr_info("%s: Fix mmca_vsn (%x -> %x)\n",
+			mmc_hostname(card->host),
+			csd->mmca_vsn, CSD_SPEC_VER_4);
+		csd->mmca_vsn = CSD_SPEC_VER_4;
+	}
 	m = UNSTUFF_BITS(resp, 115, 4);
 	e = UNSTUFF_BITS(resp, 112, 3);
 	csd->tacc_ns	 = (tacc_exp[e] * tacc_mant[m] + 9) / 10;
@@ -1062,6 +1068,11 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
 			max_dtr = card->ext_csd.hs_max_dtr;
 	} else if (max_dtr > card->csd.max_dtr) {
 		max_dtr = card->csd.max_dtr;
+	}
+	if (host->caps2 & MMC_CAP2_IGN_CSD_MAXDTR) {
+		pr_info("%s: ignore max_dtr (%d).  Use %d\n",
+			mmc_hostname(card->host), max_dtr, host->f_max);
+		max_dtr = host->f_max;
 	}
 
 	mmc_set_clock(host, max_dtr);

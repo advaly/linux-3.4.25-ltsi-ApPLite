@@ -403,6 +403,33 @@ config SPI_NUC900
 	help
 	  SPI driver for Nuvoton NUC900 series ARM SoCs
 
+config SPI_TC90431
+	tristate "Toshiba TC90431 SPI controller"
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+	help
+	  SPI driver for Toshiba TC90431 SPI controller.
+	  TZ3000/TZ2000 series also have this SPI controller.
+	  TZ3000/TZ2000 series have two SPI controllers (SPIB and SPIMS).
+	  This driver is for SPIB controller.
+
+config SPI_TC90431_DEBUG
+	bool "Toshiba TC90431 SPI controller debugging messages"
+	depends on SPI_TC90431
+	help
+	  Say Y here if you want the TC90431/TZ3000 SPI controller
+	  drivers to produce a bunch of debug messages to the system
+	  log.
+	  If unsure, say N.
+
+config SPI_TZ_SPIMS
+	tristate "Toshiba TZ3000/TZ2000 SPIMS controller"
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+	help
+	  SPI driver for Toshiba TZ3000/TZ2000 SPIMS controller.
+	  TZ3000/TZ2000 series have two SPI controllers (SPIB and SPIMS).
+	  This driver is for SPIMS controller.
+	  Only master mode is supported.
+
 #
 # Add new SPI master controllers in alphabetical order above this line
 #

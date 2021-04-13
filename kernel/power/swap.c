@@ -1465,3 +1465,46 @@ static int swsusp_header_init(void)
 }
 
 core_initcall(swsusp_header_init);
+
+/* check swap signature and automatically swapoff if snapshot boot */
+void swsusp_fixup_ssboot(void)
+{
+	int res;
+
+	res = swap_type_of(swsusp_resume_device, swsusp_resume_block,
+			    &hib_resume_bdev);
+	if (res < 0) {
+		pr_err("PM: Cannot find swap device\n");
+		return;
+	}
+	res = blkdev_get(hib_resume_bdev, FMODE_READ, NULL);
+	if (res) {
+		pr_err("PM: Cannot get swap device\n");
+		return;
+	}
+	res = set_blocksize(hib_resume_bdev, PAGE_SIZE);
+	if (res < 0) {
+		pr_err("PM: Cannot set blocksize\n");
+		blkdev_put(hib_resume_bdev, FMODE_READ);
+		return;
+	}
+	clear_page(swsusp_header);
+
+	hib_bio_read_page(swsusp_resume_block, swsusp_header, NULL);
+	if (!memcmp("SWAP-SPACE", swsusp_header->sig, 10) ||
+	    !memcmp("SWAPSPACE2", swsusp_header->sig, 10)) {
+		/* normal hibernation */
+	} else if (!memcmp(HIBERNATE_SIG, swsusp_header->sig, 10)) {
+		/* snapshort boot */
+		pr_info("PM: Snapshot Boot\n");
+		thaw_kernel_threads();
+		res = swapoff_all();
+		if (res < 0)
+			pr_err("PM: Swapoff failed! (%d)\n", res);
+		else
+			pr_info("PM: Swap disabled\n");
+	} else {
+		pr_err("PM: Swap/Hibernate header not found!\n");
+	}
+	blkdev_put(hib_resume_bdev, FMODE_READ);
+}

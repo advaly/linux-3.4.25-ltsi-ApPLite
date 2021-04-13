@@ -1,0 +1,8 @@
+#
+# Toshiba Module Configuration
+#
+
+config APPLITE_SYSCON
+        tristate "SYSCON driver"
+	depends on ARCH_TZ2000 || ARCH_TZ3000
+

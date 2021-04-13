@@ -1,0 +1,5 @@
+config APPLITE_PWM
+	tristate "TZ3000/TZ2000 PWM driver"
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+	help
+         Say yes here to build support for PWM Devices.

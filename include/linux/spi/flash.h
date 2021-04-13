@@ -3,6 +3,9 @@
 
 struct mtd_partition;
 
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+#include <linux/spi/tc90431.h>
+#endif
 /**
  * struct flash_platform_data: board-specific flash data
  * @name: optional flash device name (eg, as used with mtdparts=)
@@ -26,6 +29,9 @@ struct flash_platform_data {
 	char		*type;
 
 	/* we'll likely add more ... use JEDEC IDs, etc */
+#if IS_ENABLED(CONFIG_SPI_TC90431)
+	struct tc90431_spi_controller_data *tc90431_spi_data;
+#endif
 };
 
 #endif

@@ -59,7 +59,8 @@ typedef enum {
 	FL_PREPARING_ERASE,
 	FL_VERIFYING_ERASE,
 
-	FL_UNKNOWN
+	FL_UNKNOWN,
+	FL_STATE_MAX
 } flstate_t;
 
 

@@ -1,0 +1,1957 @@
+/*
+ * arch/arm/mach-tz2000/include/mach/regs/mbox_reg_def.h
+ *
+ * (C) Copyright TOSHIBA Corporation
+ * Semiconductor & Storage Products Company 2013
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#ifndef _MBOX_REG_DEF_H
+#define _MBOX_REG_DEF_H
+
+#ifdef __cplusplus
+extern  {
+#endif /* __cplusplus */
+
+// INT_REG000_SET Register
+#define MBOX_INT_REG000_SET_OFS                  0x00000000
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG000_SET_SET_MASK             0xFF
+#define MBOX_INT_REG000_SET_SET_SHIFT            0 
+#define MBOX_INT_REG000_SET_SET_BIT              0xFF
+#define MBOX_INT_REG000_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG000_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG000_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG000_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG000_SET_RESERVED_BITWIDTH    24
+// INT_REG001_SET Register
+#define MBOX_INT_REG001_SET_OFS                  0x00000004
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG001_SET_SET_MASK             0xFF
+#define MBOX_INT_REG001_SET_SET_SHIFT            0 
+#define MBOX_INT_REG001_SET_SET_BIT              0xFF
+#define MBOX_INT_REG001_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG001_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG001_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG001_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG001_SET_RESERVED_BITWIDTH    24
+// INT_REG002_SET Register
+#define MBOX_INT_REG002_SET_OFS                  0x00000008
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG002_SET_SET_MASK             0xFF
+#define MBOX_INT_REG002_SET_SET_SHIFT            0 
+#define MBOX_INT_REG002_SET_SET_BIT              0xFF
+#define MBOX_INT_REG002_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG002_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG002_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG002_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG002_SET_RESERVED_BITWIDTH    24
+// INT_REG003_SET Register
+#define MBOX_INT_REG003_SET_OFS                  0x0000000C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG003_SET_SET_MASK             0xFF
+#define MBOX_INT_REG003_SET_SET_SHIFT            0 
+#define MBOX_INT_REG003_SET_SET_BIT              0xFF
+#define MBOX_INT_REG003_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG003_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG003_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG003_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG003_SET_RESERVED_BITWIDTH    24
+// INT_REG004_SET Register
+#define MBOX_INT_REG004_SET_OFS                  0x00000010
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG004_SET_SET_MASK             0xFF
+#define MBOX_INT_REG004_SET_SET_SHIFT            0 
+#define MBOX_INT_REG004_SET_SET_BIT              0xFF
+#define MBOX_INT_REG004_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG004_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG004_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG004_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG004_SET_RESERVED_BITWIDTH    24
+// INT_REG005_SET Register
+#define MBOX_INT_REG005_SET_OFS                  0x00000014
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG005_SET_SET_MASK             0xFF
+#define MBOX_INT_REG005_SET_SET_SHIFT            0 
+#define MBOX_INT_REG005_SET_SET_BIT              0xFF
+#define MBOX_INT_REG005_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG005_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG005_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG005_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG005_SET_RESERVED_BITWIDTH    24
+// INT_REG006_SET Register
+#define MBOX_INT_REG006_SET_OFS                  0x00000018
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG006_SET_SET_MASK             0xFF
+#define MBOX_INT_REG006_SET_SET_SHIFT            0 
+#define MBOX_INT_REG006_SET_SET_BIT              0xFF
+#define MBOX_INT_REG006_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG006_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG006_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG006_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG006_SET_RESERVED_BITWIDTH    24
+// INT_REG007_SET Register
+#define MBOX_INT_REG007_SET_OFS                  0x0000001C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG007_SET_SET_MASK             0xFF
+#define MBOX_INT_REG007_SET_SET_SHIFT            0 
+#define MBOX_INT_REG007_SET_SET_BIT              0xFF
+#define MBOX_INT_REG007_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG007_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG007_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG007_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG007_SET_RESERVED_BITWIDTH    24
+// INT_REG008_SET Register
+#define MBOX_INT_REG008_SET_OFS                  0x00000020
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG008_SET_SET_MASK             0xFF
+#define MBOX_INT_REG008_SET_SET_SHIFT            0 
+#define MBOX_INT_REG008_SET_SET_BIT              0xFF
+#define MBOX_INT_REG008_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG008_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG008_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG008_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG008_SET_RESERVED_BITWIDTH    24
+// INT_REG009_SET Register
+#define MBOX_INT_REG009_SET_OFS                  0x00000024
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG009_SET_SET_MASK             0xFF
+#define MBOX_INT_REG009_SET_SET_SHIFT            0 
+#define MBOX_INT_REG009_SET_SET_BIT              0xFF
+#define MBOX_INT_REG009_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG009_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG009_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG009_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG009_SET_RESERVED_BITWIDTH    24
+// INT_REG010_SET Register
+#define MBOX_INT_REG010_SET_OFS                  0x00000028
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG010_SET_SET_MASK             0xFF
+#define MBOX_INT_REG010_SET_SET_SHIFT            0 
+#define MBOX_INT_REG010_SET_SET_BIT              0xFF
+#define MBOX_INT_REG010_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG010_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG010_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG010_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG010_SET_RESERVED_BITWIDTH    24
+// INT_REG011_SET Register
+#define MBOX_INT_REG011_SET_OFS                  0x0000002C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG011_SET_SET_MASK             0xFF
+#define MBOX_INT_REG011_SET_SET_SHIFT            0 
+#define MBOX_INT_REG011_SET_SET_BIT              0xFF
+#define MBOX_INT_REG011_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG011_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG011_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG011_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG011_SET_RESERVED_BITWIDTH    24
+// INT_REG012_SET Register
+#define MBOX_INT_REG012_SET_OFS                  0x00000030
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG012_SET_SET_MASK             0xFF
+#define MBOX_INT_REG012_SET_SET_SHIFT            0 
+#define MBOX_INT_REG012_SET_SET_BIT              0xFF
+#define MBOX_INT_REG012_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG012_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG012_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG012_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG012_SET_RESERVED_BITWIDTH    24
+// INT_REG013_SET Register
+#define MBOX_INT_REG013_SET_OFS                  0x00000034
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG013_SET_SET_MASK             0xFF
+#define MBOX_INT_REG013_SET_SET_SHIFT            0 
+#define MBOX_INT_REG013_SET_SET_BIT              0xFF
+#define MBOX_INT_REG013_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG013_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG013_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG013_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG013_SET_RESERVED_BITWIDTH    24
+// INT_REG014_SET Register
+#define MBOX_INT_REG014_SET_OFS                  0x00000038
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG014_SET_SET_MASK             0xFF
+#define MBOX_INT_REG014_SET_SET_SHIFT            0 
+#define MBOX_INT_REG014_SET_SET_BIT              0xFF
+#define MBOX_INT_REG014_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG014_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG014_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG014_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG014_SET_RESERVED_BITWIDTH    24
+// INT_REG015_SET Register
+#define MBOX_INT_REG015_SET_OFS                  0x0000003C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG015_SET_SET_MASK             0xFF
+#define MBOX_INT_REG015_SET_SET_SHIFT            0 
+#define MBOX_INT_REG015_SET_SET_BIT              0xFF
+#define MBOX_INT_REG015_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG015_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG015_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG015_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG015_SET_RESERVED_BITWIDTH    24
+// INT_REG000_CLEAR Register
+#define MBOX_INT_REG000_CLEAR_OFS                0x00000400
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG000_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG000_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG000_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG000_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG000_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG000_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG000_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG000_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG001_CLEAR Register
+#define MBOX_INT_REG001_CLEAR_OFS                0x00000404
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG001_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG001_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG001_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG001_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG001_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG001_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG001_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG001_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG002_CLEAR Register
+#define MBOX_INT_REG002_CLEAR_OFS                0x00000408
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG002_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG002_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG002_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG002_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG002_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG002_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG002_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG002_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG003_CLEAR Register
+#define MBOX_INT_REG003_CLEAR_OFS                0x0000040C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG003_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG003_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG003_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG003_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG003_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG003_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG003_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG003_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG004_CLEAR Register
+#define MBOX_INT_REG004_CLEAR_OFS                0x00000410
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG004_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG004_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG004_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG004_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG004_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG004_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG004_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG004_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG005_CLEAR Register
+#define MBOX_INT_REG005_CLEAR_OFS                0x00000414
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG005_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG005_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG005_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG005_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG005_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG005_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG005_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG005_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG006_CLEAR Register
+#define MBOX_INT_REG006_CLEAR_OFS                0x00000418
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG006_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG006_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG006_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG006_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG006_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG006_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG006_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG006_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG007_CLEAR Register
+#define MBOX_INT_REG007_CLEAR_OFS                0x0000041C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG007_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG007_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG007_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG007_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG007_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG007_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG007_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG007_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG008_CLEAR Register
+#define MBOX_INT_REG008_CLEAR_OFS                0x00000420
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG008_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG008_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG008_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG008_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG008_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG008_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG008_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG008_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG009_CLEAR Register
+#define MBOX_INT_REG009_CLEAR_OFS                0x00000424
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG009_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG009_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG009_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG009_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG009_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG009_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG009_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG009_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG010_CLEAR Register
+#define MBOX_INT_REG010_CLEAR_OFS                0x00000428
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG010_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG010_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG010_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG010_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG010_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG010_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG010_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG010_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG011_CLEAR Register
+#define MBOX_INT_REG011_CLEAR_OFS                0x0000042C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG011_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG011_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG011_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG011_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG011_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG011_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG011_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG011_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG012_CLEAR Register
+#define MBOX_INT_REG012_CLEAR_OFS                0x00000430
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG012_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG012_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG012_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG012_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG012_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG012_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG012_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG012_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG013_CLEAR Register
+#define MBOX_INT_REG013_CLEAR_OFS                0x00000434
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG013_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG013_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG013_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG013_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG013_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG013_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG013_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG013_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG014_CLEAR Register
+#define MBOX_INT_REG014_CLEAR_OFS                0x00000438
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG014_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG014_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG014_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG014_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG014_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG014_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG014_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG014_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG015_CLEAR Register
+#define MBOX_INT_REG015_CLEAR_OFS                0x0000043C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG015_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG015_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG015_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG015_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG015_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG015_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG015_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG015_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG000_MASK Register
+#define MBOX_INT_REG000_MASK_OFS                 0x00000800
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG000_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG000_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG000_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG000_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG000_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG000_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG000_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG000_MASK_RESERVED_BITWIDTH   24
+// INT_REG001_MASK Register
+#define MBOX_INT_REG001_MASK_OFS                 0x00000804
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG001_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG001_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG001_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG001_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG001_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG001_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG001_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG001_MASK_RESERVED_BITWIDTH   24
+// INT_REG002_MASK Register
+#define MBOX_INT_REG002_MASK_OFS                 0x00000808
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG002_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG002_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG002_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG002_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG002_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG002_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG002_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG002_MASK_RESERVED_BITWIDTH   24
+// INT_REG003_MASK Register
+#define MBOX_INT_REG003_MASK_OFS                 0x0000080C
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG003_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG003_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG003_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG003_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG003_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG003_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG003_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG003_MASK_RESERVED_BITWIDTH   24
+// INT_REG004_MASK Register
+#define MBOX_INT_REG004_MASK_OFS                 0x00000810
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG004_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG004_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG004_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG004_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG004_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG004_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG004_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG004_MASK_RESERVED_BITWIDTH   24
+// INT_REG005_MASK Register
+#define MBOX_INT_REG005_MASK_OFS                 0x00000814
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG005_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG005_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG005_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG005_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG005_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG005_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG005_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG005_MASK_RESERVED_BITWIDTH   24
+// INT_REG006_MASK Register
+#define MBOX_INT_REG006_MASK_OFS                 0x00000818
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG006_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG006_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG006_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG006_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG006_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG006_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG006_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG006_MASK_RESERVED_BITWIDTH   24
+// INT_REG007_MASK Register
+#define MBOX_INT_REG007_MASK_OFS                 0x0000081C
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG007_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG007_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG007_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG007_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG007_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG007_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG007_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG007_MASK_RESERVED_BITWIDTH   24
+// INT_REG008_MASK Register
+#define MBOX_INT_REG008_MASK_OFS                 0x00000820
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG008_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG008_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG008_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG008_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG008_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG008_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG008_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG008_MASK_RESERVED_BITWIDTH   24
+// INT_REG009_MASK Register
+#define MBOX_INT_REG009_MASK_OFS                 0x00000824
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG009_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG009_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG009_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG009_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG009_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG009_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG009_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG009_MASK_RESERVED_BITWIDTH   24
+// INT_REG010_MASK Register
+#define MBOX_INT_REG010_MASK_OFS                 0x00000828
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG010_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG010_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG010_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG010_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG010_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG010_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG010_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG010_MASK_RESERVED_BITWIDTH   24
+// INT_REG011_MASK Register
+#define MBOX_INT_REG011_MASK_OFS                 0x0000082C
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG011_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG011_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG011_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG011_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG011_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG011_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG011_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG011_MASK_RESERVED_BITWIDTH   24
+// INT_REG012_MASK Register
+#define MBOX_INT_REG012_MASK_OFS                 0x00000830
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG012_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG012_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG012_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG012_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG012_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG012_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG012_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG012_MASK_RESERVED_BITWIDTH   24
+// INT_REG013_MASK Register
+#define MBOX_INT_REG013_MASK_OFS                 0x00000834
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG013_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG013_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG013_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG013_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG013_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG013_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG013_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG013_MASK_RESERVED_BITWIDTH   24
+// INT_REG014_MASK Register
+#define MBOX_INT_REG014_MASK_OFS                 0x00000838
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG014_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG014_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG014_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG014_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG014_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG014_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG014_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG014_MASK_RESERVED_BITWIDTH   24
+// INT_REG015_MASK Register
+#define MBOX_INT_REG015_MASK_OFS                 0x0000083C
+// MASK bitfiled (RW) Reset=0
+#define MBOX_INT_REG015_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG015_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG015_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG015_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG015_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG015_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG015_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG015_MASK_RESERVED_BITWIDTH   24
+// INT_SIG00_SEL Register
+#define MBOX_INT_SIG00_SEL_OFS                   0x00000C00
+// SEL bitfiled (RW) Reset=1111
+#define MBOX_INT_SIG00_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG00_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG00_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG00_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG00_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG00_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG00_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG00_SEL_RESERVED_BITWIDTH     16
+// INT_SIG00_STAT Register
+#define MBOX_INT_SIG00_STAT_OFS                  0x00000C04
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG00_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG00_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG00_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG00_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG00_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG00_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG00_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG00_STAT_RESERVED_BITWIDTH    16
+// INT_SIG01_SEL Register
+#define MBOX_INT_SIG01_SEL_OFS                   0x00000C08
+// SEL bitfiled (RW) Reset=11110000
+#define MBOX_INT_SIG01_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG01_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG01_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG01_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG01_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG01_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG01_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG01_SEL_RESERVED_BITWIDTH     16
+// INT_SIG01_STAT Register
+#define MBOX_INT_SIG01_STAT_OFS                  0x00000C0C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG01_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG01_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG01_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG01_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG01_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG01_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG01_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG01_STAT_RESERVED_BITWIDTH    16
+// INT_SIG02_SEL Register
+#define MBOX_INT_SIG02_SEL_OFS                   0x00000C10
+// SEL bitfiled (RW) Reset=111100000000
+#define MBOX_INT_SIG02_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG02_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG02_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG02_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG02_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG02_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG02_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG02_SEL_RESERVED_BITWIDTH     16
+// INT_SIG02_STAT Register
+#define MBOX_INT_SIG02_STAT_OFS                  0x00000C14
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG02_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG02_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG02_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG02_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG02_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG02_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG02_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG02_STAT_RESERVED_BITWIDTH    16
+// INT_SIG03_SEL Register
+#define MBOX_INT_SIG03_SEL_OFS                   0x00000C18
+// SEL bitfiled (RW) Reset=1111000000000000
+#define MBOX_INT_SIG03_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG03_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG03_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG03_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG03_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG03_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG03_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG03_SEL_RESERVED_BITWIDTH     16
+// INT_SIG03_STAT Register
+#define MBOX_INT_SIG03_STAT_OFS                  0x00000C1C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG03_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG03_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG03_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG03_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG03_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG03_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG03_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG03_STAT_RESERVED_BITWIDTH    16
+// INT_REG100_SET Register
+#define MBOX_INT_REG100_SET_OFS                  0x00001000
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG100_SET_SET_MASK             0xFF
+#define MBOX_INT_REG100_SET_SET_SHIFT            0 
+#define MBOX_INT_REG100_SET_SET_BIT              0xFF
+#define MBOX_INT_REG100_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG100_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG100_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG100_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG100_SET_RESERVED_BITWIDTH    24
+// INT_REG101_SET Register
+#define MBOX_INT_REG101_SET_OFS                  0x00001004
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG101_SET_SET_MASK             0xFF
+#define MBOX_INT_REG101_SET_SET_SHIFT            0 
+#define MBOX_INT_REG101_SET_SET_BIT              0xFF
+#define MBOX_INT_REG101_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG101_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG101_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG101_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG101_SET_RESERVED_BITWIDTH    24
+// INT_REG102_SET Register
+#define MBOX_INT_REG102_SET_OFS                  0x00001008
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG102_SET_SET_MASK             0xFF
+#define MBOX_INT_REG102_SET_SET_SHIFT            0 
+#define MBOX_INT_REG102_SET_SET_BIT              0xFF
+#define MBOX_INT_REG102_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG102_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG102_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG102_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG102_SET_RESERVED_BITWIDTH    24
+// INT_REG103_SET Register
+#define MBOX_INT_REG103_SET_OFS                  0x0000100C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG103_SET_SET_MASK             0xFF
+#define MBOX_INT_REG103_SET_SET_SHIFT            0 
+#define MBOX_INT_REG103_SET_SET_BIT              0xFF
+#define MBOX_INT_REG103_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG103_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG103_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG103_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG103_SET_RESERVED_BITWIDTH    24
+// INT_REG104_SET Register
+#define MBOX_INT_REG104_SET_OFS                  0x00001010
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG104_SET_SET_MASK             0xFF
+#define MBOX_INT_REG104_SET_SET_SHIFT            0 
+#define MBOX_INT_REG104_SET_SET_BIT              0xFF
+#define MBOX_INT_REG104_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG104_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG104_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG104_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG104_SET_RESERVED_BITWIDTH    24
+// INT_REG105_SET Register
+#define MBOX_INT_REG105_SET_OFS                  0x00001014
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG105_SET_SET_MASK             0xFF
+#define MBOX_INT_REG105_SET_SET_SHIFT            0 
+#define MBOX_INT_REG105_SET_SET_BIT              0xFF
+#define MBOX_INT_REG105_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG105_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG105_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG105_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG105_SET_RESERVED_BITWIDTH    24
+// INT_REG106_SET Register
+#define MBOX_INT_REG106_SET_OFS                  0x00001018
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG106_SET_SET_MASK             0xFF
+#define MBOX_INT_REG106_SET_SET_SHIFT            0 
+#define MBOX_INT_REG106_SET_SET_BIT              0xFF
+#define MBOX_INT_REG106_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG106_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG106_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG106_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG106_SET_RESERVED_BITWIDTH    24
+// INT_REG107_SET Register
+#define MBOX_INT_REG107_SET_OFS                  0x0000101C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG107_SET_SET_MASK             0xFF
+#define MBOX_INT_REG107_SET_SET_SHIFT            0 
+#define MBOX_INT_REG107_SET_SET_BIT              0xFF
+#define MBOX_INT_REG107_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG107_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG107_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG107_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG107_SET_RESERVED_BITWIDTH    24
+// INT_REG108_SET Register
+#define MBOX_INT_REG108_SET_OFS                  0x00001020
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG108_SET_SET_MASK             0xFF
+#define MBOX_INT_REG108_SET_SET_SHIFT            0 
+#define MBOX_INT_REG108_SET_SET_BIT              0xFF
+#define MBOX_INT_REG108_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG108_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG108_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG108_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG108_SET_RESERVED_BITWIDTH    24
+// INT_REG109_SET Register
+#define MBOX_INT_REG109_SET_OFS                  0x00001024
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG109_SET_SET_MASK             0xFF
+#define MBOX_INT_REG109_SET_SET_SHIFT            0 
+#define MBOX_INT_REG109_SET_SET_BIT              0xFF
+#define MBOX_INT_REG109_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG109_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG109_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG109_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG109_SET_RESERVED_BITWIDTH    24
+// INT_REG110_SET Register
+#define MBOX_INT_REG110_SET_OFS                  0x00001028
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG110_SET_SET_MASK             0xFF
+#define MBOX_INT_REG110_SET_SET_SHIFT            0 
+#define MBOX_INT_REG110_SET_SET_BIT              0xFF
+#define MBOX_INT_REG110_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG110_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG110_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG110_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG110_SET_RESERVED_BITWIDTH    24
+// INT_REG111_SET Register
+#define MBOX_INT_REG111_SET_OFS                  0x0000102C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG111_SET_SET_MASK             0xFF
+#define MBOX_INT_REG111_SET_SET_SHIFT            0 
+#define MBOX_INT_REG111_SET_SET_BIT              0xFF
+#define MBOX_INT_REG111_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG111_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG111_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG111_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG111_SET_RESERVED_BITWIDTH    24
+// INT_REG112_SET Register
+#define MBOX_INT_REG112_SET_OFS                  0x00001030
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG112_SET_SET_MASK             0xFF
+#define MBOX_INT_REG112_SET_SET_SHIFT            0 
+#define MBOX_INT_REG112_SET_SET_BIT              0xFF
+#define MBOX_INT_REG112_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG112_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG112_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG112_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG112_SET_RESERVED_BITWIDTH    24
+// INT_REG113_SET Register
+#define MBOX_INT_REG113_SET_OFS                  0x00001034
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG113_SET_SET_MASK             0xFF
+#define MBOX_INT_REG113_SET_SET_SHIFT            0 
+#define MBOX_INT_REG113_SET_SET_BIT              0xFF
+#define MBOX_INT_REG113_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG113_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG113_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG113_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG113_SET_RESERVED_BITWIDTH    24
+// INT_REG114_SET Register
+#define MBOX_INT_REG114_SET_OFS                  0x00001038
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG114_SET_SET_MASK             0xFF
+#define MBOX_INT_REG114_SET_SET_SHIFT            0 
+#define MBOX_INT_REG114_SET_SET_BIT              0xFF
+#define MBOX_INT_REG114_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG114_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG114_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG114_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG114_SET_RESERVED_BITWIDTH    24
+// INT_REG115_SET Register
+#define MBOX_INT_REG115_SET_OFS                  0x0000103C
+// SET bitfiled (RW) Reset=0
+#define MBOX_INT_REG115_SET_SET_MASK             0xFF
+#define MBOX_INT_REG115_SET_SET_SHIFT            0 
+#define MBOX_INT_REG115_SET_SET_BIT              0xFF
+#define MBOX_INT_REG115_SET_SET_BITWIDTH         8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG115_SET_RESERVED_MASK        0xFFFFFF00
+#define MBOX_INT_REG115_SET_RESERVED_SHIFT       8 
+#define MBOX_INT_REG115_SET_RESERVED_BIT         0xFFFFFF
+#define MBOX_INT_REG115_SET_RESERVED_BITWIDTH    24
+// INT_REG100_CLEAR Register
+#define MBOX_INT_REG100_CLEAR_OFS                0x00001400
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG100_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG100_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG100_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG100_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG100_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG100_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG100_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG100_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG101_CLEAR Register
+#define MBOX_INT_REG101_CLEAR_OFS                0x00001404
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG101_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG101_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG101_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG101_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG101_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG101_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG101_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG101_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG102_CLEAR Register
+#define MBOX_INT_REG102_CLEAR_OFS                0x00001408
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG102_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG102_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG102_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG102_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG102_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG102_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG102_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG102_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG103_CLEAR Register
+#define MBOX_INT_REG103_CLEAR_OFS                0x0000140C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG103_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG103_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG103_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG103_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG103_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG103_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG103_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG103_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG104_CLEAR Register
+#define MBOX_INT_REG104_CLEAR_OFS                0x00001410
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG104_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG104_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG104_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG104_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG104_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG104_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG104_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG104_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG105_CLEAR Register
+#define MBOX_INT_REG105_CLEAR_OFS                0x00001414
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG105_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG105_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG105_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG105_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG105_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG105_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG105_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG105_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG106_CLEAR Register
+#define MBOX_INT_REG106_CLEAR_OFS                0x00001418
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG106_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG106_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG106_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG106_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG106_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG106_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG106_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG106_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG107_CLEAR Register
+#define MBOX_INT_REG107_CLEAR_OFS                0x0000141C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG107_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG107_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG107_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG107_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG107_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG107_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG107_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG107_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG108_CLEAR Register
+#define MBOX_INT_REG108_CLEAR_OFS                0x00001420
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG108_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG108_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG108_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG108_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG108_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG108_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG108_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG108_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG109_CLEAR Register
+#define MBOX_INT_REG109_CLEAR_OFS                0x00001424
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG109_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG109_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG109_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG109_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG109_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG109_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG109_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG109_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG110_CLEAR Register
+#define MBOX_INT_REG110_CLEAR_OFS                0x00001428
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG110_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG110_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG110_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG110_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG110_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG110_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG110_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG110_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG111_CLEAR Register
+#define MBOX_INT_REG111_CLEAR_OFS                0x0000142C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG111_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG111_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG111_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG111_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG111_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG111_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG111_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG111_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG112_CLEAR Register
+#define MBOX_INT_REG112_CLEAR_OFS                0x00001430
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG112_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG112_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG112_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG112_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG112_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG112_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG112_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG112_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG113_CLEAR Register
+#define MBOX_INT_REG113_CLEAR_OFS                0x00001434
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG113_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG113_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG113_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG113_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG113_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG113_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG113_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG113_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG114_CLEAR Register
+#define MBOX_INT_REG114_CLEAR_OFS                0x00001438
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG114_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG114_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG114_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG114_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG114_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG114_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG114_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG114_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG115_CLEAR Register
+#define MBOX_INT_REG115_CLEAR_OFS                0x0000143C
+// CLEAR bitfiled (RW) Reset=0
+#define MBOX_INT_REG115_CLEAR_CLEAR_MASK         0xFF
+#define MBOX_INT_REG115_CLEAR_CLEAR_SHIFT        0 
+#define MBOX_INT_REG115_CLEAR_CLEAR_BIT          0xFF
+#define MBOX_INT_REG115_CLEAR_CLEAR_BITWIDTH     8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG115_CLEAR_RESERVED_MASK      0xFFFFFF00
+#define MBOX_INT_REG115_CLEAR_RESERVED_SHIFT     8 
+#define MBOX_INT_REG115_CLEAR_RESERVED_BIT       0xFFFFFF
+#define MBOX_INT_REG115_CLEAR_RESERVED_BITWIDTH  24
+// INT_REG100_MASK Register
+#define MBOX_INT_REG100_MASK_OFS                 0x00001800
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG100_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG100_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG100_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG100_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG100_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG100_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG100_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG100_MASK_RESERVED_BITWIDTH   24
+// INT_REG101_MASK Register
+#define MBOX_INT_REG101_MASK_OFS                 0x00001804
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG101_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG101_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG101_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG101_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG101_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG101_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG101_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG101_MASK_RESERVED_BITWIDTH   24
+// INT_REG102_MASK Register
+#define MBOX_INT_REG102_MASK_OFS                 0x00001808
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG102_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG102_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG102_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG102_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG102_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG102_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG102_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG102_MASK_RESERVED_BITWIDTH   24
+// INT_REG103_MASK Register
+#define MBOX_INT_REG103_MASK_OFS                 0x0000180C
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG103_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG103_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG103_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG103_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG103_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG103_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG103_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG103_MASK_RESERVED_BITWIDTH   24
+// INT_REG104_MASK Register
+#define MBOX_INT_REG104_MASK_OFS                 0x00001810
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG104_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG104_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG104_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG104_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG104_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG104_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG104_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG104_MASK_RESERVED_BITWIDTH   24
+// INT_REG105_MASK Register
+#define MBOX_INT_REG105_MASK_OFS                 0x00001814
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG105_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG105_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG105_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG105_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG105_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG105_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG105_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG105_MASK_RESERVED_BITWIDTH   24
+// INT_REG106_MASK Register
+#define MBOX_INT_REG106_MASK_OFS                 0x00001818
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG106_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG106_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG106_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG106_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG106_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG106_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG106_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG106_MASK_RESERVED_BITWIDTH   24
+// INT_REG107_MASK Register
+#define MBOX_INT_REG107_MASK_OFS                 0x0000181C
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG107_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG107_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG107_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG107_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG107_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG107_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG107_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG107_MASK_RESERVED_BITWIDTH   24
+// INT_REG108_MASK Register
+#define MBOX_INT_REG108_MASK_OFS                 0x00001820
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG108_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG108_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG108_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG108_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG108_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG108_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG108_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG108_MASK_RESERVED_BITWIDTH   24
+// INT_REG109_MASK Register
+#define MBOX_INT_REG109_MASK_OFS                 0x00001824
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG109_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG109_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG109_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG109_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG109_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG109_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG109_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG109_MASK_RESERVED_BITWIDTH   24
+// INT_REG110_MASK Register
+#define MBOX_INT_REG110_MASK_OFS                 0x00001828
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG110_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG110_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG110_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG110_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG110_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG110_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG110_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG110_MASK_RESERVED_BITWIDTH   24
+// INT_REG111_MASK Register
+#define MBOX_INT_REG111_MASK_OFS                 0x0000182C
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG111_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG111_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG111_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG111_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG111_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG111_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG111_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG111_MASK_RESERVED_BITWIDTH   24
+// INT_REG112_MASK Register
+#define MBOX_INT_REG112_MASK_OFS                 0x00001830
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG112_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG112_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG112_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG112_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG112_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG112_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG112_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG112_MASK_RESERVED_BITWIDTH   24
+// INT_REG113_MASK Register
+#define MBOX_INT_REG113_MASK_OFS                 0x00001834
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG113_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG113_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG113_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG113_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG113_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG113_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG113_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG113_MASK_RESERVED_BITWIDTH   24
+// INT_REG114_MASK Register
+#define MBOX_INT_REG114_MASK_OFS                 0x00001838
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG114_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG114_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG114_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG114_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG114_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG114_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG114_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG114_MASK_RESERVED_BITWIDTH   24
+// INT_REG115_MASK Register
+#define MBOX_INT_REG115_MASK_OFS                 0x0000183C
+// MASK bitfiled (RW) Reset=11111111
+#define MBOX_INT_REG115_MASK_MASK_MASK           0xFF
+#define MBOX_INT_REG115_MASK_MASK_SHIFT          0 
+#define MBOX_INT_REG115_MASK_MASK_BIT            0xFF
+#define MBOX_INT_REG115_MASK_MASK_BITWIDTH       8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_REG115_MASK_RESERVED_MASK       0xFFFFFF00
+#define MBOX_INT_REG115_MASK_RESERVED_SHIFT      8 
+#define MBOX_INT_REG115_MASK_RESERVED_BIT        0xFFFFFF
+#define MBOX_INT_REG115_MASK_RESERVED_BITWIDTH   24
+// INT_SIG10_SEL Register
+#define MBOX_INT_SIG10_SEL_OFS                   0x00001C00
+// SEL bitfiled (RW) Reset=1111
+#define MBOX_INT_SIG10_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG10_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG10_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG10_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG10_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG10_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG10_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG10_SEL_RESERVED_BITWIDTH     16
+// INT_SIG10_STAT Register
+#define MBOX_INT_SIG10_STAT_OFS                  0x00001C04
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG10_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG10_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG10_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG10_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG10_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG10_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG10_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG10_STAT_RESERVED_BITWIDTH    16
+// INT_SIG11_SEL Register
+#define MBOX_INT_SIG11_SEL_OFS                   0x00001C08
+// SEL bitfiled (RW) Reset=11110000
+#define MBOX_INT_SIG11_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG11_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG11_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG11_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG11_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG11_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG11_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG11_SEL_RESERVED_BITWIDTH     16
+// INT_SIG11_STAT Register
+#define MBOX_INT_SIG11_STAT_OFS                  0x00001C0C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG11_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG11_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG11_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG11_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG11_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG11_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG11_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG11_STAT_RESERVED_BITWIDTH    16
+// INT_SIG12_SEL Register
+#define MBOX_INT_SIG12_SEL_OFS                   0x00001C10
+// SEL bitfiled (RW) Reset=111100000000
+#define MBOX_INT_SIG12_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG12_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG12_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG12_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG12_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG12_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG12_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG12_SEL_RESERVED_BITWIDTH     16
+// INT_SIG12_STAT Register
+#define MBOX_INT_SIG12_STAT_OFS                  0x00001C14
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG12_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG12_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG12_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG12_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG12_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG12_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG12_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG12_STAT_RESERVED_BITWIDTH    16
+// INT_SIG13_SEL Register
+#define MBOX_INT_SIG13_SEL_OFS                   0x00001C18
+// SEL bitfiled (RW) Reset=1111000000000000
+#define MBOX_INT_SIG13_SEL_SEL_MASK              0xFFFF
+#define MBOX_INT_SIG13_SEL_SEL_SHIFT             0 
+#define MBOX_INT_SIG13_SEL_SEL_BIT               0xFFFF
+#define MBOX_INT_SIG13_SEL_SEL_BITWIDTH          16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG13_SEL_RESERVED_MASK         0xFFFF0000
+#define MBOX_INT_SIG13_SEL_RESERVED_SHIFT        16 
+#define MBOX_INT_SIG13_SEL_RESERVED_BIT          0xFFFF
+#define MBOX_INT_SIG13_SEL_RESERVED_BITWIDTH     16
+// INT_SIG13_STAT Register
+#define MBOX_INT_SIG13_STAT_OFS                  0x00001C1C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_SIG13_STAT_STAT_MASK            0xFFFF
+#define MBOX_INT_SIG13_STAT_STAT_SHIFT           0 
+#define MBOX_INT_SIG13_STAT_STAT_BIT             0xFFFF
+#define MBOX_INT_SIG13_STAT_STAT_BITWIDTH        16
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SIG13_STAT_RESERVED_MASK        0xFFFF0000
+#define MBOX_INT_SIG13_STAT_RESERVED_SHIFT       16 
+#define MBOX_INT_SIG13_STAT_RESERVED_BIT         0xFFFF
+#define MBOX_INT_SIG13_STAT_RESERVED_BITWIDTH    16
+// MBOX_TAS00 Register
+#define MBOX_MBOX_TAS00_OFS                      0x00008000
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS00_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS00_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS00_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS00_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS00_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS00_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS00_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS00_RESERVED_BITWIDTH        31
+// MBOX_TAS01 Register
+#define MBOX_MBOX_TAS01_OFS                      0x00008004
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS01_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS01_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS01_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS01_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS01_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS01_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS01_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS01_RESERVED_BITWIDTH        31
+// MBOX_TAS02 Register
+#define MBOX_MBOX_TAS02_OFS                      0x00008008
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS02_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS02_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS02_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS02_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS02_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS02_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS02_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS02_RESERVED_BITWIDTH        31
+// MBOX_TAS03 Register
+#define MBOX_MBOX_TAS03_OFS                      0x0000800C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS03_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS03_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS03_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS03_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS03_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS03_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS03_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS03_RESERVED_BITWIDTH        31
+// MBOX_TAS04 Register
+#define MBOX_MBOX_TAS04_OFS                      0x00008010
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS04_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS04_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS04_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS04_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS04_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS04_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS04_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS04_RESERVED_BITWIDTH        31
+// MBOX_TAS05 Register
+#define MBOX_MBOX_TAS05_OFS                      0x00008014
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS05_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS05_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS05_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS05_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS05_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS05_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS05_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS05_RESERVED_BITWIDTH        31
+// MBOX_TAS06 Register
+#define MBOX_MBOX_TAS06_OFS                      0x00008018
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS06_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS06_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS06_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS06_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS06_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS06_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS06_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS06_RESERVED_BITWIDTH        31
+// MBOX_TAS07 Register
+#define MBOX_MBOX_TAS07_OFS                      0x0000801C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS07_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS07_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS07_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS07_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS07_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS07_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS07_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS07_RESERVED_BITWIDTH        31
+// MBOX_TAS08 Register
+#define MBOX_MBOX_TAS08_OFS                      0x00008020
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS08_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS08_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS08_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS08_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS08_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS08_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS08_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS08_RESERVED_BITWIDTH        31
+// MBOX_TAS09 Register
+#define MBOX_MBOX_TAS09_OFS                      0x00008024
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS09_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS09_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS09_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS09_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS09_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS09_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS09_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS09_RESERVED_BITWIDTH        31
+// MBOX_TAS10 Register
+#define MBOX_MBOX_TAS10_OFS                      0x00008028
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS10_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS10_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS10_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS10_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS10_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS10_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS10_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS10_RESERVED_BITWIDTH        31
+// MBOX_TAS11 Register
+#define MBOX_MBOX_TAS11_OFS                      0x0000802C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS11_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS11_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS11_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS11_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS11_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS11_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS11_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS11_RESERVED_BITWIDTH        31
+// MBOX_TAS12 Register
+#define MBOX_MBOX_TAS12_OFS                      0x00008030
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS12_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS12_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS12_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS12_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS12_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS12_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS12_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS12_RESERVED_BITWIDTH        31
+// MBOX_TAS13 Register
+#define MBOX_MBOX_TAS13_OFS                      0x00008034
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS13_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS13_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS13_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS13_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS13_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS13_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS13_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS13_RESERVED_BITWIDTH        31
+// MBOX_TAS14 Register
+#define MBOX_MBOX_TAS14_OFS                      0x00008038
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS14_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS14_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS14_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS14_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS14_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS14_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS14_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS14_RESERVED_BITWIDTH        31
+// MBOX_TAS15 Register
+#define MBOX_MBOX_TAS15_OFS                      0x0000803C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS15_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS15_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS15_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS15_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS15_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS15_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS15_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS15_RESERVED_BITWIDTH        31
+// MBOX_TAS16 Register
+#define MBOX_MBOX_TAS16_OFS                      0x00008040
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS16_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS16_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS16_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS16_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS16_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS16_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS16_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS16_RESERVED_BITWIDTH        31
+// MBOX_TAS17 Register
+#define MBOX_MBOX_TAS17_OFS                      0x00008044
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS17_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS17_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS17_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS17_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS17_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS17_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS17_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS17_RESERVED_BITWIDTH        31
+// MBOX_TAS18 Register
+#define MBOX_MBOX_TAS18_OFS                      0x00008048
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS18_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS18_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS18_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS18_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS18_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS18_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS18_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS18_RESERVED_BITWIDTH        31
+// MBOX_TAS19 Register
+#define MBOX_MBOX_TAS19_OFS                      0x0000804C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS19_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS19_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS19_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS19_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS19_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS19_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS19_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS19_RESERVED_BITWIDTH        31
+// MBOX_TAS20 Register
+#define MBOX_MBOX_TAS20_OFS                      0x00008050
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS20_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS20_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS20_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS20_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS20_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS20_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS20_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS20_RESERVED_BITWIDTH        31
+// MBOX_TAS21 Register
+#define MBOX_MBOX_TAS21_OFS                      0x00008054
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS21_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS21_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS21_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS21_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS21_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS21_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS21_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS21_RESERVED_BITWIDTH        31
+// MBOX_TAS22 Register
+#define MBOX_MBOX_TAS22_OFS                      0x00008058
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS22_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS22_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS22_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS22_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS22_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS22_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS22_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS22_RESERVED_BITWIDTH        31
+// MBOX_TAS23 Register
+#define MBOX_MBOX_TAS23_OFS                      0x0000805C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS23_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS23_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS23_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS23_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS23_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS23_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS23_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS23_RESERVED_BITWIDTH        31
+// MBOX_TAS24 Register
+#define MBOX_MBOX_TAS24_OFS                      0x00008060
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS24_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS24_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS24_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS24_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS24_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS24_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS24_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS24_RESERVED_BITWIDTH        31
+// MBOX_TAS25 Register
+#define MBOX_MBOX_TAS25_OFS                      0x00008064
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS25_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS25_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS25_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS25_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS25_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS25_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS25_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS25_RESERVED_BITWIDTH        31
+// MBOX_TAS26 Register
+#define MBOX_MBOX_TAS26_OFS                      0x00008068
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS26_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS26_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS26_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS26_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS26_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS26_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS26_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS26_RESERVED_BITWIDTH        31
+// MBOX_TAS27 Register
+#define MBOX_MBOX_TAS27_OFS                      0x0000806C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS27_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS27_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS27_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS27_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS27_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS27_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS27_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS27_RESERVED_BITWIDTH        31
+// MBOX_TAS28 Register
+#define MBOX_MBOX_TAS28_OFS                      0x00008070
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS28_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS28_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS28_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS28_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS28_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS28_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS28_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS28_RESERVED_BITWIDTH        31
+// MBOX_TAS29 Register
+#define MBOX_MBOX_TAS29_OFS                      0x00008074
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS29_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS29_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS29_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS29_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS29_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS29_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS29_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS29_RESERVED_BITWIDTH        31
+// MBOX_TAS30 Register
+#define MBOX_MBOX_TAS30_OFS                      0x00008078
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS30_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS30_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS30_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS30_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS30_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS30_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS30_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS30_RESERVED_BITWIDTH        31
+// MBOX_TAS31 Register
+#define MBOX_MBOX_TAS31_OFS                      0x0000807C
+// TAS bitfiled (RW) Reset=0
+#define MBOX_MBOX_TAS31_TAS_MASK                 0x1
+#define MBOX_MBOX_TAS31_TAS_SHIFT                0 
+#define MBOX_MBOX_TAS31_TAS_BIT                  0x1
+#define MBOX_MBOX_TAS31_TAS_BITWIDTH             1
+// reserved bitfiled (RO) Reset=0
+#define MBOX_MBOX_TAS31_RESERVED_MASK            0xFFFFFFFE
+#define MBOX_MBOX_TAS31_RESERVED_SHIFT           1 
+#define MBOX_MBOX_TAS31_RESERVED_BIT             0x7FFFFFFF
+#define MBOX_MBOX_TAS31_RESERVED_BITWIDTH        31
+// INT_DEG_MASK00 Register
+#define MBOX_INT_DEG_MASK00_OFS                  0x00010000
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK00_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK00_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK00_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK00_MASK_BITWIDTH        32
+// INT_DEG_STAT00 Register
+#define MBOX_INT_DEG_STAT00_OFS                  0x00010004
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT00_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT00_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT00_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT00_STAT_BITWIDTH        32
+// INT_DEG_MASK01 Register
+#define MBOX_INT_DEG_MASK01_OFS                  0x00010008
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK01_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK01_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK01_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK01_MASK_BITWIDTH        32
+// INT_DEG_STAT01 Register
+#define MBOX_INT_DEG_STAT01_OFS                  0x0001000C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT01_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT01_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT01_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT01_STAT_BITWIDTH        32
+// INT_DEG_MASK02 Register
+#define MBOX_INT_DEG_MASK02_OFS                  0x00010010
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK02_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK02_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK02_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK02_MASK_BITWIDTH        32
+// INT_DEG_STAT02 Register
+#define MBOX_INT_DEG_STAT02_OFS                  0x00010014
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT02_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT02_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT02_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT02_STAT_BITWIDTH        32
+// INT_DEG_MASK03 Register
+#define MBOX_INT_DEG_MASK03_OFS                  0x00010018
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK03_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK03_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK03_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK03_MASK_BITWIDTH        32
+// INT_DEG_STAT03 Register
+#define MBOX_INT_DEG_STAT03_OFS                  0x0001001C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT03_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT03_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT03_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT03_STAT_BITWIDTH        32
+// INT_DEG_MASK04 Register
+#define MBOX_INT_DEG_MASK04_OFS                  0x00010020
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK04_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK04_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK04_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK04_MASK_BITWIDTH        32
+// INT_DEG_STAT04 Register
+#define MBOX_INT_DEG_STAT04_OFS                  0x00010024
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT04_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT04_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT04_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT04_STAT_BITWIDTH        32
+// INT_DEG_MASK05 Register
+#define MBOX_INT_DEG_MASK05_OFS                  0x00010028
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK05_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK05_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK05_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK05_MASK_BITWIDTH        32
+// INT_DEG_STAT05 Register
+#define MBOX_INT_DEG_STAT05_OFS                  0x0001002C
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT05_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT05_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT05_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT05_STAT_BITWIDTH        32
+// INT_DEG_MASK06 Register
+#define MBOX_INT_DEG_MASK06_OFS                  0x00010030
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_DEG_MASK06_MASK_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_MASK06_MASK_SHIFT           0 
+#define MBOX_INT_DEG_MASK06_MASK_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_MASK06_MASK_BITWIDTH        32
+// INT_DEG_STAT06 Register
+#define MBOX_INT_DEG_STAT06_OFS                  0x00010034
+// STAT bitfiled (RO) Reset=0
+#define MBOX_INT_DEG_STAT06_STAT_MASK            0xFFFFFFFF
+#define MBOX_INT_DEG_STAT06_STAT_SHIFT           0 
+#define MBOX_INT_DEG_STAT06_STAT_BIT             0xFFFFFFFF
+#define MBOX_INT_DEG_STAT06_STAT_BITWIDTH        32
+// INT_MASTER_MASK0 Register
+#define MBOX_INT_MASTER_MASK0_OFS                0x00012000
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK0_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK0_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK0_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK0_MASK_BITWIDTH      32
+// INT_MASTER_MASK1 Register
+#define MBOX_INT_MASTER_MASK1_OFS                0x00012004
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK1_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK1_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK1_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK1_MASK_BITWIDTH      32
+// INT_MASTER_MASK2 Register
+#define MBOX_INT_MASTER_MASK2_OFS                0x00012008
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK2_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK2_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK2_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK2_MASK_BITWIDTH      32
+// INT_MASTER_MASK3 Register
+#define MBOX_INT_MASTER_MASK3_OFS                0x0001200C
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK3_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK3_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK3_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK3_MASK_BITWIDTH      32
+// INT_MASTER_MASK4 Register
+#define MBOX_INT_MASTER_MASK4_OFS                0x00012010
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK4_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK4_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK4_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK4_MASK_BITWIDTH      32
+// INT_MASTER_MASK5 Register
+#define MBOX_INT_MASTER_MASK5_OFS                0x00012014
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK5_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK5_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK5_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK5_MASK_BITWIDTH      32
+// INT_MASTER_MASK6 Register
+#define MBOX_INT_MASTER_MASK6_OFS                0x00012018
+// MASK bitfiled (RW) Reset=11111111111111111111111111111111
+#define MBOX_INT_MASTER_MASK6_MASK_MASK          0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK6_MASK_SHIFT         0 
+#define MBOX_INT_MASTER_MASK6_MASK_BIT           0xFFFFFFFF
+#define MBOX_INT_MASTER_MASK6_MASK_BITWIDTH      32
+// INT_SEL0 Register
+#define MBOX_INT_SEL0_OFS                        0x00013000
+// SELECT bitfiled (RW) Reset=0
+#define MBOX_INT_SEL0_SELECT_MASK                0xFF
+#define MBOX_INT_SEL0_SELECT_SHIFT               0 
+#define MBOX_INT_SEL0_SELECT_BIT                 0xFF
+#define MBOX_INT_SEL0_SELECT_BITWIDTH            8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SEL0_RESERVED_MASK              0xFFFFFF00
+#define MBOX_INT_SEL0_RESERVED_SHIFT             8 
+#define MBOX_INT_SEL0_RESERVED_BIT               0xFFFFFF
+#define MBOX_INT_SEL0_RESERVED_BITWIDTH          24
+// INT_SEL1 Register
+#define MBOX_INT_SEL1_OFS                        0x00013004
+// SELECT bitfiled (RW) Reset=0
+#define MBOX_INT_SEL1_SELECT_MASK                0xFF
+#define MBOX_INT_SEL1_SELECT_SHIFT               0 
+#define MBOX_INT_SEL1_SELECT_BIT                 0xFF
+#define MBOX_INT_SEL1_SELECT_BITWIDTH            8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SEL1_RESERVED_MASK              0xFFFFFF00
+#define MBOX_INT_SEL1_RESERVED_SHIFT             8 
+#define MBOX_INT_SEL1_RESERVED_BIT               0xFFFFFF
+#define MBOX_INT_SEL1_RESERVED_BITWIDTH          24
+// INT_SEL2 Register
+#define MBOX_INT_SEL2_OFS                        0x00013008
+// SELECT bitfiled (RW) Reset=0
+#define MBOX_INT_SEL2_SELECT_MASK                0xFF
+#define MBOX_INT_SEL2_SELECT_SHIFT               0 
+#define MBOX_INT_SEL2_SELECT_BIT                 0xFF
+#define MBOX_INT_SEL2_SELECT_BITWIDTH            8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SEL2_RESERVED_MASK              0xFFFFFF00
+#define MBOX_INT_SEL2_RESERVED_SHIFT             8 
+#define MBOX_INT_SEL2_RESERVED_BIT               0xFFFFFF
+#define MBOX_INT_SEL2_RESERVED_BITWIDTH          24
+// INT_SEL3 Register
+#define MBOX_INT_SEL3_OFS                        0x0001300C
+// SELECT bitfiled (RW) Reset=0
+#define MBOX_INT_SEL3_SELECT_MASK                0xFF
+#define MBOX_INT_SEL3_SELECT_SHIFT               0 
+#define MBOX_INT_SEL3_SELECT_BIT                 0xFF
+#define MBOX_INT_SEL3_SELECT_BITWIDTH            8
+// reserved bitfiled (RO) Reset=0
+#define MBOX_INT_SEL3_RESERVED_MASK              0xFFFFFF00
+#define MBOX_INT_SEL3_RESERVED_SHIFT             8 
+#define MBOX_INT_SEL3_RESERVED_BIT               0xFFFFFF
+#define MBOX_INT_SEL3_RESERVED_BITWIDTH          24
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* _MBOX_REG_DEF_H */

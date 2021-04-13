@@ -1,0 +1,29 @@
+menuconfig STAGING_APPLITE
+	bool "ApP Lite drivers"
+	default N
+	---help---
+	  Enable support for various drivers needed on the ApP Lite platform
+
+if STAGING_APPLITE
+
+source "drivers/staging/applite/ma/Kconfig"
+
+source "drivers/staging/applite/vconv/Kconfig"
+
+source "drivers/staging/applite/veu/Kconfig"
+
+source "drivers/staging/applite/vdu/Kconfig"
+
+source "drivers/staging/applite/syscon/Kconfig"
+
+source "drivers/staging/applite/irecog/Kconfig"
+
+source "drivers/staging/applite/pwm/Kconfig"
+
+source "drivers/staging/applite/yuvc/Kconfig"
+
+source "drivers/staging/applite/emmc/Kconfig"
+
+source "drivers/staging/applite/miragelite/Kconfig"
+
+endif # if STAGING_APPLITE

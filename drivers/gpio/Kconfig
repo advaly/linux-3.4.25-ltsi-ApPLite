@@ -520,4 +520,9 @@ config GPIO_TPS65910
 	help
 	  Select this option to enable GPIO driver for the TPS65910
 	  chip family.
+
+config GPIO_TZ3000
+	def_bool y
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+
 endif

@@ -354,6 +354,7 @@ extern sector_t swapdev_block(int, pgoff_t);
 extern int reuse_swap_page(struct page *);
 extern int try_to_free_swap(struct page *);
 struct backing_dev_info;
+int swapoff_all(void);
 
 /* linux/mm/thrash.c */
 extern struct mm_struct *swap_token_mm;

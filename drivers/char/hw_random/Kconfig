@@ -236,6 +236,19 @@ config HW_RANDOM_PPC4XX
 
 	 If unsure, say N.
 
+config HW_RANDOM_APPLITE
+	tristate "TZ3000 / TZ2000 random number generator support"
+	depends on HW_RANDOM && (ARCH_TZ2000 || ARCH_TZ3000)
+	select APPLITE_SYSCON
+	---help---
+	  This driver provides kernel-side support for the Random Number
+	  Generator hardware found on TZ3000 or TZ2000 SoC.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called applite-rng.
+
+	  If unsure, say Y.
+
 config UML_RANDOM
 	depends on UML
 	tristate "Hardware random number generator"
@@ -250,3 +263,4 @@ config UML_RANDOM
 	  (check your distro, or download from
 	  http://sourceforge.net/projects/gkernel/).  rngd periodically reads
 	  /dev/hwrng and injects the entropy into /dev/random.
+

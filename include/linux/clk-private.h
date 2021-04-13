@@ -43,6 +43,10 @@ struct clk {
 	unsigned int		notifier_count;
 #ifdef CONFIG_COMMON_CLK_DEBUG
 	struct dentry		*dentry;
+	unsigned int		total_disable_count;
+	u64			total_enabled_time;
+	u64			total_disabled_time;
+	u64			last_time;
 #endif
 };
 

@@ -155,7 +155,11 @@ int vb2_mmap_pfn_range(struct vm_area_struct *vma, unsigned long paddr,
 
 	size = min_t(unsigned long, vma->vm_end - vma->vm_start, size);
 
+#ifdef CONFIG_VIDEO_APPLITE_CAMIF
+	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+#else
 	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+#endif
 	ret = remap_pfn_range(vma, vma->vm_start, paddr >> PAGE_SHIFT,
 				size, vma->vm_page_prot);
 	if (ret) {

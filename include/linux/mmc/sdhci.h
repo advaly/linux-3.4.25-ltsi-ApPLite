@@ -91,6 +91,12 @@ struct sdhci_host {
 	unsigned int quirks2;	/* More deviations from spec. */
 
 #define SDHCI_QUIRK2_HOST_OFF_CARD_ON			(1<<0)
+#define SDHCI_QUIRK2_RESET_BOTH_CMD_DATA		(1<<1)
+#define SDHCI_QUIRK2_RESET_AFTER_AUTO_TUNING		(1<<2)
+#define SDHCI_QUIRK2_CHECK_CLK_BEFORE_SEND_COMMAND	(1<<3)
+#define SDHCI_QUIRK2_WAIT_CARD_DETECT_ON_RESUME		(1<<4)
+#define SDHCI_QUIRK2_STOP_CLK_NONSIMULTANEOUOSLY	(1<<5)
+#define SDHCI_QUIRK2_DELAY_BEFORE_RESET_ON_ERROR	(1<<6)
 
 	int irq;		/* Device IRQ */
 	void __iomem *ioaddr;	/* Mapped address */

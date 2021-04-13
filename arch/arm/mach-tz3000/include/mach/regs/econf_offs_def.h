@@ -1,0 +1,91 @@
+/*
+ * arch/arm/mach-tz3000/include/mach/regs/econf_offs_def.h
+ *
+ * (C) Copyright TOSHIBA Corporation
+ * Semiconductor & Storage Products Company 2013
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#ifndef ECONF_OFFS_DEF_H
+#define ECONF_OFFS_DEF_H
+
+#ifdef __cplusplus
+extern  {
+#endif /* __cplusplus */
+
+#define ECONF_VDU0_ADDRCONF0_OFFS      0x00000000
+#define ECONF_VDU0_ADDRCONF1_OFFS      0x00000008
+#define ECONF_VDU1_ADDRCONF0_OFFS      0x00000010
+#define ECONF_VDU1_ADDRCONF1_OFFS      0x00000018
+#define ECONF_VEU0_ADDRCONF0_OFFS      0x00000020
+#define ECONF_VEU0_ADDRCONF1_OFFS      0x00000028
+#define ECONF_VDIME_ADDRCONF0_OFFS     0x00000030
+#define ECONF_VDIME_ADDRCONF1_OFFS     0x00000038
+#define ECONF_GPIER_PM_OFFS            0x00000040
+#define ECONF_VPIER_PM_OFFS            0x00000048
+#define ECONF_IPIER_PM_OFFS            0x00000050
+#define ECONF_VTILE_SETTING_OFFS       0x00000080
+#define ECONF_EMMCA_CFG_CAPABILITY0_OFFS 0x00000100
+#define ECONF_EMMCA_CFG_CAPABILITY1_OFFS 0x00000108
+#define ECONF_EMMCA_CFG_MAXCURNT_OFFS  0x00000110
+#define ECONF_EMMCA_CFG_PRESET0_OFFS   0x00000120
+#define ECONF_EMMCA_CFG_PRESET1_OFFS   0x00000128
+#define ECONF_EMMCA_CFG_PRESET2_OFFS   0x00000130
+#define ECONF_EMMCA_CFG_PRESET3_OFFS   0x00000138
+#define ECONF_EMMCA_CFG_WKUP_OFFS      0x00000140
+#define ECONF_EMMCA_CTRL_DLYCHG_OFFS   0x00000150
+#define ECONF_EMMCA_CTRL_INDLY_OFFS    0x00000158
+#define ECONF_EMMCA_CTRL_OUTDLY_OFFS   0x00000160
+#define ECONF_EMMCA_CTRL_DLL0_OFFS     0x00000168
+#define ECONF_EMMCA_CTRL_DLL1_OFFS     0x00000170
+#define ECONF_EMMCB_CFG_CAPABILITY0_OFFS 0x00000200
+#define ECONF_EMMCB_CFG_CAPABILITY1_OFFS 0x00000208
+#define ECONF_EMMCB_CFG_MAXCURNT_OFFS  0x00000210
+#define ECONF_EMMCB_CFG_PRESET0_OFFS   0x00000220
+#define ECONF_EMMCB_CFG_PRESET1_OFFS   0x00000228
+#define ECONF_EMMCB_CFG_PRESET2_OFFS   0x00000230
+#define ECONF_EMMCB_CFG_PRESET3_OFFS   0x00000238
+#define ECONF_EMMCB_CFG_WKUP_OFFS      0x00000240
+#define ECONF_EMMCB_CTRL_DLYCHG_OFFS   0x00000250
+#define ECONF_EMMCB_CTRL_INDLY_OFFS    0x00000258
+#define ECONF_EMMCB_CTRL_OUTDLY_OFFS   0x00000260
+#define ECONF_EMMCB_CTRL_DLL0_OFFS     0x00000268
+#define ECONF_EMMCB_CTRL_DLL1_OFFS     0x00000270
+#define ECONF_EMMCC_CFG_CAPABILITY0_OFFS 0x00000300
+#define ECONF_EMMCC_CFG_CAPABILITY1_OFFS 0x00000308
+#define ECONF_EMMCC_CFG_MAXCURNT_OFFS  0x00000310
+#define ECONF_EMMCC_CFG_PRESET0_OFFS   0x00000320
+#define ECONF_EMMCC_CFG_PRESET1_OFFS   0x00000328
+#define ECONF_EMMCC_CFG_PRESET2_OFFS   0x00000330
+#define ECONF_EMMCC_CFG_PRESET3_OFFS   0x00000338
+#define ECONF_EMMCC_CFG_WKUP_OFFS      0x00000340
+#define ECONF_EMMCC_CTRL_DLYCHG_OFFS   0x00000350
+#define ECONF_EMMCC_CTRL_INDLY_OFFS    0x00000358
+#define ECONF_EMMCC_CTRL_OUTDLY_OFFS   0x00000360
+#define ECONF_EMMCC_CTRL_DLL0_OFFS     0x00000368
+#define ECONF_EMMCC_CTRL_DLL1_OFFS     0x00000370
+#define ECONF_HNANDCTL_OFFS            0x000003F0
+#define ECONF_PCIEEP_INTCFG_OFFS       0x00000400
+#define ECONF_USB3XHCI_FLADJ_OFFS      0x00000500
+#define ECONF_USB2PHY_CONFIG0_OFFS     0x00000600
+#define ECONF_USB2PHY_CONFIG1_OFFS     0x00000610
+#define ECONF_HSIO_MUX_CTL_OFFS        0x00000700
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* ECONF_OFFS_DEF_H */

@@ -1,0 +1,182 @@
+menuconfig FB_APPLITE
+	bool "ApP Lite frame buffer device support"
+	depends on FB && APPLITE
+	help
+	  This enables support for ApP Lite frame buffer device.
+
+if FB_APPLITE && FB_APPLITE_BASIC
+
+config FB_TZ2000
+	tristate "TZ2000 frame buffer device support"
+	depends on FB_APPLITE && ARCH_TZ2000
+	select FB_SYS_FILLRECT
+	select FB_SYS_COPYAREA
+	select FB_SYS_IMAGEBLIT
+	select FB_SYS_FOPS
+	select APPLITE_PWM
+	---help---
+	  This is the ApP Lite TZ2000 frame buffer device.
+
+if FB_TZ2000
+
+choice
+        prompt "Display setting"
+        default FB_TZ2000_DISPLAY_F07A_0102
+
+config FB_TZ2000_DISPLAY_F07A_0102_58
+	bool "F07A-0102 (800x480@58.19)"
+
+config FB_TZ2000_DISPLAY_NHD4_3_84
+	bool "NHD-4.3 (480x272@84.38)"
+
+config FB_TZ2000_DISPLAY_NHD4_3_59
+	bool "NHD-4.3 (480x272@59.94)"
+
+config FB_TZ2000_DISPLAY_NHD4_3_29
+	bool "NHD-4.3 (480x272@29.97)"
+
+config FB_TZ2000_DISPLAY_ILI6480G2_59
+	bool "ILI6480G2 (480x272@59.94)"
+	select FB_TZ2000_USE_PWM0
+
+config FB_TZ2000_DISPLAY_ILI6480G2_29
+	bool "ILI6480G2 (480x272@29.97)"
+	select FB_TZ2000_USE_PWM0
+
+endchoice
+
+choice
+        prompt "Resource mode setting"
+        default FB_APPLITE_BASIC_RESOURCE_NORMAL
+
+config FB_APPLITE_BASIC_RESOURCE_NORMAL
+	bool "Normal mode (max bpp=32 tripple buffers)"
+	depends on CMA
+
+config FB_APPLITE_BASIC_RESOURCE_MINIMAL
+	bool "Minimal mode with DRAM (bpp=16 single buffer only)"
+
+config FB_APPLITE_BASIC_RESOURCE_MINIMAL_SRAM
+	bool "Minimal mode with SRAM (default: bpp=16 single buffer)"
+
+endchoice
+
+config FB_APPLITE_BASIC_GFX_MERGED
+	bool "Merge GFX driver."
+	depends on FB_TZ2000
+	default y
+	---help---
+	  Merge the tz2000gfx GFX driver into the tz2000fb FrameBuffer driver.
+
+config FB_TZ2000_USE_PWM0
+	bool "Use PWM[0]"
+
+endif # FB_TZ2000
+
+config FB_TZ3000
+	tristate "TZ3000 frame buffer device support"
+	depends on FB_APPLITE && ARCH_TZ3000 && CMA
+	select FB_SYS_FILLRECT
+	select FB_SYS_COPYAREA
+	select FB_SYS_IMAGEBLIT
+	select FB_SYS_FOPS
+	---help---
+	  This is the ApP Lite TZ3000 frame buffer device.
+
+endif # FB_APPLITE_BASIC
+
+if FB_APPLITE && FB_APPLITE_STANDARD
+
+config FB_TZ2000
+	tristate "TZ2000 frame buffer device support"
+	depends on FB_APPLITE && ARCH_TZ2000 && CMA
+	select FB_SYS_FILLRECT
+	select FB_SYS_COPYAREA
+	select FB_SYS_IMAGEBLIT
+	select FB_SYS_FOPS
+	---help---
+	  This is the ApP Lite TZ2000 frame buffer device.
+
+if FB_TZ2000
+choice
+	prompt "Panel setting"
+	default FB_APPLITE_PANEL_F07A_0102
+
+config FB_APPLITE_PANEL_F07A_0102
+	bool "F07A-0102 (800x480@58.19)"
+
+config FB_APPLITE_PANEL_NHD4_3
+	bool "NHD-4.3 (480x272@84.38)"
+
+config FB_APPLITE_PANEL_NHD4_3_59
+	bool "NHD-4.3 (480x272@59.94)"
+
+config FB_APPLITE_PANEL_NHD4_3_29
+	bool "NHD-4.3 (480x272@29.97)"
+
+config FB_APPLITE_PANEL_ILI6480G2_59
+	bool "ILI6480G2 (480x272@59.94)"
+	select APPLITE_PWM
+
+config FB_APPLITE_PANEL_ILI6480G2_29
+	bool "ILI6480G2 (480x272@29.97)"
+	select APPLITE_PWM
+
+endchoice
+endif # FB_TZ2000
+
+config FB_TZ3000
+	tristate "TZ3000 frame buffer device support"
+	depends on FB_APPLITE && ARCH_TZ3000 && CMA
+	select FB_SYS_FILLRECT
+	select FB_SYS_COPYAREA
+	select FB_SYS_IMAGEBLIT
+	select FB_SYS_FOPS
+	---help---
+	  This is the ApP Lite TZ3000 frame buffer device.
+
+config D2DP
+	bool "DSI to Display Port setting"
+	depends on FB_TZ3000
+	default y
+	---help---
+	  This is the setting of DSI to Display Port.
+
+config APPLITEFB_ENABLE_LAYER
+	int "number of layer"
+	depends on FB_TZ2000 || FB_TZ3000
+	range 1 2 if FB_TZ3000
+	range 1 5 if FB_TZ2000
+	default 1
+	---help---
+	  number of enable layer.
+
+config APPLITEFB_DEFAULT_FB_MAGNIFICATION
+	int "number of FrameBuffer area"
+	depends on FB_TZ2000 || FB_TZ3000
+	default "3"
+	help
+	  The  number of FrameBuffer area that are supported.
+	  Default is 3.
+
+config APPLITEFB_DEFAULT_GFX_SIZE
+	int "Size of GFX area in Mega Bytes"
+	depends on FB_TZ2000
+	default "16"
+	help
+	  Size of GFX area that are supported.
+	  Default is 16(16MB).
+
+endif # FB_APPLITE_STANDARD
+
+choice
+        prompt "Implementation"
+        default FB_APPLITE_STANDARD
+
+config FB_APPLITE_STANDARD
+	bool "Standard implementation"
+
+config FB_APPLITE_BASIC
+	bool "Basic implementation"
+
+endchoice

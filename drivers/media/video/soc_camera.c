@@ -932,6 +932,15 @@ static int soc_camera_g_chip_ident(struct file *file, void *fh,
 	return v4l2_subdev_call(sd, core, g_chip_ident, id);
 }
 
+static int soc_camera_enum_frameintervals(struct file *file, void *fh,
+				 struct v4l2_frmivalenum *fival)
+{
+	struct soc_camera_device *icd = file->private_data;
+	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+
+	return v4l2_subdev_call(sd, video, enum_frameintervals, fival);
+}
+
 #ifdef CONFIG_VIDEO_ADV_DEBUG
 static int soc_camera_g_register(struct file *file, void *fh,
 				 struct v4l2_dbg_register *reg)
@@ -1259,7 +1268,7 @@ static int default_enum_fsizes(struct soc_camera_device *icd,
 	/* map xlate-code to pixel_format, sensor only handle xlate-code*/
 	fsize_mbus.pixel_format = xlate->code;
 
-	ret = v4l2_subdev_call(sd, video, enum_mbus_fsizes, &fsize_mbus);
+	ret = v4l2_subdev_call(sd, video, enum_framesizes, &fsize_mbus);
 	if (ret < 0)
 		return ret;
 
@@ -1405,6 +1414,7 @@ static const struct v4l2_ioctl_ops soc_camera_ioctl_ops = {
 	.vidioc_g_parm		 = soc_camera_g_parm,
 	.vidioc_s_parm		 = soc_camera_s_parm,
 	.vidioc_g_chip_ident     = soc_camera_g_chip_ident,
+	.vidioc_enum_frameintervals = soc_camera_enum_frameintervals,
 #ifdef CONFIG_VIDEO_ADV_DEBUG
 	.vidioc_g_register	 = soc_camera_g_register,
 	.vidioc_s_register	 = soc_camera_s_register,

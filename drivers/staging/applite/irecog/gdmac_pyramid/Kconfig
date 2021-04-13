@@ -1,0 +1,3 @@
+config APPLITE_IRECOG_GDMAC_PYRAMID
+        tristate "gdmac pyramid driver"
+       default n

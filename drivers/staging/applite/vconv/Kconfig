@@ -1,0 +1,14 @@
+#
+# Toshiba Module Configuration
+#
+
+config APPLITE_VCONV
+        tristate "TZ3000 Video Converter (vconv) driver"
+	depends on m && ARCH_TZ3000
+
+config APPLITE_VCONV_DEBUG
+        bool "vconv debugging"
+        depends on APPLITE_VCONV != n
+        help
+          This is an option for use by developers; most people should
+          say N here.  This enables Video Converter Driver debugging.

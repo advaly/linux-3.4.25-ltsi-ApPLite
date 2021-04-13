@@ -566,8 +566,7 @@ void handle_IPI(int ipinr, struct pt_regs *regs)
 		break;
 
 	default:
-		printk(KERN_CRIT "CPU%u: Unknown IPI message 0x%x\n",
-		       cpu, ipinr);
+		pr_warn("CPU%u: Unknown IPI message 0x%x\n", cpu, ipinr);
 		break;
 	}
 	set_irq_regs(old_regs);

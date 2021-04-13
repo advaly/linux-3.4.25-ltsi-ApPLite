@@ -56,10 +56,12 @@ obj-$(CONFIG_SPI_SH_MSIOF)		+= spi-sh-msiof.o
 obj-$(CONFIG_SPI_SH_SCI)		+= spi-sh-sci.o
 obj-$(CONFIG_SPI_SIRF)		+= spi-sirf.o
 obj-$(CONFIG_SPI_STMP3XXX)		+= spi-stmp.o
+obj-$(CONFIG_SPI_TC90431)		+= spi-tc90431.o
 obj-$(CONFIG_SPI_TEGRA)			+= spi-tegra.o
 obj-$(CONFIG_SPI_TI_SSP)		+= spi-ti-ssp.o
 obj-$(CONFIG_SPI_TLE62X0)		+= spi-tle62x0.o
 obj-$(CONFIG_SPI_TOPCLIFF_PCH)		+= spi-topcliff-pch.o
 obj-$(CONFIG_SPI_TXX9)			+= spi-txx9.o
+obj-$(CONFIG_SPI_TZ_SPIMS)		+= spi-tz-spims.o
 obj-$(CONFIG_SPI_XILINX)		+= spi-xilinx.o
 

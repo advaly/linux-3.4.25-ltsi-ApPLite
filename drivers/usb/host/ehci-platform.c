@@ -153,17 +153,16 @@ static int __devexit ehci_platform_remove(struct platform_device *dev)
 static int ehci_platform_suspend(struct device *dev)
 {
 	struct usb_hcd *hcd = dev_get_drvdata(dev);
-	bool wakeup = device_may_wakeup(dev);
+	bool do_wakeup = device_may_wakeup(dev);
 
-	ehci_prepare_ports_for_controller_suspend(hcd_to_ehci(hcd), wakeup);
-	return 0;
+	return ehci_suspend(hcd, do_wakeup);
 }
 
 static int ehci_platform_resume(struct device *dev)
 {
 	struct usb_hcd *hcd = dev_get_drvdata(dev);
 
-	ehci_prepare_ports_for_controller_resume(hcd_to_ehci(hcd));
+	ehci_resume(hcd, false);
 	return 0;
 }
 
@@ -178,10 +177,8 @@ static const struct platform_device_id ehci_platform_table[] = {
 };
 MODULE_DEVICE_TABLE(platform, ehci_platform_table);
 
-static const struct dev_pm_ops ehci_platform_pm_ops = {
-	.suspend	= ehci_platform_suspend,
-	.resume		= ehci_platform_resume,
-};
+static SIMPLE_DEV_PM_OPS(ehci_platform_pm_ops,
+			 ehci_platform_suspend, ehci_platform_resume);
 
 static struct platform_driver ehci_platform_driver = {
 	.id_table	= ehci_platform_table,

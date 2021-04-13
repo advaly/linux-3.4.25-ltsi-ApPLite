@@ -1,0 +1,3 @@
+config APPLITE_IRECOG_GDMAC_HAND_DETECT_ISOLATE
+        tristate "gdmac hand_detect_isolate driver"
+       default n

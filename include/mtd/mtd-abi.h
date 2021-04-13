@@ -146,6 +146,20 @@ struct otp_info {
 	__u32 locked;
 };
 
+struct nand_errstat_cmd {
+	int maf_id;
+	int dev_id;
+	unsigned int command;
+	int column;
+	int page_addr;
+};
+
+struct nand_errstat {
+	int state;
+	size_t count;
+	struct nand_errstat_cmd __user *addr;
+};
+
 /*
  * Note, the following ioctl existed in the past and was removed:
  * #define MEMSETOOBSEL           _IOW('M', 9, struct nand_oobinfo)
@@ -202,6 +216,8 @@ struct otp_info {
  * without OOB, e.g., NOR flash.
  */
 #define MEMWRITE		_IOWR('M', 24, struct mtd_write_req)
+#define MEMGETERRSTAT		_IOW('M', 41, struct nand_errstat)
+#define MEMSETERRSTAT		_IOW('M', 42, struct nand_errstat)
 
 /*
  * Obsolete legacy interface. Keep it in order not to break userspace

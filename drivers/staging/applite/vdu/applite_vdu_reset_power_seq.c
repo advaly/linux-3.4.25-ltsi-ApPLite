@@ -1,0 +1,437 @@
+/*
+ * drivers/staging/applite/vdu/applite_vdu_reset_power_seq.c
+ *
+ * (C) Copyright TOSHIBA Corporation
+ * Semiconductor & Storage Products Company 2012
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+/*===================================
+Include Files
+===================================*/
+
+#include <linux/kernel.h>
+#include <linux/fs.h>
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/list.h>
+#include <linux/firmware.h>
+#include <linux/slab.h>
+#include <linux/interrupt.h>
+#include <linux/scatterlist.h>
+#include <linux/sched.h>         /* task_struct */
+#include <linux/wait.h>
+#include <linux/semaphore.h>
+#include <linux/platform_device.h>
+#include <linux/dma-mapping.h>
+#include <linux/dma-buf.h>
+#include <linux/delay.h>
+#include <linux/sched.h>
+#include <linux/io.h>
+
+#include <linux/applite/applite_vdu.h>
+#include "applite_vdu_internal.h"
+
+
+/*===================================
+Static Variables and Functions prototypes
+===================================*/
+
+
+/*===================================
+Global Variables and Functions prototypes
+===================================*/
+
+
+/*===================================
+Macros
+===================================*/
+
+/*
+ * vcodec power on
+ */
+
+/* 0x000C:PowerSwitchOn_VIDEO */
+#define VAL_PWON_POWERSWICTHON_VIDEO \
+	(1<<PMU_POWERSWITCHON_VIDEO_PSW_VIDEO_SHIFT)
+
+/* 0x210C:ClockGatingOffForPower_VIDEO */
+#define VAL_PWON_CLOCKGATINGOFFFORPOWER_VIDEO \
+	(1<<PMU_CLOCKGATINGOFFFORPOWER_VIDEO_CGPOWER_VIDEO_SHIFT)
+
+/* 0x1500:ClockGatingOff_eastpierSS_0 */
+#define VAL_PWON_CLOCKGATINGOFF_EASTPIERSS_0 \
+	(1<<PMU_CLOCKGATINGOFF_EASTPIERSS_0_CG_VCLKDIVN_EASTPIER_SHIFT)
+
+/* 0x1540:ClockGatingOff_vcodecSS_0 */
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_AVC \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_AVC_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_AVC \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_AVC_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4 \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_AVC \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_AVC_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDIME \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDIME_SHIFT)
+#define VAL_PWON_CLOCKGATINGOFF_VCODECSS_0 \
+	(PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_AVC | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_AVC | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4 | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_AVC | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDIME)
+
+/* 0x030C:InIsoOff_VIDEO */
+#define VAL_PWON_INISOOFF_VIDEO \
+	(1<<PMU_INISOOFF_VIDEO_INISO_VIDEO_SHIFT)
+
+/* 0x050C:OutIsoOff_VIDEO */
+#define VAL_PWON_OUTISOOFF_VIDEO \
+	(1<<PMU_OUTISOOFF_VIDEO_OUTISO_VIDEO_SHIFT)
+
+/* 0x1140:ClockGatingOn_vcodecSS_0 */
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_AVC \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_AVC_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VP4 \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VP4_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VP4_AVC \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VP4_AVC_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDIME \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDIME_SHIFT)
+#define VAL_PWON_CLOCKGATINGON_VCODECSS_0 \
+	(PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_AVC | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VP4 | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VP4_AVC | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDIME)
+
+/* 0x1D00:SoftResetOff_eastpierSS_0 */
+#define PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDERST_EPIERIFVPIER_N \
+	(1<<PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDERST_EPIERIFVPIER_N_SHIFT)
+#define PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_EASTPIER_N \
+	(1<<PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_EASTPIER_N_SHIFT)
+#define PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_VPIERIFEPIER_N \
+	(1<<PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_VPIERIFEPIER_N_SHIFT)
+#define VAL_PWON_SOFTRESETOFF_EASTPIERSS_0 \
+	(PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDERST_EPIERIFVPIER_N | \
+	 PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_EASTPIER_N | \
+	 PMU_SOFTRESETOFF_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_VPIERIFEPIER_N)
+
+/*
+ * vcodec power off
+ */
+
+/* 0x5794:Mask_Interrupt */
+#define VAL_PWOF_MASK_INTERRUPT \
+	(1<<PMU_MASK_INTERRUPT_MASK_IRQ_PMU_SHIFT)
+
+/* 0x1940:SoftResetOn_vcodecSS_0 */
+#define PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_BAP_N \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_BAP_N_SHIFT)
+#define PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDP_N \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDP_N_SHIFT)
+#define PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VP4_N \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VP4_N_SHIFT)
+#define PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDIME_N \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDIME_N_SHIFT)
+#define VAL_PWOF_SOFTRESETON_VCODECSS_0 \
+	(PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_BAP_N | \
+	 PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDP_N | \
+	 PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VP4_N | \
+	 PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDIME_N)
+
+/* 0x1900:SoftResetOn_eastpierSS_0 */
+#define PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDERST_EPIERIFVPIER_N \
+	(1<<PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDERST_EPIERIFVPIER_N_SHIFT)
+#define PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_EASTPIER_N \
+	(1<<PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_EASTPIER_N_SHIFT)
+#define PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_VPIERIFEPIER_N \
+	(1<<PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_VPIERIFEPIER_N_SHIFT)
+#define VAL_PWOF_SOFTRESETON_EASTPIERSS_0 \
+	(PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDERST_EPIERIFVPIER_N | \
+	 PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_EASTPIER_N | \
+	 PMU_SOFTRESETON_EASTPIERSS_0_SRST_MIXEDVRSTDIVN_VPIERIFEPIER_N)
+
+/* 0x540C:SeqStatus_PowerOff_VIDEO */
+#define VAL_PWON_SEQSTATUS_POWEROFF_VIDEO \
+	(1<<PMU_SEQSTATUS_POWEROFF_VIDEO_SEQSTATUS_POWEROFF_VIDEO_SHIFT)
+
+/* 0x5790:Status_Interrupt */
+#define VAL_PWOF_STATUS_INTERRUPT \
+	(1<<PMU_STATUS_INTERRUPT_STATUS_IRQ_PMU_SHIFT)
+
+/*
+ * reset off
+ */
+
+/* 0x1540:ClockGatingOff_vcodecSS_0 */
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4 \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_AVC \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_AVC_SHIFT)
+#define VAL_VEU_RSTOF_CLOCKGATINGOFF_VCODECSS_0 \
+	(PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4 | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VP4_AVC)
+
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_AVC \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_AVC_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_SHIFT)
+#define PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_AVC \
+	(1<<PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_AVC_SHIFT)
+#define VAL_VDU_RSTOF_CLOCKGATINGOFF_VCODECSS_0 \
+	(PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_BAP_AVC | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP | \
+	 PMU_CLOCKGATINGOFF_VCODECSS_0_CG_VCLKDIVN_VDP_AVC)
+
+/* 0x1D40:SoftResetOff_vcodecSS_0 */
+#define VAL_VEU_RSTOF_SOFTRESETOFF_VCODECSS_0 \
+	(1<<PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_VP4_N_SHIFT)
+
+#define PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_BAP_N \
+	(1<<PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_BAP_N_SHIFT)
+#define PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_VDP_N \
+	(1<<PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_VDP_N_SHIFT)
+#define VAL_VDU_RSTOF_SOFTRESETOFF_VCODECSS_0 \
+	(PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_BAP_N | \
+	 PMU_SOFTRESETOFF_VCODECSS_0_SRST_VRSTDIVN_VDP_N)
+
+/*
+ * reset on
+ */
+
+/* 0x1140:ClockGatingOn_vcodecSS_0 */
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC_SHIFT)
+#define VAL_VEU_RSTON_CLOCKGATINGON_VCODECSS_0 \
+	(PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC)
+
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_AVC \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_AVC_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_SHIFT)
+#define PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC \
+	(1<<PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC_SHIFT)
+#define VAL_VDU_RSTON_CLOCKGATINGON_VCODECSS_0 \
+	(PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_BAP_AVC | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP | \
+	 PMU_CLOCKGATINGON_VCODECSS_0_CG_VCLKDIVN_VDP_AVC)
+
+/* 0x1940:SoftResetOn_vcodecSS_0 */
+#define VAL_VEU_RSTON_SOFTRESETON_VCODECSS_0 \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VP4_N_SHIFT)
+
+#define PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_BAP_N \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_BAP_N_SHIFT)
+#define PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDP_N \
+	(1<<PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDP_N_SHIFT)
+#define VAL_VDU_RSTON_SOFTRESETON_VCODECSS_0 \
+	(PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_BAP_N | \
+	 PMU_SOFTRESETON_VCODECSS_0_SRST_VRSTDIVN_VDP_N)
+
+
+
+#if 0
+	#define reg_write_reset_power(s, v, a) { \
+		pr_info("%s\n", s); \
+		pr_info("    adrs=%08X, val=%08X\n", (u32)a, (u32)v); \
+		__raw_writel(v, (void __iomem *)a); \
+	}
+#else
+	#define reg_write_reset_power(s, v, a) { \
+		__raw_writel(v, (void __iomem *)a); \
+	}
+#endif
+
+/*===================================
+Function Definitions
+===================================*/
+
+
+/*===================================
+Module source
+===================================*/
+
+void vdu_internal_vip1_reset(struct vdu_driver *pdev, int on)
+{
+	if (on) {
+		/* reset on */
+
+		/* SoftResetOn_vcodecSS_0 */
+		reg_write_reset_power(
+			"SoftResetOn_vcodecSS_0",
+			VAL_VDU_RSTON_SOFTRESETON_VCODECSS_0,
+			REG_PMU(pdev, SoftResetOn_vcodecSS_0_OFFS));
+
+		/* ClockGatingOn_vcodecSS_0 (clock stop) */
+#if 1
+		clk_disable_unprepare(pdev->clk);
+#else
+		reg_write_reset_power(
+			"ClockGatingOn_vcodecSS_0",
+			VAL_VDU_RSTON_CLOCKGATINGON_VCODECSS_0,
+			REG_PMU(pdev, ClockGatingOn_vcodecSS_0_OFFS));
+#endif
+	} else {
+		/* reset off */
+
+		/* ClockGatingOff_vcodecSS_0 (clock supply) */
+#if 1
+		clk_prepare_enable(pdev->clk);
+#else
+		reg_write_reset_power(
+			"ClockGatingOff_vcodecSS_0",
+			VAL_VDU_RSTOF_CLOCKGATINGOFF_VCODECSS_0,
+			REG_PMU(pdev, ClockGatingOff_vcodecSS_0_OFFS));
+#endif
+
+		/* SoftResetOff_vcodecSS_0 */
+		reg_write_reset_power(
+			"SoftResetOff_vcodecSS_0",
+			VAL_VDU_RSTOF_SOFTRESETOFF_VCODECSS_0,
+			REG_PMU(pdev, SoftResetOff_vcodecSS_0_OFFS));
+	}
+
+}
+
+void vdu_internal_video_power(struct vdu_driver *pdev, int on)
+{
+	u32 v;
+
+	if (on) {
+		/* power on */
+
+		/* PowerSwitchOn_VIDEO */
+		reg_read(&v, REG_PMU(pdev, PowerSwitchOn_VIDEO_OFFS));
+		if ((v&VAL_PWON_POWERSWICTHON_VIDEO))
+			return;
+		reg_write_reset_power(
+			"PowerSwitchOn_VIDEO",
+			VAL_PWON_POWERSWICTHON_VIDEO,
+			REG_PMU(pdev, PowerSwitchOn_VIDEO_OFFS));
+		udelay(7);
+
+		/* ClockGatingOffForPower_VIDEO */
+		reg_write_reset_power(
+			"ClockGatingOffForPower_VIDEO",
+			VAL_PWON_CLOCKGATINGOFFFORPOWER_VIDEO,
+			REG_PMU(pdev, ClockGatingOffForPower_VIDEO_OFFS));
+
+		/* ClockGatingOff_eastpierSS_0 */
+		reg_write_reset_power(
+			"ClockGatingOff_eastpierSS_0",
+			VAL_PWON_CLOCKGATINGOFF_EASTPIERSS_0,
+			REG_PMU(pdev, ClockGatingOff_eastpierSS_0_OFFS));
+
+		/* ClockGatingOff_vcodecSS_0 */
+		reg_write_reset_power(
+			"ClockGatingOff_vcodecSS_0",
+			VAL_PWON_CLOCKGATINGOFF_VCODECSS_0,
+			REG_PMU(pdev, ClockGatingOff_vcodecSS_0_OFFS));
+		udelay(1);
+
+		/* InIsoOff_VIDEO */
+		reg_write_reset_power(
+			"InIsoOff_VIDEO",
+			VAL_PWON_INISOOFF_VIDEO,
+			REG_PMU(pdev, InIsoOff_VIDEO_OFFS));
+
+		/* OutIsoOff_VIDEO */
+		reg_write_reset_power(
+			"OutIsoOff_VIDEO",
+			VAL_PWON_OUTISOOFF_VIDEO,
+			REG_PMU(pdev, OutIsoOff_VIDEO_OFFS));
+
+		/* ClockGatingOn_vcodecSS_0 */
+		reg_write_reset_power(
+			"ClockGatingOn_vcodecSS_0",
+			VAL_PWON_CLOCKGATINGON_VCODECSS_0,
+			REG_PMU(pdev, ClockGatingOn_vcodecSS_0_OFFS));
+
+		/* SoftResetOff_eastpierSS_0 */
+		reg_write_reset_power(
+			"SoftResetOff_eastpierSS_0",
+			VAL_PWON_SOFTRESETOFF_EASTPIERSS_0,
+			REG_PMU(pdev, SoftResetOff_eastpierSS_0_OFFS));
+	} else {
+		/* power off */
+		if (pdev->pctrl == VDU_POWER_CTRL_ON)
+			return;
+
+		/* PowerSwitchOn_VIDEO */
+		reg_read(&v, REG_PMU(pdev, PowerSwitchOn_VIDEO_OFFS));
+		if (!(v&VAL_PWON_POWERSWICTHON_VIDEO))
+			return;
+
+		/* Mask_Interrupt */
+		reg_write_reset_power(
+			"Mask_Interrupt",
+			VAL_PWOF_MASK_INTERRUPT,
+			REG_PMU(pdev, Mask_Interrupt_OFFS));
+
+		/* SoftResetOn_vcodecSS_0 */
+		reg_write_reset_power(
+			"SoftResetOn_vcodecSS_0",
+			VAL_PWOF_SOFTRESETON_VCODECSS_0,
+			REG_PMU(pdev, SoftResetOn_vcodecSS_0_OFFS));
+
+		/* SoftResetOn_eastpierSS_0 */
+		reg_write_reset_power(
+			"SoftResetOn_eastpierSS_0",
+			VAL_PWOF_SOFTRESETON_EASTPIERSS_0,
+			REG_PMU(pdev, SoftResetOn_eastpierSS_0_OFFS));
+
+		/* SeqStatus_PowerOff_VIDEO */
+		reg_write_reset_power(
+			"SeqStatus_PowerOff_VIDEO",
+			VAL_PWON_SEQSTATUS_POWEROFF_VIDEO,
+			REG_PMU(pdev, SeqStatus_PowerOff_VIDEO_OFFS));
+		do {
+			udelay(1);
+			reg_read(&v,
+				REG_PMU(pdev, SeqStatus_PowerOff_VIDEO_OFFS));
+		} while (v&VAL_PWON_SEQSTATUS_POWEROFF_VIDEO);
+
+		/* Status_Interrupt */
+		reg_write_reset_power(
+			"Status_Interrupt",
+			VAL_PWOF_STATUS_INTERRUPT,
+			REG_PMU(pdev, Status_Interrupt_OFFS));
+	}
+}

@@ -98,6 +98,27 @@ THUMB(	mov	sp, r2			)
 THUMB(	bx	r3			)
 ENDPROC(cpu_resume)
 
+	.align
+ENTRY(cpu_resume_restore_nosave)
+	ldr	r0, __nosave_backup_phys
+	ldr	r1, __nosave_begin_phys
+	ldr	r2, __nosave_end_phys
+1:	ldmia	r0!, {r3-r10}
+	stmia	r1!, {r3-r10}
+	cmp	r1, r2
+	bne	1b
+	b	cpu_resume
+	.align
+	.globl __nosave_backup_phys
+__nosave_backup_phys:
+	.long	0x0
+	.globl __nosave_begin_phys
+__nosave_begin_phys:
+	.long	0x0
+	.globl __nosave_end_phys
+__nosave_end_phys:
+	.long	0x0
+
 sleep_save_sp:
 	.rept	CONFIG_NR_CPUS
 	.long	0				@ preserve stack phys ptr here

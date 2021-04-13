@@ -494,6 +494,11 @@ config USB_CI13XXX_MSM
 	  dynamically linked module called "ci13xxx_msm" and force all
 	  gadget drivers to also be dynamically linked.
 
+config USB_APPLITE_UDC
+	tristate "TZ2000/TZ3000 USB Device Controller"
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+	select USB_GADGET_DUALSPEED
+
 #
 # LAST -- dummy/emulated controller
 #

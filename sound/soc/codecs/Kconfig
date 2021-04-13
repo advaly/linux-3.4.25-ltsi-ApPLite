@@ -425,6 +425,15 @@ config SND_SOC_WM9712
 config SND_SOC_WM9713
 	tristate
 
+config SND_SOC_TLV320ADC3xxx
+	tristate
+
+config SND_SOC_PCM1771
+	tristate
+
+config SND_SOC_TLV320AIC3110
+	tristate
+
 # Amp
 config SND_SOC_LM4857
 	tristate

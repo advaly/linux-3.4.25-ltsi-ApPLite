@@ -176,10 +176,8 @@ static const struct platform_device_id ohci_platform_table[] = {
 };
 MODULE_DEVICE_TABLE(platform, ohci_platform_table);
 
-static const struct dev_pm_ops ohci_platform_pm_ops = {
-	.suspend	= ohci_platform_suspend,
-	.resume		= ohci_platform_resume,
-};
+static SIMPLE_DEV_PM_OPS(ohci_platform_pm_ops,
+			 ohci_platform_suspend, ohci_platform_resume);
 
 static struct platform_driver ohci_platform_driver = {
 	.id_table	= ohci_platform_table,

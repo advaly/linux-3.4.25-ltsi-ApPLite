@@ -1,0 +1,5 @@
+config APPLITE_IRECOG_KMEM_ALLOCATOR
+        tristate "memory driver"
+       default n
+
+

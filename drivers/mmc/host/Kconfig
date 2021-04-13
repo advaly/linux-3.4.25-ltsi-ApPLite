@@ -166,6 +166,17 @@ config MMC_SDHCI_TEGRA
 
 	  If unsure, say N.
 
+config MMC_SDHCI_TZ3000
+	tristate "SDHCI support on TZ3000/TZ2000"
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+	depends on MMC_SDHCI_PLTFM
+	select MMC_SDHCI_IO_ACCESSORS
+	help
+	  This selects the Secure Digital Host Controller Interface in
+	  TZ3000/TZ2000.
+	  If you have a controller with this interface, say Y or M here.
+	  If unsure, say N.
+
 config MMC_SDHCI_S3C
 	tristate "SDHCI support on Samsung S3C SoC"
 	depends on MMC_SDHCI && PLAT_SAMSUNG

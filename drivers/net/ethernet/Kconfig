@@ -173,6 +173,13 @@ source "drivers/net/ethernet/ti/Kconfig"
 source "drivers/net/ethernet/tile/Kconfig"
 source "drivers/net/ethernet/toshiba/Kconfig"
 source "drivers/net/ethernet/tundra/Kconfig"
+
+config TXSSETH
+	bool "TX Sub System Gbit ethernet controller"
+	depends on ARCH_TZ3000 || ARCH_TZ2000
+	select PHYLIB
+	default n
+
 source "drivers/net/ethernet/via/Kconfig"
 source "drivers/net/ethernet/xilinx/Kconfig"
 source "drivers/net/ethernet/xircom/Kconfig"

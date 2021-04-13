@@ -512,7 +512,8 @@ static int sdhci_adma_table_pre(struct sdhci_host *host,
 		if (offset) {
 			if (data->flags & MMC_DATA_WRITE) {
 				buffer = sdhci_kmap_atomic(sg, &flags);
-				WARN_ON(((long)buffer & PAGE_MASK) > (PAGE_SIZE - 3));
+				WARN_ON(((long)buffer & ~PAGE_MASK) >
+					(PAGE_SIZE - 3));
 				memcpy(align, buffer, offset);
 				sdhci_kunmap_atomic(buffer, &flags);
 			}
@@ -620,7 +621,8 @@ static void sdhci_adma_table_post(struct sdhci_host *host,
 				size = 4 - (sg_dma_address(sg) & 0x3);
 
 				buffer = sdhci_kmap_atomic(sg, &flags);
-				WARN_ON(((long)buffer & PAGE_MASK) > (PAGE_SIZE - 3));
+				WARN_ON(((long)buffer & ~PAGE_MASK) >
+					(PAGE_SIZE - 3));
 				memcpy(buffer, align, size);
 				sdhci_kunmap_atomic(buffer, &flags);
 
@@ -945,8 +947,16 @@ static void sdhci_finish_data(struct sdhci_host *host)
 		 * upon error conditions.
 		 */
 		if (data->error) {
-			sdhci_reset(host, SDHCI_RESET_CMD);
-			sdhci_reset(host, SDHCI_RESET_DATA);
+			if (host->quirks2 &
+			    SDHCI_QUIRK2_DELAY_BEFORE_RESET_ON_ERROR)
+				mdelay(1);
+			if (host->quirks2 & SDHCI_QUIRK2_RESET_BOTH_CMD_DATA) {
+				sdhci_reset(host,
+					    SDHCI_RESET_CMD | SDHCI_RESET_DATA);
+			} else {
+				sdhci_reset(host, SDHCI_RESET_CMD);
+				sdhci_reset(host, SDHCI_RESET_DATA);
+			}
 		}
 
 		sdhci_send_command(host, data->stop);
@@ -960,6 +970,14 @@ static void sdhci_send_command(struct sdhci_host *host, struct mmc_command *cmd)
 	u32 mask;
 	unsigned long timeout;
 
+	if (host->quirks2 & SDHCI_QUIRK2_CHECK_CLK_BEFORE_SEND_COMMAND) {
+		u32 clk = sdhci_readl(host, SDHCI_CLOCK_CONTROL);
+		if (!(clk & SDHCI_CLOCK_CARD_EN)) {
+			cmd->error = -ETIMEDOUT;
+			tasklet_schedule(&host->finish_tasklet);
+			return;
+		}
+	}
 	WARN_ON(host->cmd);
 
 	/* Wait max 10 ms */
@@ -1086,6 +1104,12 @@ static void sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
 			return;
 	}
 
+	if (host->quirks2 & SDHCI_QUIRK2_STOP_CLK_NONSIMULTANEOUOSLY) {
+		u16 tmpclk = sdhci_readw(host, SDHCI_CLOCK_CONTROL);
+		if (tmpclk & SDHCI_CLOCK_CARD_EN)
+			sdhci_writew(host, tmpclk & ~SDHCI_CLOCK_CARD_EN,
+				     SDHCI_CLOCK_CONTROL);
+	}
 	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
 
 	if (clock == 0)
@@ -1343,6 +1367,8 @@ static void sdhci_do_set_ios(struct sdhci_host *host, struct mmc_ios *ios)
 		sdhci_reinit(host);
 	}
 
+	if (host->ops->enable_tuning)
+		host->ops->enable_tuning(host, ios, 0);
 	sdhci_set_clock(host, ios->clock);
 
 	if (ios->power_mode == MMC_POWER_OFF)
@@ -1473,6 +1499,8 @@ static void sdhci_do_set_ios(struct sdhci_host *host, struct mmc_ios *ios)
 	} else
 		sdhci_writeb(host, ctrl, SDHCI_HOST_CONTROL);
 
+	if (host->ops->enable_tuning)
+		host->ops->enable_tuning(host, ios, 1);
 	/*
 	 * Some (ENE) controllers go apeshit on some ios operation,
 	 * signalling timeout and CRC errors even on CMD0. Resetting
@@ -1856,6 +1884,8 @@ static int sdhci_execute_tuning(struct mmc_host *mmc, u32 opcode)
 	}
 
 out:
+	if (host->quirks2 & SDHCI_QUIRK2_RESET_AFTER_AUTO_TUNING)
+		sdhci_reset(host, SDHCI_RESET_CMD | SDHCI_RESET_DATA);
 	/*
 	 * If this is the very first time we are here, we start the retuning
 	 * timer. Since only during the first time, SDHCI_NEEDS_RETUNING
@@ -1968,8 +1998,13 @@ static void sdhci_tasklet_card(unsigned long param)
 		pr_err("%s: Resetting controller.\n",
 			mmc_hostname(host->mmc));
 
-		sdhci_reset(host, SDHCI_RESET_CMD);
-		sdhci_reset(host, SDHCI_RESET_DATA);
+		if (host->quirks2 & SDHCI_QUIRK2_RESET_BOTH_CMD_DATA) {
+			sdhci_reset(host,
+				    SDHCI_RESET_CMD | SDHCI_RESET_DATA);
+		} else {
+			sdhci_reset(host, SDHCI_RESET_CMD);
+			sdhci_reset(host, SDHCI_RESET_DATA);
+		}
 
 		host->mrq->cmd->error = -ENOMEDIUM;
 		tasklet_schedule(&host->finish_tasklet);
@@ -2025,8 +2060,13 @@ static void sdhci_tasklet_finish(unsigned long param)
 
 		/* Spec says we should do both at the same time, but Ricoh
 		   controllers do not like that. */
-		sdhci_reset(host, SDHCI_RESET_CMD);
-		sdhci_reset(host, SDHCI_RESET_DATA);
+		if (host->quirks2 & SDHCI_QUIRK2_RESET_BOTH_CMD_DATA) {
+			sdhci_reset(host,
+				    SDHCI_RESET_CMD | SDHCI_RESET_DATA);
+		} else {
+			sdhci_reset(host, SDHCI_RESET_CMD);
+			sdhci_reset(host, SDHCI_RESET_DATA);
+		}
 	}
 
 	host->mrq = NULL;
@@ -2100,7 +2140,7 @@ static void sdhci_cmd_irq(struct sdhci_host *host, u32 intmask)
 	BUG_ON(intmask == 0);
 
 	if (!host->cmd) {
-		pr_err("%s: Got command interrupt 0x%08x even "
+		pr_debug("%s: Got command interrupt 0x%08x even "
 			"though no command operation was in progress.\n",
 			mmc_hostname(host->mmc), (unsigned)intmask);
 		sdhci_dumpregs(host);
@@ -2452,6 +2492,20 @@ int sdhci_resume_host(struct sdhci_host *host)
 		mmiowb();
 	}
 
+	if ((host->quirks2 & SDHCI_QUIRK2_WAIT_CARD_DETECT_ON_RESUME) &&
+	    host->mmc->card &&
+	    !mmc_card_is_removable(host->mmc) &&
+	    !(sdhci_readl(host, SDHCI_PRESENT_STATE) & SDHCI_CARD_PRESENT)) {
+		int i;
+		for (i = 0; i < 1000; i++) {
+			bool present;
+			present = sdhci_readl(host, SDHCI_PRESENT_STATE) &
+				SDHCI_CARD_PRESENT;
+			if (present)
+				break;
+			mdelay(1);
+		}
+	}
 	ret = mmc_resume_host(host->mmc);
 	sdhci_enable_card_detection(host);
 

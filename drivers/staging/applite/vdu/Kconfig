@@ -1,0 +1,6 @@
+config APPLITE_VDU
+       tristate "TZ3000 Video Decoder (vdu) driver"
+       default n
+       depends on CMA && FW_LOADER && ARCH_TZ3000
+       help
+         The VDU is a Video Decoder Hardware.

@@ -1,0 +1,8 @@
+header-y += applite_vconv.h
+header-y += applite_veu.h
+header-y += applite_vdu.h
+header-y += applite_syscon.h
+header-y += applitema.h
+header-y += applite_yuvc.h
+header-y += irecog/
+header-y += tz2000_gfx.h

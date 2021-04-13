@@ -45,6 +45,7 @@ config V4L2_MEM2MEM_DEV
 	depends on VIDEOBUF2_CORE
 
 config VIDEOBUF2_CORE
+	select DMA_SHARED_BUFFER
 	tristate
 
 config VIDEOBUF2_MEMOPS
@@ -53,6 +54,7 @@ config VIDEOBUF2_MEMOPS
 config VIDEOBUF2_DMA_CONTIG
 	select VIDEOBUF2_CORE
 	select VIDEOBUF2_MEMOPS
+	select DMA_SHARED_BUFFER
 	tristate
 
 config VIDEOBUF2_VMALLOC
@@ -1051,11 +1053,17 @@ config SOC_CAMERA_OV9640
 	help
 	  This is a ov9640 camera driver
 
-config SOC_CAMERA_OV9740
-	tristate "ov9740 camera support"
-	depends on SOC_CAMERA && I2C
-	help
-	  This is a ov9740 camera driver
+config SOC_CAMERA_OV7725_MPD
+	tristate
+
+config SOC_CAMERA_T4K08
+	tristate
+
+config SOC_CAMERA_T4K28
+	tristate
+
+config SOC_CAMERA_TC358743
+        tristate
 
 config MX1_VIDEO
 	bool
@@ -1157,6 +1165,60 @@ config VIDEO_S5P_MIPI_CSIS
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called s5p-csis.
+
+config VIDEO_APPLITE_CAMIF
+	tristate "ApP Lite CAM Interface driver"
+	depends on VIDEO_DEV && SOC_CAMERA && ARCH_TZ3000
+	select VIDEOBUF2_DMA_CONTIG
+	---help---
+	  This is a v4l2 driver for the ApP Lite CAM Interface
+
+config SOC_CAMERA_APPLITE_DUMMY
+	tristate "ApP Lite dummy camera support"
+	depends on VIDEO_APPLITE_CAMIF
+	default y
+	help
+	  This is a ApP Lite dummy camera
+
+if VIDEO_APPLITE_CAMIF
+choice
+	prompt "Select ApP Lite camera module"
+	depends on I2C
+	default VIDEO_APPLITE_CAMIF_AUTO_RB
+
+config VIDEO_APPLITE_CAMIF_AUTO_RB
+	bool "Auto select by a Reference Board kind"
+	select SOC_CAMERA_OV7725_MPD
+	select SOC_CAMERA_T4K08
+	help
+	  This is chosen by a Reference Board kind
+
+config VIDEO_APPLITE_CAMIF_OV7725_MPD
+	bool "Only a ov7725 camera + MPD is enabled"
+	select SOC_CAMERA_OV7725_MPD
+	help
+	  This is a ov7725 camera + MPD driver
+
+config VIDEO_APPLITE_CAMIF_T4K08
+	bool "Only a T4K08 camera is enabled"
+	select SOC_CAMERA_T4K08
+	help
+	  This is a T4K08 camera driver
+
+config VIDEO_APPLITE_CAMIF_T4K28
+        bool "Only a T4K28 camera is enabled"
+        select SOC_CAMERA_T4K28
+        help
+          This is a T4K28 camera driver
+
+config VIDEO_APPLITE_CAMIF_TC358743
+        bool "Only a TC358743 CSI converter is enabled"
+	select SOC_CAMERA_TC358743
+        help
+          This is a TC358743 CSI converter driver
+
+endchoice
+endif # VIDEO_APPLITE_CAMIF
 
 source "drivers/media/video/s5p-tv/Kconfig"
 

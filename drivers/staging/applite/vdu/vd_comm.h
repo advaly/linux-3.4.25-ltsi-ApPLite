@@ -1,0 +1,555 @@
+/*
+ * drivers/staging/applite/vdu/vd_comm.h
+ *
+ * (C) Copyright TOSHIBA Corporation
+ * Semiconductor & Storage Products Company 2013
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#ifndef VD_COMM_H
+#define VD_COMM_H
+
+#define VDCOMM_FW_STATE_OFFSET(id) (VDCOMM_FW_STATE_ADDR + ((id) << 8))
+#define VDCOMM_COMM_INFO_OFFSET(ch) (VDCOMM_COMM_INFO_ADDR + ((ch) << 15))
+#define VDCOMM_IF_VERSION 18
+#define VDCOMM_COMM_BASE_ADDR 0x090000
+#define VDCOMM_OUTPUT_NOT_READY 0
+#define VDCOMM_OUTPUT_READY 1
+#define VDCOMM_OUTPUT_RELEASED 0xffffffff
+#define VDCOMM_FW_STATE_NOT_INIT 0
+#define VDCOMM_FW_STATE_SHUTDOWN 1
+#define VDCOMM_FW_STATE_CRASHED 2
+#define VDCOMM_FW_STATE_BOOTING 3
+#define VDCOMM_FW_STATE_READY 4
+#define VDCOMM_FW_STATE_RUNNING 5
+
+/*--------------------------------------------------------------------*/
+/*  Memory map                                                        */
+/*--------------------------------------------------------------------*/
+#define VDCOMM_CRISC_ADDR           ((VDCOMM_COMM_BASE_ADDR) + 0x00000000)
+#define VDCOMM_TASK_STATE_ADDR      ((VDCOMM_COMM_BASE_ADDR) + 0x00000000)
+#define VDCOMM_TASK_STATE2_ADDR     ((VDCOMM_COMM_BASE_ADDR) + 0x00000040)
+#define VDCOMM_FW_STATE_ADDR        ((VDCOMM_COMM_BASE_ADDR) + 0x00000080)
+/* 0x00280 - 0x002FF : reserved */
+#define VDCOMM_COMM_BOX_ADDR        ((VDCOMM_COMM_BASE_ADDR) + 0x00000300)
+#define VDCOMM_RCB_ADDR             ((VDCOMM_COMM_BASE_ADDR) + 0x00001600)
+#define VDCOMM_COMM_INFO_ADDR       ((VDCOMM_COMM_BASE_ADDR) + 0x00003E00)
+#define VDCOMM_COMM_INFO2_ADDR      ((VDCOMM_COMM_BASE_ADDR) + 0x00004300)
+#define VDCOMM_VBI_INFO_ADDR        ((VDCOMM_COMM_BASE_ADDR) + 0x00004900)
+/* 0x04B00 - 0x082FF : reserved */
+/* 0x08300 - 0x102FF : reserved */
+/* 0x10300 - 0x182FF : reserved */
+/* 0x18300 - 0x202FF : reserved */
+/* 0x20300 - 0x282FF : reserved */
+/* 0x28300 - 0x302FF : reserved */
+/* 0x30300 - 0x382FF : reserved */
+/* 0x38300 - 0x402FF : reserved */
+
+/*--------------------------------------------------------------------*/
+/*  FW_STATE                                                          */
+/*--------------------------------------------------------------------*/
+#define VDCOMM_VER(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0000)
+#define VDCOMM_BOOT(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0004)
+#define VDCOMM_PWDWN(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0008)
+#define VDCOMM_IFVER(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x000C)
+#define VDCOMM_VSYNC_COUNTER(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0010)
+#define VDCOMM_CMD_CHK_V(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0014)
+#define VDCOMM_CMD_CHK_TASK(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0018)
+/* 0x001C - 0x001F : reserved */
+#define VDCOMM_NMI_ADDR(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0020)
+#define VDCOMM_NMI_VAL(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0024)
+#define VDCOMM_NMI_MASK(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0028)
+#define VDCOMM_NMI_NPC(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x002C)
+#define VDCOMM_TRACE_SP(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0030)
+#define VDCOMM_TRACE_SIZE(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0034)
+#define VDCOMM_TRACE_WP(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0038)
+/* 0x003C - 0x003F : reserved */
+#define VDCOMM_FW_STATE(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0040)
+#define VDCOMM_SHUTDOWNCMD(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0044)
+#define VDCOMM_TSE_STATE(id) \
+	(VDCOMM_FW_STATE_OFFSET(id) + 0x0048)
+
+/*--------------------------------------------------------------------*/
+/*  COMM_INFO                                                         */
+/*--------------------------------------------------------------------*/
+#define VDCOMM_VSTATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0000)
+#define VDCOMM_VDISP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0004)
+#define VDCOMM_VSTOP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0008)
+#define VDCOMM_VDMODE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x000C)
+#define VDCOMM_VDTMG(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0010)
+#define VDCOMM_TRICKM(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0014)
+#define VDCOMM_VULAYER(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0018)
+#define VDCOMM_INTSTC_THINOUT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x001C)
+#define VDCOMM_VDTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0020)
+#define VDCOMM_VDTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0024)
+#define VDCOMM_SPTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0028)
+#define VDCOMM_SPTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x002C)
+#define VDCOMM_FDTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0030)
+#define VDCOMM_FDTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0034)
+#define VDCOMM_FPTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0038)
+#define VDCOMM_FPTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x003C)
+#define VDCOMM_VPTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0040)
+#define VDCOMM_VPTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0044)
+#define VDCOMM_VDFBUFFILL(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0048)
+#define VDCOMM_COLORI_EXT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x004C)
+#define VDCOMM_VMUTE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0050)
+#define VDCOMM_PESESSELECT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0054)
+#define VDCOMM_DMDEXT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0058)
+#define VDCOMM_IPICCNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x005C)
+#define VDCOMM_PBPICCNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0060)
+#define VDCOMM_REFCACHE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0064)
+#define VDCOMM_STOPMODE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0068)
+#define VDCOMM_SSTDADDR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x006C)
+#define VDCOMM_SSTDSIZE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0070)
+#define VDCOMM_SNOFSZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0074)
+#define VDCOMM_SNUFSZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0078)
+#define VDCOMM_SSTD_CLEAR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x007C)
+#define VDCOMM_VSTDADDR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0080)
+#define VDCOMM_VSTDSIZE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0084)
+#define VDCOMM_VNOFSZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0088)
+#define VDCOMM_VNUFSZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x008C)
+#define VDCOMM_VSTD_CLEAR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0090)
+#define VDCOMM_VSTD_FLUSH(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0094)
+#define VDCOMM_NOFINTEN(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0098)
+#define VDCOMM_NOFCLEAREN(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x009C)
+#define VDCOMM_NOFSTATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00A0)
+#define VDCOMM_NUFINTEN(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00A4)
+#define VDCOMM_NUFSTATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00A8)
+#define VDCOMM_AVSPRDMD(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00AC)
+#define VDCOMM_STCTIMEOUT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00B0)
+#define VDCOMM_FFRAMERATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00B4)
+#define VDCOMM_HDCHGC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00B8)
+#define VDCOMM_STILL_MEMADRY(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00BC)
+#define VDCOMM_STILL_MEMADRC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00C0)
+#define VDCOMM_UD_EVENTINT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00C4)
+#define VDCOMM_SFRAME_CLEAR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00C8)
+#define VDCOMM_SPTSOFFSET(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00CC)
+#define VDCOMM_SINFO_0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00D0)
+#define VDCOMM_SINFO_1(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00D4)
+#define VDCOMM_SINFO_2(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00D8)
+#define VDCOMM_SINFO_3(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00DC)
+#define VDCOMM_SINFO_4(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00E0)
+#define VDCOMM_SINFO_5(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00E4)
+#define VDCOMM_SINFO_6(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00E8)
+#define VDCOMM_SINFO_7(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00EC)
+#define VDCOMM_SINFO_8(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00F0)
+#define VDCOMM_PSQ_COND(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00F4)
+#define VDCOMM_DEFFRAMERATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00F8)
+#define VDCOMM_VSTD_LIMITOFF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x00FC)
+#define VDCOMM_VSTD_LIMIT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0100)
+#define VDCOMM_VSTD_REMAIN(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0104)
+/* 0x0108 - 0x010F : reserved */
+#define VDCOMM_LOW_LATENCY(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0110)
+#define VDCOMM_MVC_MODE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0114)
+#define VDCOMM_NBVMEM_ADDR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0118)
+#define VDCOMM_NBVMEM_SZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x011C)
+#define VDCOMM_NBVRCB_ADDR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0120)
+#define VDCOMM_NBVRCB_SZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0124)
+#define VDCOMM_AVCD_HANDSHAKE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0128)
+#define VDCOMM_VSYNCSEL(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x012C)
+#define VDCOMM_AIPICCNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0130)
+#define VDCOMM_APBPICCNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0134)
+#define VDCOMM_NAIPICCNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0138)
+#define VDCOMM_NAPBPICCNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x013C)
+#define VDCOMM_STEREOMODE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0140)
+#define VDCOMM_DEC_DISCON(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0144)
+#define VDCOMM_SPES_ERROR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0148)
+#define VDCOMM_SSPES_ERROR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x014C)
+#define VDCOMM_SPES_LAST_HEADER0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0150)
+#define VDCOMM_SPES_LAST_HEADER1(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0154)
+#define VDCOMM_SPES_LAST_HEADER2(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0158)
+#define VDCOMM_SPES_LAST_HEADER3(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x015C)
+#define VDCOMM_SSPES_LAST_HEADER0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0160)
+#define VDCOMM_SSPES_LAST_HEADER1(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0164)
+#define VDCOMM_SSPES_LAST_HEADER2(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0168)
+#define VDCOMM_SSPES_LAST_HEADER3(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x016C)
+#define VDCOMM_VDTS_TRUST(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0170)
+#define VDCOMM_VDTS_LDELAY_TRUST(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0174)
+#define VDCOMM_SKIPTH(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0178)
+#define VDCOMM_ERR_COUNT_TH(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x017C)
+#define VDCOMM_FDSP_PTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0180)
+#define VDCOMM_FDSP_PTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0184)
+#define VDCOMM_FDSP_PTS_ERROR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0188)
+#define VDCOMM_FDSP_PTS_TIMEOUT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x018C)
+#define VDCOMM_FDSP_PTS_WAIT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0190)
+#define VDCOMM_DSP_WAIT_FCOUNT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0194)
+/* 0x0198 - 0x01FF : reserved */
+#define VDCOMM_IHSV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0200)
+#define VDCOMM_IVSV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0204)
+#define VDCOMM_IFRC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0208)
+#define VDCOMM_IVBSV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x020C)
+#define VDCOMM_IBRV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0210)
+#define VDCOMM_DSV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0214)
+#define VDCOMM_DVCROP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0218)
+#define VDCOMM_DHCROP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x021C)
+#define VDCOMM_DFORM(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0220)
+#define VDCOMM_DSEQEX(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0224)
+#define VDCOMM_DPICH(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0228)
+#define VDCOMM_DFC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x022C)
+#define VDCOMM_DPROFILE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0230)
+#define VDCOMM_DDISPS(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0234)
+#define VDCOMM_DCOLORI(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0238)
+#define VDCOMM_DFC2ND(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x023C)
+#define VDCOMM_DFC3RD(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0240)
+#define VDCOMM_DRANGEMAP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0244)
+#define VDCOMM_DTIMESCALE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0248)
+#define VDCOMM_DNUMUNITS(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x024C)
+#define VDCOMM_D264SAR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0250)
+#define VDCOMM_D264VUIPARA0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0254)
+#define VDCOMM_D264VUIPARA1(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0258)
+/* 0x025C - 0x025F : reserved */
+#define VDCOMM_DVC1ASPECT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0260)
+#define VDCOMM_DVC1FRAMERATE0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0264)
+#define VDCOMM_DVC1COLOR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0268)
+#define VDCOMM_DVC1FRAMERATESP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x026C)
+/* 0x0270 - 0x0273 : reserved */
+#define VDCOMM_DMP4ASPECT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0274)
+#define VDCOMM_DMP4VOPTIMEINC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0278)
+#define VDCOMM_DMP4VOPRATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x027C)
+#define VDCOMM_DMP4FRAMERATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0280)
+#define VDCOMM_DMP4COLOR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0284)
+#define VDCOMM_DAVSBBVBUFSIZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0288)
+#define VDCOMM_DAVSCOLOR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x028C)
+#define VDCOMM_DAVSBBVDELAY(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0290)
+/* 0x0294 - 0x029F : reserved */
+#define VDCOMM_DFRCINF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02A0)
+/* 0x02A4 - 0x02AF : reserved */
+#define VDCOMM_D264PTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02B0)
+#define VDCOMM_D264PTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02B4)
+#define VDCOMM_D264NMPF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02B8)
+#define VDCOMM_D264MNRF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02BC)
+#define VDCOMM_D264PIDC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02C0)
+#define VDCOMM_D264LIDC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02C4)
+#define VDCOMM_D264IDRID(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02C8)
+#define VDCOMM_D264POC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x02CC)
+/* 0x02D0 - 0x03FF : reserved */
+#define VDCOMM_ESV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0400)
+#define VDCOMM_EVCROP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0404)
+#define VDCOMM_EHCROP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0408)
+#define VDCOMM_EFORM(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x040C)
+#define VDCOMM_ESEQEX(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0410)
+#define VDCOMM_EPICH(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0414)
+#define VDCOMM_EFC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0418)
+#define VDCOMM_EPROFILE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x041C)
+#define VDCOMM_EDISPS(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0420)
+#define VDCOMM_ECOLORI(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0424)
+#define VDCOMM_EFC2ND(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0428)
+#define VDCOMM_EFC3RD(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x042C)
+#define VDCOMM_ERANGEMAP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0430)
+#define VDCOMM_ETIMESCALE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0434)
+#define VDCOMM_ENUMUNITS(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0438)
+#define VDCOMM_E264SAR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x043C)
+#define VDCOMM_E264VUIPARA0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0440)
+#define VDCOMM_E264VUIPARA1(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0444)
+/* 0x0448 - 0x044B : reserved */
+#define VDCOMM_EVC1ASPECT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x044C)
+#define VDCOMM_EVC1FRAMERATE0(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0450)
+#define VDCOMM_EVC1COLOR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0454)
+#define VDCOMM_EVC1FRAMERATESP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0458)
+/* 0x045C - 0x045F : reserved */
+#define VDCOMM_EMP4ASPECT(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0460)
+#define VDCOMM_EMP4VOPTIMEINC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0464)
+#define VDCOMM_EMP4VOPRATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0468)
+#define VDCOMM_EMP4FRAMERATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x046C)
+#define VDCOMM_EMP4COLOR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0470)
+#define VDCOMM_EAVSBBVBUFSIZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0474)
+#define VDCOMM_EAVSCOLOR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0478)
+#define VDCOMM_EAVSBBVDELAY(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x047C)
+/* 0x0480 - 0x048B : reserved */
+#define VDCOMM_EFRCINF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x048C)
+/* 0x0490 - 0x04AF : reserved */
+#define VDCOMM_E264PTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04B0)
+#define VDCOMM_E264PTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04B4)
+#define VDCOMM_E264NMPF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04B8)
+#define VDCOMM_E264MNRF(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04BC)
+#define VDCOMM_E264PIDC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04C0)
+#define VDCOMM_E264LIDC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04C4)
+#define VDCOMM_E264IDRID(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04C8)
+#define VDCOMM_E264POC(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04CC)
+/* 0x04D0 - 0x04EF : reserved */
+#define VDCOMM_TRICKCTRL(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x04F0)
+/* 0x04F4 - 0x04FF : reserved */
+#define VDCOMM_AVCCH(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0500)
+#define VDCOMM_CMDADR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0504)
+#define VDCOMM_RUNNING_BAP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0508)
+#define VDCOMM_RUNNING_VDP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x050C)
+#define VDCOMM_STARTCMD(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0510)
+/* 0x0514 - 0x051F : reserved */
+#define VDCOMM_VSTD_EOD(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0520)
+#define VDCOMM_VSTD_NOSZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0524)
+#define VDCOMM_VSTD_NUSZ(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0528)
+/* 0x052C - 0x052F : reserved */
+#define VDCOMM_VSTD_SP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0530)
+#define VDCOMM_VSTD_EP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0534)
+#define VDCOMM_VSTD_WP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0538)
+#define VDCOMM_VSTD_RP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x053C)
+#define VDCOMM_WORKMEM_ADR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0540)
+#define VDCOMM_WORKMEM_SIZE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0544)
+#define VDCOMM_FRAMEMEM_ADR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0548)
+#define VDCOMM_FRAMEMEM_SIZE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x054C)
+/* 0x0550 - 0x05FF : reserved */
+#define VDCOMM_OREADY(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0600)
+#define VDCOMM_OVTILEADR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0604)
+#define VDCOMM_OPTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0608)
+#define VDCOMM_OPTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x060C)
+#define VDCOMM_ODTS_M(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0610)
+#define VDCOMM_ODTS_L(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0614)
+#define VDCOMM_OSV(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0618)
+#define VDCOMM_OVCROP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x061C)
+#define VDCOMM_OHCROP(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0620)
+#define VDCOMM_OTIMESCALE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0624)
+#define VDCOMM_ONUMUNITS(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0628)
+#define VDCOMM_OSAR(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x062C)
+#define VDCOMM_OEOD(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0630)
+/* 0x0634 - 0x08FF : reserved */
+/* 0x0900 - 0x097F : reserved */
+#define VDCOMM_VSD_STATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0980)
+#define VDCOMM_CABD_STATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0A00)
+#define VDCOMM_AVCD_STATE(ch) \
+	(VDCOMM_COMM_INFO_OFFSET(ch) + 0x0A80)
+
+#endif /* VD_COMM_H */

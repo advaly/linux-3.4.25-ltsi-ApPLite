@@ -1,0 +1,6 @@
+config APPLITE_VEU
+       tristate "TZ3000 Video Encoder (veu) driver"
+       default n
+       depends on CMA && FW_LOADER && ARCH_TZ3000
+       help
+         The VEU is a H.264 Video Encoder Hardware.

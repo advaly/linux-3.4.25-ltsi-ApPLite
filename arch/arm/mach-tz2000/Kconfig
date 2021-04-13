@@ -1,0 +1,45 @@
+menu "TOSHIBA TZ2000 platform"
+	depends on ARCH_TZ2000
+
+config MACH_TZ2000RB
+	bool "Support TOSHIBA TZ2000 RB board"
+	default y
+	help
+	  Include support for TOSHIBA RBTZ2000 (GREGORY) board.
+	  This board has UART, SD/SDIO slot, embedded eMMC/NAND, SPIB
+	  with two SPI-Flash socket,I2C with an EEPROM chip, USBH,
+	  100M-Ether, etc.
+
+config MACH_TZ2000RB2
+	bool "Support TOSHIBA TZ2000 RB2 board"
+	default y
+	help
+	  Include support for TOSHIBA RBTZ2000 (TOUBKAL) board.
+	  This board has UART, SD/SDIO slot, embedded eMMC/NAND, SPIB
+	  with one SPI-Flash,I2C with an EEPROM chip,
+	  100M-Ether on optional debug board, etc.
+
+config MACH_TZ2000RB3
+	bool "Support TOSHIBA TZ2000 RB3 board"
+	default y
+	help
+	  Include support for TOSHIBA RBTZ2000 (MONTBLANC) board.
+	  This board has UART, SD/SDIO slot, embedded eMMC/NAND, SPIB
+	  with one SPI-Flash,I2C with an EEPROM chip, etc.
+	  This board does not have Ethernet.
+
+config MACH_TZ2000EVA
+	bool "Support TOSHIBA TZ2000 EVA board"
+	default y
+	help
+	  Include support for TOSHIBA TZ2000 EVA board.
+	  This board has UART, SD/SDIO slot, embedded eMMC/NAND, SPIB
+	  with two SPI-Flash socket,I2C with an EEPROM chip, USBH,
+	  100M-Ether, etc.
+
+config TZ2000_DEBUG_UART
+	int "Debug UART for TZ2000"
+	range 0 3
+	default "0"
+
+endmenu

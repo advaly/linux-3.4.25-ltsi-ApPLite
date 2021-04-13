@@ -1,0 +1,81 @@
+/*
+ * arch/arm/mach-tz3000/include/mach/regs/sadc_reg_struct_l.h
+ *
+ * (C) Copyright TOSHIBA Corporation
+ * Semiconductor & Storage Products Company 2013
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#ifndef _SADC_REG_STRUCT_L_H
+#define _SADC_REG_STRUCT_L_H
+
+#ifdef __cplusplus
+extern  {
+#endif /* __cplusplus */
+
+
+ // SAD00CH Register
+struct SADC_SAD00CH {
+	unsigned int SAD00CH:10;		// [9:0]
+	unsigned int reserved:22;		// [31:10]
+};
+ // SAD01CH Register
+struct SADC_SAD01CH {
+	unsigned int SAD01CH:10;		// [9:0]
+	unsigned int reserved:22;		// [31:10]
+};
+ // SAD02CH Register
+struct SADC_SAD02CH {
+	unsigned int SAD02CH:10;		// [9:0]
+	unsigned int reserved:22;		// [31:10]
+};
+ // SAD03CH Register
+struct SADC_SAD03CH {
+	unsigned int SAD03CH:10;		// [9:0]
+	unsigned int reserved:22;		// [31:10]
+};
+ // SAD04CH Register
+struct SADC_SAD04CH {
+	unsigned int SAD04CH:10;		// [9:0]
+	unsigned int reserved:22;		// [31:10]
+};
+ // SAD05CH Register
+struct SADC_SAD05CH {
+	unsigned int SAD05CH:10;		// [9:0]
+	unsigned int reserved:22;		// [31:10]
+};
+ // SADCTRL Register
+struct SADC_SADCTRL {
+	unsigned int RST:1;		// [0]
+	unsigned int STB:1;		// [1]
+	unsigned int Valid:1;		// [2]
+	unsigned int reserved:29;		// [31:3]
+};
+ // SADDEBUG Register
+struct SADC_SADDEBUG {
+	unsigned int STATUS:3;		// [2:0]
+	unsigned int reserved2:1;		// [3]
+	unsigned int SEQERR0:1;		// [4]
+	unsigned int SEQERR1:1;		// [5]
+	unsigned int SEQERR2:1;		// [6]
+	unsigned int reserved:25;		// [31:7]
+};
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* _SADC_REG_STRUCT_L_H */
