@@ -1,7 +1,7 @@
 VERSION = 3
 PATCHLEVEL = 4
 SUBLEVEL = 25
-EXTRAVERSION = -ltsi-ApPLite-adv1
+EXTRAVERSION = -ltsi-ApPLite-adv1x
 NAME = Saber-toothed Squirrel
 
 # *DOCUMENTATION*
