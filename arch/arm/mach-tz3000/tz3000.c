@@ -2148,21 +2148,18 @@ static struct gpio_led tz3000_rb3_gpio_leds[] = {
 };
 
 static struct gpio tz3000_rb4_gpios[] = {
-	{ .gpio = 0, .flags = GPIOF_OUT_INIT_HIGH, },
+	{ .gpio = 0, .flags = GPIOF_OUT_INIT_LOW, },
 	{ .gpio = 1, .flags = GPIOF_IN, },
 	{ .gpio = 2, .flags = GPIOF_OUT_INIT_HIGH, },
 	{ .gpio = 3, .flags = GPIOF_IN, },
 	{ .gpio = 4, .flags = GPIOF_IN, },
-	{ .gpio = 6, .flags = GPIOF_OUT_INIT_LOW, },
+	{ .gpio = 5, .flags = GPIOF_IN, },
+	{ .gpio = 6, .flags = GPIOF_OUT_INIT_HIGH, },
 	{ .gpio = 7, .flags = GPIOF_OUT_INIT_LOW, },
-	{ .gpio = 8, .flags = GPIOF_IN, },
-	{ .gpio = 9, .flags = GPIOF_IN, },
-	{ .gpio = 10, .flags = GPIOF_IN, },
-	{ .gpio = 11, .flags = GPIOF_OUT_INIT_HIGH, },
 	{ .gpio = 12, .flags = GPIOF_OUT_INIT_LOW, },
-	{ .gpio = 13, .flags = GPIOF_IN, },
+	{ .gpio = 13, .flags = GPIOF_OUT_INIT_LOW, },
 	{ .gpio = 14, .flags = GPIOF_IN, },
-	{ .gpio = 15, .flags = GPIOF_IN, },
+	{ .gpio = 15, .flags = GPIOF_OUT_INIT_HIGH, },
 	{ .gpio = 16, .flags = GPIOF_IN, },
 	{ .gpio = 17, .flags = GPIOF_IN, },
 	{ .gpio = 18, .flags = GPIOF_IN, },
@@ -2180,7 +2177,6 @@ static struct gpio tz3000_rb4_gpios[] = {
 	{ .gpio = 48, .flags = GPIOF_IN, },
 };
 static struct gpio_led tz3000_rb4_gpio_leds[] = {
-	{ .gpio = 5, },
 	{ .gpio = 21, },
 };
 
