@@ -70,4 +70,28 @@ config TZ3000_DEBUG_UART
 	range 0 4
 	default "0"
 
+config TZ3000_UART1
+	bool "Support TOSHIBA TZ3000 UART1"
+	default n
+	help
+	  Enable UART1 in TOSHIBA TZ3000.
+
+config TZ3000_UART2
+	bool "Support TOSHIBA TZ3000 UART2"
+	default n
+	help
+	  Enable UART2 in TOSHIBA TZ3000.
+
+config TZ3000_UART3
+	bool "Support TOSHIBA TZ3000 UART3"
+	default n
+	help
+	  Enable UART3 in TOSHIBA TZ3000.
+
+config TZ3000_UART4
+	bool "Support TOSHIBA TZ3000 UART4"
+	default n
+	help
+	  Enable UART4 in TOSHIBA TZ3000.
+
 endmenu

@@ -197,7 +197,7 @@ register_platform_resource(int no, char *name, int irq, unsigned long addr,
 #define TZ3000_UART_NUM		5
 #define TZ3000_UART_CLK		18432000;
 
-static struct plat_serial8250_port tz3000_serial_pdata[TZ3000_UART_NUM + 1];
+static struct plat_serial8250_port tz3000_serial_pdata[TZ3000_UART_NUM];
 
 static struct platform_device tz3000_serial_device = {
 	.name	= "serial8250",
@@ -207,19 +207,92 @@ static struct platform_device tz3000_serial_device = {
 	},
 };
 
+static u32 tz3000_uart_pinmux_reg[] =
+{
+	/* Dummy */
+	0,
+
+	/* UA1 */
+	TZ3000_GCONF_PINSHARE0,
+
+	/* UA2 */
+	TZ3000_GCONF_PINSHARE0,
+
+	/* UA3 */
+	TZ3000_GCONF_PINSHARE1,
+
+	/* UA4 */
+	TZ3000_GCONF_PINSHARE1
+};
+
+static u32 tz3000_uart_pinmux_bit[] =
+{
+	/* Dummy */
+	0, 0, 0, 0,
+
+	/* UA1 */
+	TZ3000_PINSHARE0_SHIFT_UA1_RXD,
+	TZ3000_PINSHARE0_SHIFT_UA1_TXD,
+	TZ3000_PINSHARE0_SHIFT_UA1_RTS,
+	TZ3000_PINSHARE0_SHIFT_UA1_CTS,
+
+	/* UA2 */
+	TZ3000_PINSHARE0_SHIFT_UA2_RXD,
+	TZ3000_PINSHARE0_SHIFT_UA2_TXD,
+	TZ3000_PINSHARE0_SHIFT_UA2_RTS,
+	TZ3000_PINSHARE0_SHIFT_UA2_CTS,
+
+	/* UA3 */
+	TZ3000_PINSHARE1_SHIFT_UA3_RXD,
+	TZ3000_PINSHARE1_SHIFT_UA3_TXD,
+	TZ3000_PINSHARE1_SHIFT_UA3_RTS,
+	TZ3000_PINSHARE1_SHIFT_UA3_CTS,
+
+	/* UA4 */
+	TZ3000_PINSHARE1_SHIFT_UA4_RXD,
+	TZ3000_PINSHARE1_SHIFT_UA4_TXD,
+	TZ3000_PINSHARE1_SHIFT_UA4_RTS,
+	TZ3000_PINSHARE1_SHIFT_UA4_CTS
+};
+
+static void tz3000_register_serial(int port)
+{
+	struct plat_serial8250_port *pp = &tz3000_serial_pdata[port];
+	u32 reg;
+
+	pp->mapbase = TZ3000_UART_BASE + 0x1000 * port;
+	pp->irq = IRQ_UART(port);
+	pp->flags = UPF_BOOT_AUTOCONF | UPF_SKIP_TEST | UPF_IOREMAP;
+	pp->iotype = UPIO_MEM;
+	pp->regshift = 2;
+	pp->uartclk = TZ3000_UART_CLK;
+
+	/* UA1-4 need pinmux */
+	if (port > 0) {
+		reg = readl(__io_address(tz3000_uart_pinmux_reg[port]))
+				& ~(1 << tz3000_uart_pinmux_bit[port * 4 + 0])
+				& ~(1 << tz3000_uart_pinmux_bit[port * 4 + 1])
+				& ~(1 << tz3000_uart_pinmux_bit[port * 4 + 2])
+				& ~(1 << tz3000_uart_pinmux_bit[port * 4 + 3]);
+		writel(reg, __io_address(tz3000_uart_pinmux_reg[port]));
+	}
+}
+
 static void __init tz3000_setup_serial(void)
 {
-	int i;
-
-	for (i = 0; i < TZ3000_UART_NUM; i++) {
-		struct plat_serial8250_port *pp = &tz3000_serial_pdata[i];
-		pp->mapbase = TZ3000_UART_BASE + 0x1000 * i;
-		pp->irq = IRQ_UART(i);
-		pp->flags = UPF_BOOT_AUTOCONF | UPF_SKIP_TEST | UPF_IOREMAP;
-		pp->iotype = UPIO_MEM;
-		pp->regshift = 2;
-		pp->uartclk = TZ3000_UART_CLK;
-	}
+	tz3000_register_serial(0);
+#ifdef CONFIG_TZ3000_UART1
+	tz3000_register_serial(1);
+#endif
+#ifdef CONFIG_TZ3000_UART2
+	tz3000_register_serial(2);
+#endif
+#ifdef CONFIG_TZ3000_UART3
+	tz3000_register_serial(3);
+#endif
+#ifdef CONFIG_TZ3000_UART4
+	tz3000_register_serial(4);
+#endif
 	platform_device_register(&tz3000_serial_device);
 }
 #endif /* CONFIG_SERIAL_8250 */
